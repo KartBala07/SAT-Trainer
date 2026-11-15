@@ -1,0 +1,652 @@
+{
+  "domain": "Algebra",
+  "questions": [
+    {
+      "id": "ALG-0001",
+      "domain": "Algebra",
+      "skill": "Linear equations in one variable",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "If $3(x-4)=5x+6$, what is the value of $x$?",
+      "choices": [
+        "$-5$",
+        "$3$",
+        "$-9$",
+        "$-2.5$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "distributed the 3 only to $x$, giving $3x-4=5x+6$",
+        "moved $-12$ to the right side without changing its sign",
+        "correct",
+        "divided only the left side by 3, giving $x-4=5x+6$"
+      ],
+      "error_tags": [
+        "algebra",
+        "sign",
+        "none",
+        "concept"
+      ],
+      "explanation": "Distribute: $3x-12=5x+6$. Subtract $3x$ from both sides to get $-12=2x+6$, then subtract 6 to get $-18=2x$. So $x=-9$.",
+      "desmos": "3(x-4)=5x+6",
+      "skill_note": "Tests whether distribution is applied to the whole parenthesis; the trap is dropping the sign of $-12$ mid-solve."
+    },
+    {
+      "id": "ALG-0002",
+      "domain": "Algebra",
+      "skill": "Linear functions and rate of change",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "A linear function passes through the points $(2,7)$ and $(6,19)$ in the $xy$-plane. What is the rate of change of the function?",
+      "choices": [
+        "$3$",
+        "$\\frac{1}{3}$",
+        "$4$",
+        "$12$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "divided the change in $x$ by the change in $y$",
+        "reported the change in $x$",
+        "reported the change in $y$"
+      ],
+      "error_tags": [
+        "none",
+        "algebra",
+        "quantity",
+        "quantity"
+      ],
+      "explanation": "The rate of change of a linear function is its slope: $\\frac{19-7}{6-2}=\\frac{12}{4}=3$.",
+      "desmos": "(19-7)/(6-2)",
+      "skill_note": "Slope is change in output over change in input; inverting the ratio is the most common slip."
+    },
+    {
+      "id": "ALG-0003",
+      "domain": "Algebra",
+      "skill": "Interpreting linear models",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "A swimming pool contains 480 gallons of water. The pool is being drained at a constant rate, and the volume $V$, in gallons, remaining after $t$ minutes is given by $V(t)=480-12t$. What does $12$ represent in this model?",
+      "choices": [
+        "The number of gallons in the pool when draining began",
+        "The number of minutes it takes to empty the pool",
+        "The number of gallons remaining in the pool after 1 minute",
+        "The number of gallons drained from the pool each minute"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "confused the $y$-intercept with the rate",
+        "solved for when $V=0$ instead of reading the coefficient",
+        "evaluated $V(1)$ instead of reading the coefficient",
+        "correct"
+      ],
+      "error_tags": [
+        "concept",
+        "misread",
+        "quantity",
+        "none"
+      ],
+      "explanation": "In $V(t)=480-12t$ the coefficient of $t$ is the constant rate of change of the volume, so the pool loses 12 gallons each minute. The 480 is the starting volume, and the pool empties when $480-12t=0$, at $t=40$ minutes.",
+      "desmos": "y=480-12x",
+      "skill_note": "Asks students to attach meaning to a coefficient rather than compute with it."
+    },
+    {
+      "id": "ALG-0004",
+      "domain": "Algebra",
+      "skill": "Linear equations in one variable",
+      "difficulty": "easy",
+      "type": "spr",
+      "stem": "If $2(x+5)=3x-1$, what is the value of $x$?",
+      "answer": "11",
+      "accepted_spr": [
+        "11"
+      ],
+      "explanation": "Distribute: $2x+10=3x-1$. Subtract $2x$ from both sides: $10=x-1$. Add 1: $x=11$.",
+      "desmos": "2(x+5)=3x-1",
+      "skill_note": "Both sides must be simplified before collecting terms; distributing to only the first term loses the 10."
+    },
+    {
+      "id": "ALG-0005",
+      "domain": "Algebra",
+      "skill": "Linear inequalities in one variable",
+      "difficulty": "easy",
+      "type": "spr",
+      "stem": "If $3x+7\\le 22$, what is the greatest possible integer value of $x$?",
+      "answer": "5",
+      "accepted_spr": [
+        "5"
+      ],
+      "explanation": "Subtract 7: $3x\\le 15$. Divide by 3: $x\\le 5$. The greatest integer satisfying this is 5, since $3(5)+7=22$ works and $3(6)+7=25$ does not.",
+      "desmos": "3x+7=22",
+      "skill_note": "Tests the boundary case: the endpoint itself is allowed because the inequality is non-strict."
+    },
+    {
+      "id": "ALG-0006",
+      "domain": "Algebra",
+      "skill": "Linear functions and rate of change",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "The graph of a linear function $g$ in the $xy$-plane passes through the points $(0,5)$ and $(2,-1)$. Which statement describes the graph of $g$?",
+      "choices": [
+        "It increases 3 units for every 1-unit increase in $x$.",
+        "It decreases 3 units for every 1-unit increase in $x$.",
+        "It decreases 6 units for every 1-unit increase in $x$.",
+        "It decreases 2 units for every 3-unit increase in $x$."
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "dropped the negative sign",
+        "correct",
+        "used only the change in $y$ as the rate",
+        "divided the change in $x$ by the change in $y$"
+      ],
+      "error_tags": [
+        "sign",
+        "none",
+        "quantity",
+        "algebra"
+      ],
+      "explanation": "Slope $=\\frac{5-(-1)}{0-2}=\\frac{6}{-2}=-3$. A slope of $-3$ means the graph falls 3 units for each 1-unit increase in $x$.",
+      "desmos": "(5-(-1))/(0-2)",
+      "skill_note": "Translating a negative slope into words; the trap is using the run or the rise alone as the rate."
+    },
+    {
+      "id": "ALG-0007",
+      "domain": "Algebra",
+      "skill": "Linear functions from tables and points",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "A linear function $f$ satisfies $f(1)=7$, $f(3)=13$, and $f(5)=19$. What is the value of $f(8)$?",
+      "choices": [
+        "$28$",
+        "$24$",
+        "$31$",
+        "$22$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "dropped the $y$-intercept and used $f(x)=3x$",
+        "counted 4 steps instead of 3 from $x=5$ to $x=8$",
+        "added the slope only once to $f(5)$"
+      ],
+      "error_tags": [
+        "none",
+        "algebra",
+        "arithmetic",
+        "concept"
+      ],
+      "explanation": "The slope is $\\frac{13-7}{3-1}=3$. Using $f(1)=7$: $7=3(1)+b$, so $b=4$ and $f(x)=3x+4$. Then $f(8)=3(8)+4=28$.",
+      "desmos": "3*8+4",
+      "skill_note": "Requires building the rule from the table before evaluating; skipping the intercept gives 24."
+    },
+    {
+      "id": "ALG-0008",
+      "domain": "Algebra",
+      "skill": "Systems of two linear equations",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "A theater sells adult tickets for 12 dollars each and child tickets for 8 dollars each. One evening, 250 tickets were sold for a total of 2,600 dollars. How many adult tickets were sold?",
+      "choices": [
+        "$100$",
+        "$125$",
+        "$150$",
+        "$30$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "solved for child tickets",
+        "assumed the two ticket types sold equally",
+        "correct",
+        "substituted $c=250+a$, a sign error"
+      ],
+      "error_tags": [
+        "misread",
+        "setup",
+        "none",
+        "sign"
+      ],
+      "explanation": "Let $a$ be adult tickets and $c$ child tickets. Then $a+c=250$ and $12a+8c=2600$. Substituting $c=250-a$ gives $12a+8(250-a)=2600$, so $4a+2000=2600$ and $a=150$.",
+      "desmos": "12x+8(250-x)=2600",
+      "skill_note": "The setup step is the whole question; the classic failure is solving for the variable nobody asked about."
+    },
+    {
+      "id": "ALG-0009",
+      "domain": "Algebra",
+      "skill": "Interpreting linear models",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "An online store charges a one-time shipping fee plus a fixed price per item. An order of 6 items costs 54 dollars, and an order of 10 items costs 86 dollars. What is the price per item?",
+      "choices": [
+        "$9$",
+        "$8$",
+        "$8.6$",
+        "$32$"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "divided one order's total by its item count, ignoring the shipping fee",
+        "correct",
+        "divided the larger order's total by its item count",
+        "reported the change in cost instead of the price per item"
+      ],
+      "error_tags": [
+        "setup",
+        "none",
+        "setup",
+        "quantity"
+      ],
+      "explanation": "The price per item is the slope of the cost function: $\\frac{86-54}{10-6}=\\frac{32}{4}=8$. The shipping fee is then $54-6(8)=6$ dollars.",
+      "desmos": "(86-54)/(10-6)",
+      "skill_note": "Two data points with a fixed fee: only the difference isolates the per-item rate."
+    },
+    {
+      "id": "ALG-0010",
+      "domain": "Algebra",
+      "skill": "Equivalent expressions",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "If $5(x-2y)=3x+8$, which expression gives $y$ in terms of $x$?",
+      "choices": [
+        "$\\frac{x+4}{5}$",
+        "$\\frac{4-x}{5}$",
+        "$\\frac{2x-8}{5}$",
+        "$\\frac{x-4}{5}$"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "sign error when moving the 8",
+        "sign error when isolating $-10y$",
+        "divided by 5 instead of 10",
+        "correct"
+      ],
+      "error_tags": [
+        "sign",
+        "sign",
+        "algebra",
+        "none"
+      ],
+      "explanation": "Distribute: $5x-10y=3x+8$. Then $-10y=-2x+8$, so $y=\\frac{2x-8}{10}=\\frac{x-4}{5}$.",
+      "desmos": "5(x-2y)=3x+8",
+      "skill_note": "Rearranging for one variable inside an expression; the final division must be by the full coefficient 10."
+    },
+    {
+      "id": "ALG-0011",
+      "domain": "Algebra",
+      "skill": "Systems of two linear equations",
+      "difficulty": "medium",
+      "type": "spr",
+      "stem": "The system of equations $4x+5y=47$ and $4x+3y=41$ has solution $(x,y)$. What is the value of $x+y$?",
+      "answer": "11",
+      "accepted_spr": [
+        "11"
+      ],
+      "explanation": "Subtracting the second equation from the first gives $2y=6$, so $y=3$. Then $4x+15=47$ gives $x=8$, and $x+y=8+3=11$.",
+      "desmos": "4x+5y=47",
+      "skill_note": "Elimination is fastest, but the question asks for a sum, so stopping at $x=8$ or $y=3$ is the trap."
+    },
+    {
+      "id": "ALG-0012",
+      "domain": "Algebra",
+      "skill": "Absolute value equations and inequalities",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "What is the sum of the solutions to $|2x-5|=11$?",
+      "choices": [
+        "$5$",
+        "$8$",
+        "$-3$",
+        "$11$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "used only the positive case",
+        "used only the negative case",
+        "reported the right side of the equation"
+      ],
+      "error_tags": [
+        "none",
+        "quantity",
+        "quantity",
+        "misread"
+      ],
+      "explanation": "Split the absolute value: $2x-5=11$ gives $x=8$, and $2x-5=-11$ gives $x=-3$. The sum is $8+(-3)=5$.",
+      "desmos": "abs(2x-5)=11",
+      "skill_note": "An absolute value equation generally has two solutions; the question asks for their sum, not either one."
+    },
+    {
+      "id": "ALG-0013",
+      "domain": "Algebra",
+      "skill": "Linear inequalities in one variable",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "Which inequality describes all values of $x$ that satisfy $3-2x>11$?",
+      "choices": [
+        "$x>-4$",
+        "$x<4$",
+        "$x<-4$",
+        "$x>4$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "forgot to reverse the inequality when dividing by a negative",
+        "divided by 2 instead of $-2$ and kept the direction",
+        "correct",
+        "divided by 2 without reversing"
+      ],
+      "error_tags": [
+        "sign",
+        "algebra",
+        "none",
+        "algebra"
+      ],
+      "explanation": "Subtract 3: $-2x>8$. Dividing both sides by $-2$ reverses the inequality, giving $x<-4$.",
+      "desmos": "3-2x>11",
+      "skill_note": "Dividing an inequality by a negative number is the single most tested inequality step."
+    },
+    {
+      "id": "ALG-0014",
+      "domain": "Algebra",
+      "skill": "Linear models with constraints",
+      "difficulty": "medium",
+      "type": "spr",
+      "stem": "An empty delivery van weighs 4,200 pounds. The van will be loaded with identical boxes that each weigh 35 pounds. The loaded van may weigh no more than 6,000 pounds. What is the greatest number of boxes the van can carry?",
+      "answer": "51",
+      "accepted_spr": [
+        "51"
+      ],
+      "explanation": "The constraint is $4200+35b\\le 6000$, so $35b\\le 1800$ and $b\\le 51.43$. Since $b$ must be a whole number, the greatest possible number is 51.",
+      "desmos": "4200+35b<=6000",
+      "skill_note": "The answer must be rounded down, not to the nearest whole number, because 52 boxes would exceed the limit."
+    },
+    {
+      "id": "ALG-0015",
+      "domain": "Algebra",
+      "skill": "Systems of two linear equations",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "In the system of equations below, $k$ is a constant. $2x+3y=7$ and $(k+1)x+6y=14$. If the system has infinitely many solutions, what is the value of $k$?",
+      "choices": [
+        "$5$",
+        "$3$",
+        "$2$",
+        "$1$"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "matched $(k+1)$ with 6, ignoring the coefficient 2",
+        "correct",
+        "reported the scale factor instead of $k$",
+        "matched the constants 14 and 7"
+      ],
+      "error_tags": [
+        "algebra",
+        "none",
+        "quantity",
+        "setup"
+      ],
+      "explanation": "Infinitely many solutions requires the two equations to be nonzero multiples of each other. The $y$-coefficients give the factor $\\frac{6}{3}=2$, and $14=2(7)$ confirms it. So $k+1=2(2)=4$, giving $k=3$.",
+      "desmos": "6/3*2-1",
+      "skill_note": "Matching coefficients for a dependent system; the trap is equating coefficients across different variables."
+    },
+    {
+      "id": "ALG-0016",
+      "domain": "Algebra",
+      "skill": "Piecewise linear functions",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "The function $f$ is defined by $f(x)=3x+2$ when $x<4$ and $f(x)=-x+12$ when $x\\ge 4$. What is the value of $f(f(1))$?",
+      "choices": [
+        "$17$",
+        "$11$",
+        "$5$",
+        "$7$"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "applied $3x+2$ to $x=5$",
+        "applied $-x+12$ to $x=1$",
+        "reported the inner value $f(1)$",
+        "correct"
+      ],
+      "error_tags": [
+        "concept",
+        "concept",
+        "misread",
+        "none"
+      ],
+      "explanation": "Since $1<4$, use the first rule: $f(1)=3(1)+2=5$. Since $5\\ge 4$, use the second rule: $f(5)=-5+12=7$.",
+      "desmos": "3*1+2",
+      "skill_note": "Composition with a piecewise rule: the second evaluation must re-check which branch applies."
+    },
+    {
+      "id": "ALG-0017",
+      "domain": "Algebra",
+      "skill": "Absolute value equations and inequalities",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "Which inequality is equivalent to $|3x-6|<12$?",
+      "choices": [
+        "$-2<x<6$",
+        "$x<-2$ or $x>6$",
+        "$-6<x<2$",
+        "$-2<x<2$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "used the 'or' form, which belongs to a greater-than inequality",
+        "did not divide the 12 by 3",
+        "dropped the shift of 6 when dividing by 3"
+      ],
+      "error_tags": [
+        "none",
+        "concept",
+        "algebra",
+        "algebra"
+      ],
+      "explanation": "$|3x-6|<12$ means $-12<3x-6<12$. Adding 6 to all three parts gives $-6<3x<18$, and dividing by 3 gives $-2<x<6$.",
+      "desmos": "abs(3x-6)<12",
+      "skill_note": "An absolute value 'less than' becomes a compound 'and' inequality whose center must be shifted, not just scaled."
+    },
+    {
+      "id": "ALG-0018",
+      "domain": "Algebra",
+      "skill": "Systems of two linear equations",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "At a concession stand, hamburgers cost 5 dollars each and hot dogs cost 3 dollars each. On Saturday the stand sold 24 more hot dogs than hamburgers and collected 288 dollars in total. How many hot dogs did it sell?",
+      "choices": [
+        "$27$",
+        "$24$",
+        "$51$",
+        "$75$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "solved for hamburgers",
+        "reported the given difference",
+        "correct",
+        "added the 24 twice"
+      ],
+      "error_tags": [
+        "misread",
+        "misread",
+        "none",
+        "setup"
+      ],
+      "explanation": "Let $h$ be hamburgers and $d$ hot dogs, with $d=h+24$. Then $5h+3(h+24)=288$, so $8h+72=288$, $h=27$, and $d=27+24=51$.",
+      "desmos": "5h+3(h+24)=288",
+      "skill_note": "A 'more than' constraint plus a total: the setup must substitute before solving, and the asked quantity is the second one."
+    },
+    {
+      "id": "ALG-0019",
+      "domain": "Algebra",
+      "skill": "Linear functions from tables and points",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "A linear function $f$ satisfies $f(3)=-4$ and $f(9)=20$. What is the value of $f(0)$?",
+      "choices": [
+        "$-4$",
+        "$-16$",
+        "$8$",
+        "$-12$"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "treated $f(3)=-4$ as the $y$-intercept",
+        "correct",
+        "sign error when solving $-4=12+b$",
+        "used $\\frac{16}{6}=\\frac{8}{3}$ as the slope"
+      ],
+      "error_tags": [
+        "concept",
+        "none",
+        "sign",
+        "algebra"
+      ],
+      "explanation": "The slope is $\\frac{20-(-4)}{9-3}=4$, so $f(x)=4x+b$. Substituting $f(3)=-4$ gives $-4=12+b$, so $b=-16$ and $f(0)=-16$.",
+      "desmos": "(20-(-4))/(9-3)",
+      "skill_note": "Requires finding the intercept by substitution rather than reading it off the given point."
+    },
+    {
+      "id": "ALG-0020",
+      "domain": "Algebra",
+      "skill": "Linear functions from tables and points",
+      "difficulty": "hard",
+      "type": "spr",
+      "stem": "In the $xy$-plane, line $\\ell$ has an $x$-intercept of $6$ and a $y$-intercept of $-4$. What is the slope of line $\\ell$?",
+      "answer": "2/3",
+      "accepted_spr": [
+        "2/3",
+        "0.667",
+        "0.6667"
+      ],
+      "explanation": "The intercepts give the points $(6,0)$ and $(0,-4)$. The slope is $\\frac{0-(-4)}{6-0}=\\frac{4}{6}=\\frac{2}{3}$.",
+      "desmos": "(0-(-4))/(6-0)",
+      "skill_note": "Both intercepts carry signs; reversing the point order or dropping the negative gives $-\\frac{2}{3}$."
+    },
+    {
+      "id": "ALG-0021",
+      "domain": "Algebra",
+      "skill": "Systems of two linear equations",
+      "difficulty": "very_hard",
+      "type": "mcq",
+      "stem": "In the system $3x+4y=10$ and $kx-6y=15$, $k$ is a constant. For what value of $k$ does the system have no solution?",
+      "choices": [
+        "$\\frac{9}{2}$",
+        "$-2$",
+        "$-\\frac{9}{2}$",
+        "$-\\frac{2}{3}$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "sign error when cross-multiplying",
+        "inverted the ratio $\\frac{3}{k}=\\frac{4}{-6}$",
+        "correct",
+        "reported the common ratio rather than $k$"
+      ],
+      "error_tags": [
+        "sign",
+        "algebra",
+        "none",
+        "quantity"
+      ],
+      "explanation": "No solution means the lines are parallel but distinct: $\\frac{3}{k}=\\frac{4}{-6}$. Cross-multiplying gives $4k=-18$, so $k=-\\frac{9}{2}$. Since $\\frac{10}{15}\\ne-\\frac{2}{3}$, the lines do not coincide.",
+      "desmos": "3/k=4/(-6)",
+      "skill_note": "Requires the parallel-ratio test and a check that the constants do not match; a sign or inversion error looks plausible."
+    },
+    {
+      "id": "ALG-0022",
+      "domain": "Algebra",
+      "skill": "Absolute value equations and inequalities",
+      "difficulty": "very_hard",
+      "type": "mcq",
+      "stem": "In the equation $|x-4|=3k-6$, $k$ is a constant. If the equation has exactly one solution, what is the value of $k$?",
+      "choices": [
+        "$2$",
+        "$4$",
+        "$-2$",
+        "$0$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "gave the solution $x=4$ instead of $k$",
+        "sign error when solving $3k=6$",
+        "assumed $k$ itself must be 0"
+      ],
+      "error_tags": [
+        "none",
+        "concept",
+        "sign",
+        "concept"
+      ],
+      "explanation": "An equation of the form $|x-4|=c$ has exactly one solution only when $c=0$; any positive $c$ gives two solutions and any negative $c$ gives none. So $3k-6=0$, and $k=2$, which does produce the single solution $x=4$.",
+      "desmos": "abs(x-4)=0",
+      "skill_note": "Tests the geometry of absolute value rather than algebra: one solution happens only at the vertex."
+    },
+    {
+      "id": "ALG-0023",
+      "domain": "Algebra",
+      "skill": "Linear models with constraints",
+      "difficulty": "very_hard",
+      "type": "mcq",
+      "stem": "A tank is being filled with water at a constant rate. At 4 minutes the tank holds 90 liters, and at 10 minutes it holds 150 liters. At how many minutes will the tank hold 210 liters?",
+      "choices": [
+        "$21$",
+        "$14$",
+        "$12$",
+        "$16$"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "divided 210 by the rate, ignoring the 50 liters already in the tank",
+        "used $\\frac{150}{10}=15$ liters per minute as the rate",
+        "computed $\\frac{210-90}{10}=12$ and forgot to add the 4 minutes already elapsed",
+        "correct"
+      ],
+      "error_tags": [
+        "setup",
+        "setup",
+        "concept",
+        "none"
+      ],
+      "explanation": "The rate is $\\frac{150-90}{10-4}=10$ liters per minute. Since $90=10(4)+b$, $b=50$, so $V(t)=10t+50$. Solving $10t+50=210$ gives $t=16$.",
+      "desmos": "(150-90)/(10-4)",
+      "skill_note": "The tank is not empty at $t=0$, so the intercept must be recovered before extrapolating."
+    },
+    {
+      "id": "ALG-0024",
+      "domain": "Algebra",
+      "skill": "Systems of two linear equations",
+      "difficulty": "extreme",
+      "type": "mcq",
+      "stem": "In the system $3x+py=8$ and $qx+6y=12$, $p$ and $q$ are constants. If the system has infinitely many solutions, what is the value of $pq$?",
+      "choices": [
+        "$4$",
+        "$18$",
+        "$\\frac{9}{2}$",
+        "$24$"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "solved only for $p$",
+        "correct",
+        "solved only for $q$",
+        "swapped the $y$-coefficients and multiplied $6\\cdot4$"
+      ],
+      "error_tags": [
+        "misread",
+        "none",
+        "misread",
+        "algebra"
+      ],
+      "explanation": "Infinitely many solutions requires the equations to be multiples. The constants give the factor $\\frac{8}{12}=\\frac{2}{3}$, so $3=\\frac{2}{3}q$ and $p=\\frac{2}{3}(6)$. Thus $q=\\frac{9}{2}$ and $p=4$, so $pq=4\\cdot\\frac{9}{2}=18$.",
+      "desmos": "3/q=8/12",
+      "skill_note": "Two parameters and one combined answer: both ratios must be solved before multiplying."
+    }
+  ]
+}

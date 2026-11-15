@@ -1,0 +1,592 @@
+{
+  "domain": "Problem-Solving and Data Analysis",
+  "questions": [
+    {
+      "id": "PSD-0001",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Percentages",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "A jacket is originally priced at $80$ dollars. It is on sale for $25\\%$ off. What is the sale price, in dollars?",
+      "choices": [
+        "55",
+        "20",
+        "100",
+        "60"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "subtracted 25 from 80 instead of taking 25% off",
+        "took 25% of 80 but stopped at the discount amount",
+        "added 25% instead of subtracting it",
+        "correct"
+      ],
+      "error_tags": [
+        "setup",
+        "quantity",
+        "sign",
+        "none"
+      ],
+      "explanation": "Taking $25\\%$ off means paying $100\\%-25\\%=75\\%$ of the price, so $0.75(80)=60$. The sale price is 60 dollars.",
+      "desmos": "y=0.75*80",
+      "skill_note": "A percent discount multiplies by $1-r$; subtracting the percent itself is the classic trap."
+    },
+    {
+      "id": "PSD-0002",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Ratios, rates, proportional relationships, and units",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "A recipe uses 3 cups of flour for every 2 cups of sugar. If a baker uses 12 cups of flour, how many cups of sugar are needed?",
+      "choices": [
+        "6",
+        "8",
+        "9",
+        "18"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "divided the flour by 2 instead of scaling by the ratio",
+        "correct",
+        "subtracted 3 from 12",
+        "inverted the ratio and computed $12 \\cdot \\frac{3}{2}$"
+      ],
+      "error_tags": [
+        "setup",
+        "none",
+        "concept",
+        "setup"
+      ],
+      "explanation": "The flour-to-sugar ratio is $3:2$, so sugar $=12 \\cdot \\frac{2}{3}=8$ cups.",
+      "desmos": "y=12*(2/3)",
+      "skill_note": "Set up the proportion with matching units; inverting the ratio is the usual error."
+    },
+    {
+      "id": "PSD-0003",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "One-variable data: distributions and measures of center and spread",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "The ages, in years, of six children at a party are $4, 5, 5, 6, 8,$ and $14$. What is the mean age?",
+      "choices": [
+        "5",
+        "5.5",
+        "7",
+        "42"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "gave the mode instead of the mean",
+        "gave the median, $\\frac{5+6}{2}$",
+        "correct",
+        "gave the sum without dividing by 6"
+      ],
+      "error_tags": [
+        "misread",
+        "concept",
+        "none",
+        "arithmetic"
+      ],
+      "explanation": "The sum is $4+5+5+6+8+14=42$, so the mean is $42/6=7$.",
+      "desmos": "(4+5+5+6+8+14)/6",
+      "skill_note": "Mean divides the sum by the count; mode and median are different summaries."
+    },
+    {
+      "id": "PSD-0004",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Ratios, rates, proportional relationships, and units",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "A printer prints 180 pages in 4 minutes at a constant rate. What is the printing rate, in pages per minute?",
+      "choices": [
+        "36",
+        "45",
+        "176",
+        "720"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "used 5 minutes instead of 4",
+        "correct",
+        "subtracted 4 from 180",
+        "multiplied 180 by 4"
+      ],
+      "error_tags": [
+        "misread",
+        "none",
+        "concept",
+        "quantity"
+      ],
+      "explanation": "Rate $=\\frac{180}{4}=45$ pages per minute.",
+      "desmos": "y=180/4",
+      "skill_note": "A unit rate divides the quantity by the time; multiplying gives total pages, not a rate."
+    },
+    {
+      "id": "PSD-0005",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Ratios, rates, proportional relationships, and units",
+      "difficulty": "easy",
+      "type": "spr",
+      "stem": "A running track is 400 meters long. How many kilometers long is a run of 12 laps? (1 kilometer = 1000 meters)",
+      "answer": "4.8",
+      "accepted_spr": [
+        "4.8",
+        "24/5"
+      ],
+      "explanation": "$12(400)=4800$ meters, and $4800/1000=4.8$ kilometers.",
+      "desmos": "y=12*400/1000",
+      "skill_note": "Convert after multiplying, and check the direction: meters to kilometers divides by 1000."
+    },
+    {
+      "id": "PSD-0006",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Probability and conditional probability",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "The table shows how $40$ students in grades 7 and 8 get to school.\n\n| | Bus | Walk | Total |\n| --- | --- | --- | --- |\n| Grade 7 | 12 | 8 | 20 |\n| Grade 8 | 15 | 5 | 20 |\n| Total | 27 | 13 | 40 |\n\nWhat fraction of the grade 7 students walk to school?",
+      "choices": [
+        "2/5",
+        "8/13",
+        "5/20",
+        "13/40"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "divided by all students who walk instead of all grade 7 students",
+        "used the grade 8 walkers",
+        "divided all walkers by all students"
+      ],
+      "error_tags": [
+        "none",
+        "quantity",
+        "misread",
+        "quantity"
+      ],
+      "explanation": "8 of the 20 grade 7 students walk, so the fraction is $\\frac{8}{20}=\\frac{2}{5}$.",
+      "desmos": "y=8/20",
+      "skill_note": "A conditional fraction uses the row total in the denominator, not the grand total."
+    },
+    {
+      "id": "PSD-0007",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Percentages",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "A stock price rose from $40$ dollars to $50$ dollars. What was the percent increase?",
+      "choices": [
+        "10%",
+        "20%",
+        "25%",
+        "125%"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "reported the 10-dollar change as a percent",
+        "divided the change by the new price instead of the original price",
+        "correct",
+        "reported the new price as a percent of the original"
+      ],
+      "error_tags": [
+        "unit",
+        "setup",
+        "none",
+        "misread"
+      ],
+      "explanation": "Percent increase $=\\frac{50-40}{40}=\\frac{10}{40}=0.25=25\\%$.",
+      "desmos": "(50-40)/40",
+      "skill_note": "Percent change always divides by the original (starting) value."
+    },
+    {
+      "id": "PSD-0008",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Percentages",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "A price is increased by $20\\%$ and then the new price is decreased by $20\\%$. What is the net percent change from the original price?",
+      "choices": [
+        "no change",
+        "4% increase",
+        "40% decrease",
+        "4% decrease"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "assumed the increase and decrease cancel",
+        "added the two 20% changes as increases",
+        "combined the two changes into one 40% decrease",
+        "correct"
+      ],
+      "error_tags": [
+        "concept",
+        "sign",
+        "setup",
+        "none"
+      ],
+      "explanation": "Multiply the factors: $1.2(0.8)=0.96$, so the final price is $96\\%$ of the original, a $4\\%$ decrease.",
+      "desmos": "y=1.2*0.8",
+      "skill_note": "Successive percent changes multiply; a 20% rise then a 20% fall never returns to the start."
+    },
+    {
+      "id": "PSD-0009",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "One-variable data: distributions and measures of center and spread",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "The annual salaries, in thousands of dollars, of six employees are $32, 35, 38, 41, 44,$ and $210$. What is the median salary, in thousands of dollars?",
+      "choices": [
+        "39.5",
+        "41",
+        "66.7",
+        "38"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "chose the upper middle value without averaging",
+        "computed the mean, which the outlier inflates",
+        "chose the lower middle value without averaging"
+      ],
+      "error_tags": [
+        "none",
+        "arithmetic",
+        "concept",
+        "arithmetic"
+      ],
+      "explanation": "The two middle values are 38 and 41, so the median is $\\frac{38+41}{2}=39.5$. The mean is about 66.7, pulled up by the 210.",
+      "desmos": "y=(38+41)/2",
+      "skill_note": "With an outlier, the median resists the pull that inflates the mean."
+    },
+    {
+      "id": "PSD-0010",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Two-variable data: models and scatterplots",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "A scatterplot of hours studied, $x$, and test score, $y$, for 25 students shows a roughly linear increasing pattern. The line of best fit is $y=4.5x+52$. What does the slope $4.5$ represent in this context?",
+      "choices": [
+        "the predicted score of a student who does not study",
+        "the predicted increase in score for each additional hour studied",
+        "the number of hours needed for a 1-point score increase",
+        "the predicted score of a student who studies 4.5 hours"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "describes the intercept 52, not the slope",
+        "correct",
+        "inverts the slope",
+        "uses the slope as an input value"
+      ],
+      "error_tags": [
+        "concept",
+        "none",
+        "concept",
+        "misread"
+      ],
+      "explanation": "The slope is the change in predicted score per one-unit change in hours, so each additional hour predicts about 4.5 more points.",
+      "desmos": "y=4.5x+52",
+      "skill_note": "Slope is the change in predicted $y$ per unit $x$; the intercept is the prediction at $x=0$."
+    },
+    {
+      "id": "PSD-0011",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Probability and conditional probability",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "The table shows the course choices of $80$ students.\n\n| | Art | Music | Total |\n| --- | --- | --- | --- |\n| Grade 9 | 18 | 22 | 40 |\n| Grade 10 | 12 | 28 | 40 |\n| Total | 30 | 50 | 80 |\n\nOf the students who chose art, what fraction are in grade 9?",
+      "choices": [
+        "3/5",
+        "9/20",
+        "12/30",
+        "18/80"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "divided by all grade 9 students instead of all art students",
+        "computed the grade 10 share instead of the grade 9 share",
+        "divided by all 80 students"
+      ],
+      "error_tags": [
+        "none",
+        "quantity",
+        "misread",
+        "quantity"
+      ],
+      "explanation": "18 of the 30 art students are in grade 9, so the fraction is $\\frac{18}{30}=\\frac{3}{5}$.",
+      "desmos": "y=18/30",
+      "skill_note": "The wording 'of the students who ...' makes that group the denominator."
+    },
+    {
+      "id": "PSD-0012",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Inference from sample statistics and margin of error",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "A researcher wants to estimate the mean nightly sleep, in hours, of all 20,000 students at a university. Which method is most likely to produce a sample that supports a valid inference about all students?",
+      "choices": [
+        "Ask the first 50 students who arrive at the gym at 6 a.m.",
+        "Ask 50 students who volunteer after seeing a sign in the library.",
+        "Ask all students living in one residence hall.",
+        "Ask 50 students chosen at random from the complete student directory."
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "sample is biased toward early risers",
+        "volunteers may differ from the population",
+        "one residence hall may not represent the university",
+        "correct"
+      ],
+      "error_tags": [
+        "concept",
+        "concept",
+        "concept",
+        "none"
+      ],
+      "explanation": "Only a random sample drawn from the full list of students is representative; the other samples are convenience samples with built-in bias.",
+      "desmos": "",
+      "skill_note": "Random selection from the whole population is what licenses inference."
+    },
+    {
+      "id": "PSD-0013",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Ratios, rates, proportional relationships, and units",
+      "difficulty": "hard",
+      "type": "spr",
+      "stem": "Pipe A can fill a tank in 6 hours, pipe B can fill it in 4 hours, and an open drain can empty the full tank in 12 hours. If the tank starts empty and both pipes and the drain are open, how many hours will it take to fill the tank?",
+      "answer": "3",
+      "accepted_spr": [
+        "3",
+        "3/1"
+      ],
+      "explanation": "Add rates: $\\frac{1}{6}+\\frac{1}{4}-\\frac{1}{12}=\\frac{2}{12}+\\frac{3}{12}-\\frac{1}{12}=\\frac{4}{12}=\\frac{1}{3}$ tank per hour, so the tank fills in 3 hours.",
+      "desmos": "y=1/(1/6+1/4-1/12)",
+      "skill_note": "Add work rates as fractions of the job per hour, and give the drain a negative rate."
+    },
+    {
+      "id": "PSD-0014",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Percentages",
+      "difficulty": "hard",
+      "type": "spr",
+      "stem": "A chemist mixes a $20\\%$ saline solution with 10 liters of a $50\\%$ saline solution to obtain a $30\\%$ solution. How many liters of the $20\\%$ solution are needed?",
+      "answer": "20",
+      "accepted_spr": [
+        "20"
+      ],
+      "explanation": "Let $x$ be the liters of $20\\%$ solution: $0.2x+0.5(10)=0.3(x+10)$, so $0.2x+5=0.3x+3$ and $x=20$.",
+      "desmos": "0.2x+5=0.3(x+10)",
+      "skill_note": "Track the amount of solute: percent times volume on each side of the equation."
+    },
+    {
+      "id": "PSD-0015",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Percentages",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "After a $25\\%$ increase, the price of a ticket is $75$ dollars. What was the price before the increase, in dollars?",
+      "choices": [
+        "50",
+        "56.25",
+        "60",
+        "100"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "computed $75-25$",
+        "computed $0.75(75)$",
+        "correct",
+        "divided by $0.75$ instead of $1.25$"
+      ],
+      "error_tags": [
+        "concept",
+        "setup",
+        "none",
+        "setup"
+      ],
+      "explanation": "The new price is $1.25$ times the original, so the original price is $75/1.25=60$ dollars.",
+      "desmos": "y=75/1.25",
+      "skill_note": "Reversing a percent increase divides by $1+r$; the base is the original, smaller amount."
+    },
+    {
+      "id": "PSD-0016",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Inference from sample statistics and margin of error",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "In a random sample of 200 voters, $54\\%$ said they support a proposal. The margin of error for this estimate is 4 percentage points. Which conclusion is best supported?",
+      "choices": [
+        "Exactly $54\\%$ of all voters support the proposal.",
+        "It is plausible that between $50\\%$ and $58\\%$ of all voters support the proposal.",
+        "More than half of all voters certainly support the proposal.",
+        "A second random sample of 200 voters would also show exactly $54\\%$ support."
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "treats the sample percent as the exact population percent",
+        "correct",
+        "ignores that the interval includes 50%",
+        "expects every sample to match exactly"
+      ],
+      "error_tags": [
+        "concept",
+        "none",
+        "misread",
+        "concept"
+      ],
+      "explanation": "The interval is $54\\%\\pm 4\\%$, or $50\\%$ to $58\\%$; the true population percent is plausibly in that range.",
+      "desmos": "",
+      "skill_note": "A margin of error creates an interval of plausible values, not a guarantee about the population."
+    },
+    {
+      "id": "PSD-0017",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Probability and conditional probability",
+      "difficulty": "hard",
+      "type": "spr",
+      "stem": "A survey asked $100$ students whether they play a school sport. Some entries in the table are missing.\n\n| | Plays a sport | Does not play | Total |\n| --- | --- | --- | --- |\n| Grade 9 | 25 | | 55 |\n| Grade 10 | | | 45 |\n| Total | 40 | 60 | 100 |\n\nOf the grade 10 students, what fraction play a sport?",
+      "answer": "1/3",
+      "accepted_spr": [
+        "1/3"
+      ],
+      "explanation": "The total who play is 40, and 25 are in grade 9, so 15 grade 10 students play. That is $\\frac{15}{45}=\\frac{1}{3}$ of the 45 grade 10 students.",
+      "desmos": "(40-25)/45",
+      "skill_note": "Fill the table from row and column totals before forming the conditional fraction."
+    },
+    {
+      "id": "PSD-0018",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "One-variable data: distributions and measures of center and spread",
+      "difficulty": "very_hard",
+      "type": "mcq",
+      "stem": "Sample X consists of five commute times that are all 5 minutes, and sample Y consists of $1, 3, 5, 7,$ and $9$ minutes. A sixth value of 5 minutes is added to each sample. Which statement is true?",
+      "choices": [
+        "The standard deviation of X stays 0, and the standard deviation of Y decreases.",
+        "Both standard deviations stay the same.",
+        "The standard deviation of X increases, and the standard deviation of Y stays the same.",
+        "Both standard deviations decrease."
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "adding a value changes the mean and the spread",
+        "X has no spread to increase",
+        "X's standard deviation cannot decrease below 0"
+      ],
+      "error_tags": [
+        "none",
+        "concept",
+        "concept",
+        "concept"
+      ],
+      "explanation": "Adding a value equal to the mean adds nothing to the sum of squared deviations but increases the count, so Y's standard deviation falls. All of X's values are equal, so its standard deviation stays 0.",
+      "desmos": "",
+      "skill_note": "Standard deviation measures distance from the mean; adding a mean value leaves the squared deviations unchanged but increases $n$."
+    },
+    {
+      "id": "PSD-0019",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "One-variable data: distributions and measures of center and spread",
+      "difficulty": "very_hard",
+      "type": "mcq",
+      "stem": "The 15 students in a class took a test. The mean score was 80 and the median score was 84. Which statement must be true?",
+      "choices": [
+        "Every student scored at least 80.",
+        "The most common score was 84.",
+        "Exactly 7 students scored above 84.",
+        "At least one student scored less than 80."
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "if every score were at least 80, a mean of 80 would force every score to be 80",
+        "the median says nothing about the mode",
+        "the median fixes the 8th score, not the count above it",
+        "correct"
+      ],
+      "error_tags": [
+        "concept",
+        "concept",
+        "misread",
+        "none"
+      ],
+      "explanation": "A median of 84 with a mean of 80 means low scores pull the mean down, so some score is below 80. If all scores were at least 80, a mean of 80 would force every score to be 80, making the median 80.",
+      "desmos": "",
+      "skill_note": "A mean below the median signals a tail of low values."
+    },
+    {
+      "id": "PSD-0020",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Percentages",
+      "difficulty": "very_hard",
+      "type": "mcq",
+      "stem": "A quantity is increased by $50\\%$, then the result is decreased by $20\\%$, and then that result is increased by $25\\%$. The final value is what percent of the original value?",
+      "choices": [
+        "95%",
+        "105%",
+        "150%",
+        "155%"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "combined the changes additively as $-50+20+25$",
+        "combined the three changes additively as $50-20-25$",
+        "correct",
+        "combined the three changes additively as $50-20+25$"
+      ],
+      "error_tags": [
+        "sign",
+        "setup",
+        "none",
+        "concept"
+      ],
+      "explanation": "Multiply the factors: $1.5(0.8)(1.25)=1.5$, so the final value is $150\\%$ of the original.",
+      "desmos": "y=1.5*0.8*1.25",
+      "skill_note": "Chain percent changes by multiplying factors; never add the percents."
+    },
+    {
+      "id": "PSD-0021",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Percentages",
+      "difficulty": "extreme",
+      "type": "mcq",
+      "stem": "A store marks up the wholesale price of a lamp by $20\\%$. During a sale, the marked price is discounted by $25\\%$, and the sale price is $90$ dollars. What was the wholesale price, in dollars?",
+      "choices": [
+        "75",
+        "81",
+        "100",
+        "120"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "reversed only the 20% markup",
+        "multiplied by the net multiplier instead of dividing by it",
+        "correct",
+        "reversed only the 25% discount"
+      ],
+      "error_tags": [
+        "setup",
+        "concept",
+        "none",
+        "setup"
+      ],
+      "explanation": "The net multiplier is $1.2(0.75)=0.9$, so $0.9w=90$ and $w=100$ dollars.",
+      "desmos": "y=90/(1.2*0.75)",
+      "skill_note": "Compose the percent factors first, then divide the final amount by their product."
+    },
+    {
+      "id": "PSD-0022",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Ratios, rates, proportional relationships, and units",
+      "difficulty": "extreme",
+      "type": "spr",
+      "stem": "Kai leaves a trailhead at 8:00 a.m. riding at a constant 15 miles per hour. At 9:00 a.m., Mia leaves the same trailhead and rides along the same trail at a constant 25 miles per hour. How many minutes after Mia starts does she catch Kai?",
+      "answer": "90",
+      "accepted_spr": [
+        "90"
+      ],
+      "explanation": "By 9:00, Kai is 15 miles ahead. Mia gains at $25-15=10$ miles per hour, so she catches up in $15/10=1.5$ hours, which is 90 minutes.",
+      "desmos": "y=15/(25-15)*60",
+      "skill_note": "For a head start, divide the gap by the relative speed and convert hours to minutes at the end."
+    }
+  ]
+}

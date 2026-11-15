@@ -1,0 +1,710 @@
+{
+  "domain": "Advanced Math",
+  "questions": [
+    {
+      "id": "ADV-0001",
+      "domain": "Advanced Math",
+      "skill": "Vertex form of a quadratic",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "The function $f$ is defined by $f(x)=2(x-3)^2-8$. The graph of $y=f(x)$ in the $xy$-plane is a parabola. What are the coordinates of the vertex of this parabola?",
+      "choices": [
+        "$(-3,-8)$",
+        "$(3,8)$",
+        "$(-3,8)$",
+        "$(3,-8)$"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "flipped the sign of h, reading the vertex as h = -3",
+        "flipped the sign of k, reading the vertex as k = 8",
+        "flipped the signs of both h and k",
+        "correct"
+      ],
+      "error_tags": [
+        "sign",
+        "sign",
+        "concept",
+        "none"
+      ],
+      "explanation": "In $f(x)=a(x-h)^2+k$ the vertex is $(h,k)$. Here $h=3$ and $k=-8$, so the vertex is $(3,-8)$. The minus sign inside the parentheses already belongs to $-h$, so it is not flipped again.",
+      "desmos": "y=2(x-3)^2-8",
+      "skill_note": "Vertex form hands you (h, k) directly; the trap is re-flipping the sign inside the parentheses."
+    },
+    {
+      "id": "ADV-0002",
+      "domain": "Advanced Math",
+      "skill": "Quadratic equations",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "The function $f$ is defined by $f(x)=(x-3)(x+7)$. What is the greater of the two values of $x$ for which $f(x)=0$?",
+      "choices": [
+        "$-3$",
+        "$3$",
+        "$-7$",
+        "$7$"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "negated the root of the factor $x-3$",
+        "correct",
+        "found both roots but chose the lesser one",
+        "flipped the sign when solving $x+7=0$"
+      ],
+      "error_tags": [
+        "sign",
+        "none",
+        "misread",
+        "sign"
+      ],
+      "explanation": "By the zero product property, $f(x)=0$ when $x-3=0$ or $x+7=0$, so $x=3$ or $x=-7$. The greater of these is $3$.",
+      "desmos": "y=(x-3)(x+7)",
+      "skill_note": "Each factor gives a root with the opposite sign of its constant; then compare."
+    },
+    {
+      "id": "ADV-0003",
+      "domain": "Advanced Math",
+      "skill": "Function notation",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "The function $f$ is defined by $f(x)=3x^2-2x+1$. What is the value of $f(-2)$?",
+      "choices": [
+        "$17$",
+        "$9$",
+        "$-7$",
+        "$-15$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "squared -2 correctly but treated -2x as -4 instead of +4",
+        "evaluated (-2)^2 as -4",
+        "made both sign errors at once"
+      ],
+      "error_tags": [
+        "none",
+        "sign",
+        "algebra",
+        "sign"
+      ],
+      "explanation": "Substitute: $f(-2)=3(-2)^2-2(-2)+1=3(4)+4+1=17$. The two sign traps are $(-2)^2=4$ and $-2(-2)=+4$.",
+      "desmos": "y=3x^2-2x+1",
+      "skill_note": "Substituting a negative input makes both the square and the -2x term flip sign."
+    },
+    {
+      "id": "ADV-0004",
+      "domain": "Advanced Math",
+      "skill": "Exponential growth models",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "A colony of bacteria is growing so that its population doubles every $4$ hours. The colony starts with $500$ bacteria. Which function $P$ models the population of the colony after $t$ hours?",
+      "choices": [
+        "$P(t)=500(2)^{t/4}$",
+        "$P(t)=500(2)^{4t}$",
+        "$P(t)=500(4)^{t/2}$",
+        "$P(t)=500(0.5)^{t/4}$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "used the doubling time as a multiplier on t instead of dividing t by it",
+        "used the doubling time as the base",
+        "used a decay factor instead of growth"
+      ],
+      "error_tags": [
+        "none",
+        "setup",
+        "concept",
+        "concept"
+      ],
+      "explanation": "After each $4$-hour block the population is multiplied by $2$, so the number of doublings in $t$ hours is $t/4$. The model is $P(t)=500(2)^{t/4}$; check $t=4$ gives $1000$ and $t=8$ gives $2000$.",
+      "desmos": "y=500(2)^{x/4}",
+      "skill_note": "Periodic doubling means exponent t divided by the period, not multiplied by it."
+    },
+    {
+      "id": "ADV-0005",
+      "domain": "Advanced Math",
+      "skill": "Polynomial division and remainders",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "The polynomial function $p$ is defined by $p(x)=x^2-5x+7$. What is the remainder when $p(x)$ is divided by $x-3$?",
+      "choices": [
+        "$31$",
+        "$-1$",
+        "$1$",
+        "$7$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "evaluated at x = -3 instead of x = 3",
+        "sign error evaluating p(3)",
+        "correct",
+        "reported the constant term instead of the remainder"
+      ],
+      "error_tags": [
+        "sign",
+        "sign",
+        "none",
+        "concept"
+      ],
+      "explanation": "By the remainder theorem the remainder is $p(3)=3^2-5(3)+7=9-15+7=1$.",
+      "desmos": "y=x^2-5x+7",
+      "skill_note": "Remainder on division by x - a is p(a); the trap is using -3."
+    },
+    {
+      "id": "ADV-0006",
+      "domain": "Advanced Math",
+      "skill": "Equivalent expressions",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "Which of the following is an equivalent form of $x^2+10x+9$?",
+      "choices": [
+        "$(x+5)^2+9$",
+        "$(x+5)^2-16$",
+        "$(x+5)^2+34$",
+        "$(x+10)^2-91$"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "completed the square but forgot to subtract the 25 that was added",
+        "correct",
+        "added 25 instead of subtracting it",
+        "used b instead of b/2 when completing the square"
+      ],
+      "error_tags": [
+        "algebra",
+        "none",
+        "sign",
+        "concept"
+      ],
+      "explanation": "Half of $10$ is $5$, and $(x+5)^2=x^2+10x+25$. So $x^2+10x+9=(x+5)^2-25+9=(x+5)^2-16$. Expanding each choice confirms only this one matches.",
+      "desmos": "y=x^2+10x+9",
+      "skill_note": "Completing the square requires subtracting the square you added back out."
+    },
+    {
+      "id": "ADV-0007",
+      "domain": "Advanced Math",
+      "skill": "Discriminant",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "In the equation $2x^2+kx+8=0$, $k$ is a positive constant. The equation has exactly one real solution. What is the value of $k$?",
+      "choices": [
+        "$4$",
+        "$8$",
+        "$-8$",
+        "$64$"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "divided the discriminant 64 by 16 instead of by 4",
+        "correct",
+        "ignored the condition that k is positive",
+        "reported k^2 instead of k"
+      ],
+      "error_tags": [
+        "algebra",
+        "none",
+        "sign",
+        "concept"
+      ],
+      "explanation": "One real solution means the discriminant is zero: $k^2-4(2)(8)=0$, so $k^2=64$ and $k=\\pm 8$. Since $k$ is positive, $k=8$.",
+      "desmos": "y=2x^2+8x+8",
+      "skill_note": "Exactly one solution means discriminant zero; remember the positive/negative branch when taking the root."
+    },
+    {
+      "id": "ADV-0008",
+      "domain": "Advanced Math",
+      "skill": "Sum and product of roots",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "The equation $5x^2+20x-3=0$ has two solutions. What is the sum of these two solutions?",
+      "choices": [
+        "$4$",
+        "$-\\frac{3}{5}$",
+        "$-4$",
+        "$-20$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "dropped the minus sign in -b/a",
+        "gave the product of the roots instead of the sum",
+        "correct",
+        "used b itself instead of -b/a"
+      ],
+      "error_tags": [
+        "sign",
+        "misread",
+        "none",
+        "concept"
+      ],
+      "explanation": "For $ax^2+bx+c=0$ the sum of the roots is $-b/a$. Here that is $-20/5=-4$.",
+      "desmos": "y=5x^2+20x-3",
+      "skill_note": "Sum of roots is -b/a, not b/a and not the product c/a."
+    },
+    {
+      "id": "ADV-0009",
+      "domain": "Advanced Math",
+      "skill": "Rational expressions",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "Which of the following is equivalent to $\\frac{x^2-4}{x^2+x-6}$ for all values of $x$ where the expression is defined?",
+      "choices": [
+        "$\\frac{x-2}{x-3}$",
+        "$\\frac{x+2}{x+3}$",
+        "$\\frac{x+2}{x-3}$",
+        "$\\frac{x-2}{x+3}$"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "cancelled the x - 2 in the numerator with the wrong factor in the denominator",
+        "correct",
+        "cancelled x + 2 with x - 3, which are not common factors",
+        "cancelled the wrong factors on both top and bottom"
+      ],
+      "error_tags": [
+        "algebra",
+        "none",
+        "algebra",
+        "algebra"
+      ],
+      "explanation": "Factor: $x^2-4=(x-2)(x+2)$ and $x^2+x-6=(x+3)(x-2)$. The common factor $x-2$ cancels (for $x\\ne 2$), leaving $\\frac{x+2}{x+3}$.",
+      "desmos": "y=(x^2-4)/(x^2+x-6)",
+      "skill_note": "You may only cancel factors that are identical, not terms that look similar."
+    },
+    {
+      "id": "ADV-0010",
+      "domain": "Advanced Math",
+      "skill": "Nonlinear systems",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "In the $xy$-plane, the line $y=2x-3$ intersects the parabola $y=x^2-4x+5$ at two points. What is the sum of the $x$-coordinates of these two points of intersection?",
+      "choices": [
+        "$2$",
+        "$8$",
+        "$-6$",
+        "$6$"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "reported one x-coordinate instead of the sum",
+        "multiplied the x-coordinates instead of adding them",
+        "used the wrong sign when moving all terms to one side",
+        "correct"
+      ],
+      "error_tags": [
+        "misread",
+        "setup",
+        "sign",
+        "none"
+      ],
+      "explanation": "Set the expressions equal: $x^2-4x+5=2x-3$, so $x^2-6x+8=0$, which factors as $(x-2)(x-4)=0$. The points have $x=2$ and $x=4$, and $2+4=6$.",
+      "desmos": "x^2-4x+5=2x-3",
+      "skill_note": "Substitute, collect on one side, then add the roots (or use -b/a)."
+    },
+    {
+      "id": "ADV-0011",
+      "domain": "Advanced Math",
+      "skill": "Transformations of graphs",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "The graph of $y=f(x)$ in the $xy$-plane has a minimum point at $(2,-5)$. The function $g$ is defined by $g(x)=f(x+3)-4$. What are the coordinates of the minimum point of the graph of $y=g(x)$?",
+      "choices": [
+        "$(-1,-9)$",
+        "$(5,-9)$",
+        "$(-1,-1)$",
+        "$(5,-1)$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "shifted left instead of right for x + 3",
+        "shifted the y-value up instead of down",
+        "reversed both shifts"
+      ],
+      "error_tags": [
+        "none",
+        "sign",
+        "sign",
+        "concept"
+      ],
+      "explanation": "The $+3$ inside shifts the graph $3$ units left, so the minimum moves from $x=2$ to $x=-1$. The $-4$ outside shifts it down $4$, so $y=-5-4=-9$. The minimum is $(-1,-9)$.",
+      "desmos": "y=(x+1)^2-9",
+      "skill_note": "Inside the function, x + 3 means shift left; outside, -4 means shift down."
+    },
+    {
+      "id": "ADV-0012",
+      "domain": "Advanced Math",
+      "skill": "Function composition",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "The functions $f$ and $g$ are defined by $f(x)=3x-2$ and $g(x)=x^2+1$. What is the value of $f(g(-2))$?",
+      "choices": [
+        "$17$",
+        "$5$",
+        "$13$",
+        "$65$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "used +2 instead of -2 in f after correctly finding g(-2)",
+        "stopped after computing g(-2) and never applied f",
+        "correct",
+        "composed in the wrong order, computing g(f(-2))"
+      ],
+      "error_tags": [
+        "sign",
+        "setup",
+        "none",
+        "concept"
+      ],
+      "explanation": "Work inside out: $g(-2)=(-2)^2+1=5$, then $f(5)=3(5)-2=13$.",
+      "desmos": "y=3(x^2+1)-2",
+      "skill_note": "Composition is inside-out; f(g(-2)) is not g(f(-2))."
+    },
+    {
+      "id": "ADV-0013",
+      "domain": "Advanced Math",
+      "skill": "Exponential decay models",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "A car is purchased for 24,000 dollars. Its value decreases by $12\\%$ each year. Which function $V$ models the value, in dollars, of the car $t$ years after it is purchased?",
+      "choices": [
+        "$V(t)=24{,}000(0.12)^t$",
+        "$V(t)=24{,}000(1.12)^t$",
+        "$V(t)=24{,}000-0.12t$",
+        "$V(t)=24{,}000(0.88)^t$"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "used the decay rate itself as the growth factor",
+        "used a growth factor instead of a decay factor",
+        "modelled a constant dollar drop per year instead of a percent drop",
+        "correct"
+      ],
+      "error_tags": [
+        "concept",
+        "concept",
+        "setup",
+        "none"
+      ],
+      "explanation": "Losing $12\\%$ each year leaves $88\\%$ of the value, so the multiplier is $1-0.12=0.88$ applied once per year: $V(t)=24{,}000(0.88)^t$.",
+      "desmos": "y=24000(0.88)^x",
+      "skill_note": "Percent decrease means multiply by (1 - rate) each period, not subtract a fixed amount."
+    },
+    {
+      "id": "ADV-0014",
+      "domain": "Advanced Math",
+      "skill": "Radical equations",
+      "difficulty": "medium",
+      "type": "spr",
+      "stem": "What is the solution to the equation $\\sqrt{2x+7}=x-4$?",
+      "answer": "9",
+      "accepted_spr": [
+        "9"
+      ],
+      "explanation": "Square both sides: $2x+7=x^2-8x+16$, so $x^2-10x+9=0$ and $(x-1)(x-9)=0$, giving $x=1$ or $x=9$. Checking, $x=1$ gives $\\sqrt{9}=3$ on the left but $1-4=-3$ on the right, so it is extraneous. Only $x=9$ works: $\\sqrt{25}=5=9-4$.",
+      "desmos": "y=\\sqrt{2x+7}",
+      "skill_note": "Squaring can create solutions that fail the original equation, so both roots must be checked."
+    },
+    {
+      "id": "ADV-0015",
+      "domain": "Advanced Math",
+      "skill": "Sum and product of roots",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "The equation $x^2-6x+4=0$ has solutions $r$ and $s$. What is the value of $r^2+s^2$?",
+      "choices": [
+        "$36$",
+        "$32$",
+        "$44$",
+        "$28$"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "computed (r+s)^2 and stopped there",
+        "used r^2 + s^2 = (r+s)^2 - rs",
+        "used r^2 + s^2 = (r+s)^2 + 2rs",
+        "correct"
+      ],
+      "error_tags": [
+        "algebra",
+        "algebra",
+        "sign",
+        "none"
+      ],
+      "explanation": "Here $r+s=6$ and $rs=4$. Since $(r+s)^2=r^2+2rs+s^2$, we get $r^2+s^2=36-2(4)=28$.",
+      "desmos": "y=x^2-6x+4",
+      "skill_note": "Bridge to r^2 + s^2 through (r+s)^2 - 2rs; the cross term is subtracted."
+    },
+    {
+      "id": "ADV-0016",
+      "domain": "Advanced Math",
+      "skill": "Rational equations",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "What is the solution to the equation $\\frac{x+3}{x-1}=\\frac{4}{x-1}+2$?",
+      "choices": [
+        "There is no solution.",
+        "$x=1$",
+        "$x=5$",
+        "$x=-1$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "accepted the value that makes the denominator zero",
+        "made a sign error after multiplying by x - 1",
+        "solved a different equation, x + 3 = 4 + 2(x - 1)"
+      ],
+      "error_tags": [
+        "none",
+        "setup",
+        "sign",
+        "algebra"
+      ],
+      "explanation": "Multiply both sides by $x-1$ (valid for $x\\ne 1$): $x+3=4+2(x-1)$, so $x+3=2x+2$ and $x=1$. But $x=1$ makes both denominators zero, so it is excluded and the equation has no solution.",
+      "desmos": "y=(x+3)/(x-1)-4/(x-1)-2",
+      "skill_note": "A rational equation's only candidate can be the excluded value, which leaves no solution."
+    },
+    {
+      "id": "ADV-0017",
+      "domain": "Advanced Math",
+      "skill": "Exponential models",
+      "difficulty": "hard",
+      "type": "spr",
+      "stem": "The function $f$ is defined by $f(x)=a \\cdot b^x$, where $a$ and $b$ are positive constants. If $f(0)=5$ and $f(2)=45$, what is the value of $f(3)$?",
+      "answer": "135",
+      "accepted_spr": [
+        "135"
+      ],
+      "explanation": "Since $f(0)=a \\cdot b^0=a=5$, we have $f(x)=5b^x$. Then $f(2)=5b^2=45$, so $b^2=9$ and $b=3$ (positive). Therefore $f(3)=5 \\cdot 3^3=135$.",
+      "desmos": "y=5(3)^x",
+      "skill_note": "Use f(0) to get a immediately, then divide to isolate the base."
+    },
+    {
+      "id": "ADV-0018",
+      "domain": "Advanced Math",
+      "skill": "Polynomial factors and remainders",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "The polynomial $p(x)=x^3+kx+6$, where $k$ is a constant, has $x-2$ as a factor. What is the value of $k$?",
+      "choices": [
+        "$7$",
+        "$-7$",
+        "$-1$",
+        "$14$"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "sign error after substituting x = 2",
+        "correct",
+        "substituted x = -2 into the factor theorem",
+        "did not divide -14 by 2"
+      ],
+      "error_tags": [
+        "sign",
+        "none",
+        "sign",
+        "algebra"
+      ],
+      "explanation": "If $x-2$ is a factor then $p(2)=0$: $8+2k+6=0$, so $2k=-14$ and $k=-7$. Check: $x^3-7x+6=(x-2)(x^2+2x-3)$.",
+      "desmos": "y=x^3-7x+6",
+      "skill_note": "Factor theorem: p(2) = 0 when (x - 2) is a factor, and the constant term must be included."
+    },
+    {
+      "id": "ADV-0019",
+      "domain": "Advanced Math",
+      "skill": "Nonlinear systems with a parameter",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "In the $xy$-plane, the system of equations $y=x^2-4x+c$ and $y=2x-5$ has exactly one solution, where $c$ is a constant. What is the value of $c$?",
+      "choices": [
+        "$5$",
+        "$9$",
+        "$4$",
+        "$16$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "wrote c - 5 instead of c + 5 when moving terms, giving c = 5",
+        "forgot to multiply the +5 by 4, solving 36 - 4c = 0",
+        "correct",
+        "read the discriminant 16 as the value of c"
+      ],
+      "error_tags": [
+        "sign",
+        "algebra",
+        "none",
+        "concept"
+      ],
+      "explanation": "Substituting gives $x^2-4x+c=2x-5$, so $x^2-6x+(c+5)=0$. Exactly one solution requires a zero discriminant: $36-4(c+5)=0$, so $4c=16$ and $c=4$.",
+      "desmos": "x^2-4x+4=2x-5",
+      "skill_note": "Tangency means the combined quadratic has discriminant zero; keep track of the constant you carry over."
+    },
+    {
+      "id": "ADV-0020",
+      "domain": "Advanced Math",
+      "skill": "Vertex form and equivalent forms",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "The function $f$ is defined by $f(x)=2x^2-12x+11$. Which of the following is an equivalent form of $f(x)$ that displays the coordinates of the vertex of the graph of $y=f(x)$ as constants or coefficients?",
+      "choices": [
+        "$2(x-3)^2-7$",
+        "$2(x-6)^2-25$",
+        "$2(x-3)^2+11$",
+        "$2(x-3)^2+7$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "used b instead of b/2 when completing the square",
+        "kept the original constant instead of subtracting the completed square",
+        "subtracted 18 but added it back with the wrong sign"
+      ],
+      "error_tags": [
+        "none",
+        "concept",
+        "algebra",
+        "sign"
+      ],
+      "explanation": "Factor the leading coefficient from the variable terms: $2(x^2-6x)+11=2(x-3)^2-18+11=2(x-3)^2-7$. The vertex is $(3,-7)$, which the form displays directly.",
+      "desmos": "y=2x^2-12x+11",
+      "skill_note": "Vertex form requires factoring out a first, so the number subtracted is a(h squared), not just h squared."
+    },
+    {
+      "id": "ADV-0021",
+      "domain": "Advanced Math",
+      "skill": "Radical equations",
+      "difficulty": "hard",
+      "type": "spr",
+      "stem": "What is the solution to the equation $\\sqrt{x+6}=x$?",
+      "answer": "3",
+      "accepted_spr": [
+        "3"
+      ],
+      "explanation": "Square both sides: $x+6=x^2$, so $x^2-x-6=0$ and $(x-3)(x+2)=0$, giving $x=3$ or $x=-2$. Checking, $x=-2$ gives $\\sqrt{4}=2$ but the right side is $-2$, so it is extraneous. Only $x=3$ satisfies $\\sqrt{9}=3$.",
+      "desmos": "y=\\sqrt{x+6}",
+      "skill_note": "The radical equals a nonnegative quantity, so any negative candidate must be rejected."
+    },
+    {
+      "id": "ADV-0022",
+      "domain": "Advanced Math",
+      "skill": "Nonlinear systems with a parameter",
+      "difficulty": "very_hard",
+      "type": "mcq",
+      "stem": "In the $xy$-plane, the system of equations $y=x^2-3x+c$ and $y=x+2$ has no real solutions, where $c$ is a constant. Which of the following could be the value of $c$?",
+      "choices": [
+        "$5$",
+        "$4$",
+        "$6$",
+        "$8$"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "chose a value that still gives two intersections",
+        "chose a value that gives two intersections",
+        "chose the value that gives exactly one intersection",
+        "correct"
+      ],
+      "error_tags": [
+        "algebra",
+        "algebra",
+        "concept",
+        "none"
+      ],
+      "explanation": "Setting the expressions equal: $x^2-3x+c=x+2$, so $x^2-4x+(c-2)=0$. No real solutions requires $16-4(c-2)<0$, i.e. $24<4c$, so $c>6$. Of the choices, only $8$ is greater than $6$ (and $c=6$ would give exactly one solution).",
+      "desmos": "x^2-3x+8=x+2",
+      "skill_note": "No intersection means a negative discriminant; solve the inequality rather than a single value."
+    },
+    {
+      "id": "ADV-0023",
+      "domain": "Advanced Math",
+      "skill": "Inverse functions",
+      "difficulty": "very_hard",
+      "type": "mcq",
+      "stem": "The function $f$ is defined by $f(x)=\\frac{x+3}{x-1}$ for $x \\ne 1$. What is the value of $f^{-1}(5)$?",
+      "choices": [
+        "$8$",
+        "$2$",
+        "$1$",
+        "$4$"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "added 3 to 5 and stopped there",
+        "correct",
+        "solved 5x = x + 3 by dropping the -1 when distributing",
+        "subtracted 1 from 5 and stopped there"
+      ],
+      "error_tags": [
+        "algebra",
+        "none",
+        "algebra",
+        "algebra"
+      ],
+      "explanation": "$f^{-1}(5)$ is the $x$ with $f(x)=5$: $\\frac{x+3}{x-1}=5$, so $x+3=5x-5$ and $8=4x$, giving $x=2$. Check: $f(2)=\\frac{5}{1}=5$.",
+      "desmos": "y=(x+3)/(x-1)",
+      "skill_note": "Inverse values are inputs of the original function; distribute the 5 across both terms."
+    },
+    {
+      "id": "ADV-0024",
+      "domain": "Advanced Math",
+      "skill": "Quadratic equations in context",
+      "difficulty": "very_hard",
+      "type": "spr",
+      "stem": "The graph of a quadratic function $f$ in the $xy$-plane has $x$-intercepts at $(-2,0)$ and $(6,0)$ and a minimum value of $-16$. What is the value of $f(0)$?",
+      "answer": "-12",
+      "accepted_spr": [
+        "-12"
+      ],
+      "explanation": "Write $f(x)=a(x+2)(x-6)$. The vertex is halfway between the intercepts, at $x=2$, so the minimum is $f(2)=a(4)(-4)=-16a$. Setting $-16a=-16$ gives $a=1$, so $f(x)=(x+2)(x-6)$ and $f(0)=(2)(-6)=-12$.",
+      "desmos": "y=(x+2)(x-6)",
+      "skill_note": "The vertex sits midway between the intercepts; that midpoint plus the minimum pins down a."
+    },
+    {
+      "id": "ADV-0025",
+      "domain": "Advanced Math",
+      "skill": "Nonlinear systems with a parameter",
+      "difficulty": "extreme",
+      "type": "spr",
+      "stem": "In the $xy$-plane, the system of equations $y=x^2+bx+5$ and $y=3x+1$ has exactly one real solution, where $b$ is a constant and $b<0$. What is the value of $b$?",
+      "answer": "-1",
+      "accepted_spr": [
+        "-1"
+      ],
+      "explanation": "Setting the expressions equal: $x^2+bx+5=3x+1$, so $x^2+(b-3)x+4=0$. Exactly one solution requires $(b-3)^2-16=0$, so $b-3=\\pm 4$ and $b=7$ or $b=-1$. Since $b<0$, $b=-1$.",
+      "desmos": "x^2-x+5=3x+1",
+      "skill_note": "Tangency gives two parameter values; the sign restriction selects one, and the constant must be moved before computing the discriminant."
+    },
+    {
+      "id": "ADV-0026",
+      "domain": "Advanced Math",
+      "skill": "Exponential models from two data points",
+      "difficulty": "extreme",
+      "type": "mcq",
+      "stem": "The function $f$ is defined by $f(t)=a \\cdot b^t$, where $a$ and $b$ are positive constants. Selected values of $f$ are $f(2)=180$ and $f(4)=405$. What is the value of $f(0)$?",
+      "choices": [
+        "$45$",
+        "$90$",
+        "$80$",
+        "$60$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "divided 180 by 4 instead of by b^2 = 2.25",
+        "halved 180 instead of dividing by 2.25",
+        "correct",
+        "divided 180 by 3"
+      ],
+      "error_tags": [
+        "algebra",
+        "concept",
+        "none",
+        "arithmetic"
+      ],
+      "explanation": "Dividing, $\\frac{f(4)}{f(2)}=b^2=\\frac{405}{180}=2.25$, so $b=1.5$. Then $f(2)=a(1.5)^2=2.25a=180$, giving $a=80$, and $f(0)=a=80$.",
+      "desmos": "y=80(1.5)^t",
+      "skill_note": "Ratios of values at equally spaced inputs give the base; f(0) is just the initial value a."
+    }
+  ]
+}

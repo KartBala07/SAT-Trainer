@@ -1,0 +1,129 @@
+/* ============ SAT Trainer — components for two-section build ============ */
+
+/* ---------- passage ---------- */
+.passage-card {
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
+.passage-card.single { border-left: 3px solid color-mix(in srgb, var(--accent) 45%, transparent); }
+.passage-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+.passage-pair .passage-card { margin-bottom: 0; }
+.passage-lab {
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--faint); font-weight: 700; margin-bottom: 8px;
+}
+.passage {
+  font-size: 15.5px; line-height: 1.68; color: var(--ink-2);
+  max-height: 42vh; overflow-y: auto;
+}
+.passage p { margin: 0 0 10px; }
+.passage p:last-child { margin-bottom: 0; }
+.passage u { text-decoration-thickness: 1.5px; text-underline-offset: 3px; text-decoration-color: var(--accent); }
+.blank {
+  display: inline-block; min-width: 64px; height: 1.05em; margin: 0 2px;
+  border-bottom: 1.6px solid var(--accent); vertical-align: text-bottom;
+}
+.qinner.rw .stem { font-size: 15.5px; }
+.rule-line {
+  margin-top: 10px; padding: 9px 12px; border-radius: 8px;
+  background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  font-size: 13.5px; color: var(--ink-2);
+}
+.your-miss {
+  margin-top: 10px; padding: 9px 12px; border-radius: 8px;
+  background: var(--bad-soft); border: 1px solid color-mix(in srgb, var(--bad) 22%, transparent);
+  font-size: 13.5px; color: var(--ink-2);
+}
+
+/* ---------- home: section cards ---------- */
+.section-cards { display: grid; gap: 14px; margin-top: 16px; }
+.section-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: 18px 20px; box-shadow: var(--shadow-sm);
+}
+.sc-head { display: flex; align-items: center; gap: 14px; }
+.sc-head h3 { font-size: 17px; }
+.sc-meta { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.sc-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.mini {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 38px; padding: 0 13px; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--surface-2);
+  color: var(--ink-2); font-size: 13px; font-weight: 560; transition: 0.13s;
+}
+.mini svg { color: var(--accent-ink); flex: none; }
+.mini:hover { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-ink); }
+.mini em { font-style: normal; font-size: 11px; color: var(--faint); font-variant-numeric: tabular-nums; }
+.mc-ico.rw { background: color-mix(in srgb, var(--violet) 12%, transparent); color: var(--violet); }
+.mc-ico.math { background: var(--accent-soft); color: var(--accent-ink); }
+
+.feature-right { display: flex; flex-direction: column; align-items: stretch; gap: 10px; flex: none; }
+.form-pick { display: flex; align-items: center; gap: 8px; justify-content: flex-end; font-size: 12px; color: var(--faint); }
+.form-pick select {
+  height: 34px; padding: 0 10px; border-radius: 9px; border: 1px solid var(--line-strong);
+  background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 600;
+  font-family: inherit; cursor: pointer; min-width: 86px;
+}
+
+.home-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
+
+.bank-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.bank-sec .bank-title { font-size: 13.5px; font-weight: 650; margin-bottom: 8px; display: flex; gap: 8px; align-items: baseline; }
+.bank-sec .bank-title span { font-size: 12px; font-weight: 500; }
+.bank-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.vsep { width: 1px; align-self: stretch; background: var(--line); }
+
+/* ---------- results tweaks ---------- */
+.sec-head { display: flex; align-items: center; gap: 12px; }
+.sec-score {
+  font-size: 27px; font-weight: 760; letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums; color: var(--accent-ink);
+}
+.ring-wrap.sm svg { display: block; }
+
+/* ---------- tips ---------- */
+.tips-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.tip-card {
+  position: relative; padding: 18px 20px 16px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+}
+.tip-num {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.08em; color: var(--accent);
+  font-variant-numeric: tabular-nums; margin-bottom: 6px;
+}
+.tip-kicker {
+  display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--accent-ink); background: var(--accent-soft);
+  border-radius: 999px; padding: 2px 9px; margin-bottom: 8px;
+}
+.tip-card h4 { font-size: 15px; margin-bottom: 6px; line-height: 1.35; }
+.tip-card p { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+.tip-when { margin-top: 10px; font-size: 12.5px; }
+.tip-expr {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin-top: 10px; padding: 8px 10px; border-radius: 9px;
+  background: var(--surface-2); border: 1px dashed var(--line-strong);
+}
+.tip-expr code { font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); white-space: pre-wrap; }
+
+/* ---------- nav grid for 27-question modules ---------- */
+.qnav-grid.dense { grid-template-columns: repeat(5, 1fr); gap: 5px; }
+.qnav-grid.dense .qdot { font-size: 11.5px; border-radius: 7px; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1000px) {
+  .tips-grid, .bank-row { grid-template-columns: minmax(0, 1fr); }
+  .home-grid.two { grid-template-columns: minmax(0, 1fr); }
+  .passage-pair { grid-template-columns: minmax(0, 1fr); }
+  .feature-right { flex-direction: row; align-items: center; width: 100%; }
+}
+@media (max-width: 900px) {
+  .section-card .sc-head { flex-wrap: wrap; }
+  .section-card .sc-head .btn { width: 100%; }
+  .qnav-grid.dense { grid-template-columns: repeat(6, 1fr); }
+}

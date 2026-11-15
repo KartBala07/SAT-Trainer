@@ -1,0 +1,39 @@
+{
+ "builtAt": "2026-11-15T22:00:10.083Z",
+ "total": 991,
+ "sections": {
+  "math": {
+   "count": 821,
+   "byDomain": {
+    "Advanced Math": 380,
+    "Algebra": 389,
+    "Geometry and Trigonometry": 25,
+    "Problem-Solving and Data Analysis": 27
+   },
+   "byDiff": {
+    "easy": 204,
+    "medium": 240,
+    "hard": 204,
+    "very_hard": 124,
+    "extreme": 49
+   },
+   "skills": 118
+  },
+  "rw": {
+   "count": 170,
+   "byDomain": {
+    "Craft and Structure": 67,
+    "Expression of Ideas": 4,
+    "Information and Ideas": 93,
+    "Standard English Conventions": 6
+   },
+   "byDiff": {
+    "medium": 69,
+    "hard": 70,
+    "very_hard": 8,
+    "easy": 23
+   },
+   "skills": 16
+  }
+ }
+}

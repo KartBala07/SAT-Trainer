@@ -1,0 +1,175 @@
+{
+  "domain": "Mixed",
+  "questions": [
+    {
+      "id": "SEED-0001",
+      "domain": "Algebra",
+      "skill": "Linear equations in one variable",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "If $3x + 5 = 20$, what is the value of $3x - 5$?",
+      "choices": [
+        "5",
+        "10",
+        "15",
+        "20"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "solved for $x$ and stopped there",
+        "correct",
+        "reported $3x$ instead of $3x-5$",
+        "added 5 to both sides instead of subtracting"
+      ],
+      "error_tags": [
+        "quantity",
+        "none",
+        "quantity",
+        "sign"
+      ],
+      "explanation": "From $3x+5=20$, subtract 5 from both sides: $3x=15$. Then $3x-5=15-5=10$. You never have to divide by 3 — the question asks for $3x-5$, not $x$.",
+      "desmos": "3x+5=20",
+      "skill_note": "The SAT loves asking for an expression in terms of $3x$ rather than $x$ itself."
+    },
+    {
+      "id": "SEED-0003",
+      "domain": "Advanced Math",
+      "skill": "Quadratic minimum / vertex",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "The function $f$ is defined by $f(x) = x^2 - 6x + 5$. What is the minimum value of $f(x)$?",
+      "choices": [
+        "-4",
+        "-3",
+        "1",
+        "5"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "used $-b/2a$ and reported the $x$-value",
+        "read the $y$-intercept",
+        "found a root instead of the vertex"
+      ],
+      "error_tags": [
+        "none",
+        "quantity",
+        "misread",
+        "quantity"
+      ],
+      "explanation": "Complete the square: $x^2-6x+5 = (x-3)^2 - 4$. The squared term is never negative, so the minimum is $-4$ at $x=3$. Equivalently, the vertex is at $x=-b/(2a)=3$ and $f(3)=9-18+5=-4$.",
+      "desmos": "y=x^2-6x+5",
+      "skill_note": "Minimum value means the $y$-coordinate, not the $x$-coordinate."
+    },
+    {
+      "id": "SEED-0004",
+      "domain": "Advanced Math",
+      "skill": "Systems with a parameter (no solution)",
+      "difficulty": "extreme",
+      "type": "spr",
+      "stem": "In the system of equations below, $c$ is a constant.\n\n$4x + 6y = 10$\n\n$cx + 9y = 16$\n\nFor what value of $c$ does the system of equations have no solution?",
+      "answer": "6",
+      "accepted_spr": [
+        "6",
+        "6.0",
+        "6/1"
+      ],
+      "explanation": "No solution means the lines are parallel: equal slopes, different intercepts. Match the coefficients so the ratios agree: $4/c = 6/9$, so $c = 36/6 = 6$. With $c=6$ the second equation becomes $6x+9y=16$, and multiplying the first by $1.5$ gives $6x+9y=15$ — parallel, never equal. (If the right side were 15 the system would have infinitely many solutions.)",
+      "desmos": "4x+6y=10\\ncx+9y=16",
+      "skill_note": "No solution vs. infinitely many is decided by the constant side, not the coefficients."
+    },
+    {
+      "id": "SEED-0005",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Successive percent change",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "A coat is originally priced at $\\$80$. It is discounted by $25\\%$, and then an additional $10\\%$ discount is taken off the reduced price. What is the final price of the coat?",
+      "choices": [
+        "$\\$52$",
+        "$\\$54$",
+        "$\\$56$",
+        "$\\$58$"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "subtracted a flat 35% and rounded",
+        "correct",
+        "took 10% of the original price instead of the sale price",
+        "took 10% then 25% in the wrong order"
+      ],
+      "error_tags": [
+        "setup",
+        "none",
+        "setup",
+        "setup"
+      ],
+      "explanation": "After the first discount: $80(0.75)=\\$60$. After the second: $60(0.90)=\\$54$. Percent discounts compound — they never add to $35\\%$.",
+      "desmos": "80*0.75*0.9",
+      "skill_note": "Successive percent changes multiply; they don't add."
+    },
+    {
+      "id": "SEED-0006",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Pythagorean theorem",
+      "difficulty": "medium",
+      "type": "spr",
+      "stem": "In right triangle $ABC$, the right angle is at $C$. The length of $AB$ is $13$ and the length of $BC$ is $5$. What is the length of $AC$?",
+      "answer": "12",
+      "accepted_spr": [
+        "12",
+        "12.0"
+      ],
+      "explanation": "$AB$ is the hypotenuse. By the Pythagorean theorem, $AC^2 + 5^2 = 13^2$, so $AC^2 = 169-25 = 144$ and $AC = 12$.",
+      "desmos": "sqrt(13^2-5^2)",
+      "skill_note": "The side opposite the right angle is the hypotenuse — always the largest side."
+    },
+    {
+      "id": "SEED-0007",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Circle equation / completing the square",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "A circle in the $xy$-plane is defined by the equation $x^2 + y^2 - 4x + 6y = 12$. What is the radius of the circle?",
+      "choices": [
+        "5",
+        "12",
+        "25",
+        "$\\sqrt{12}$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "used the constant term as the radius",
+        "reported $r^2$ instead of $r$",
+        "took the square root of the constant term only"
+      ],
+      "error_tags": [
+        "none",
+        "quantity",
+        "quantity",
+        "algebra"
+      ],
+      "explanation": "Group and complete the square: $(x^2-4x+4)+(y^2+6y+9)=12+4+9$, so $(x-2)^2+(y+3)^2=25$. The center is $(2,-3)$ and $r^2=25$, so $r=5$.",
+      "desmos": "x^2+y^2-4x+6y=12",
+      "skill_note": "Completing the square: half the linear coefficient, squared, added to both sides."
+    },
+    {
+      "id": "SEED-0008",
+      "domain": "Problem-Solving and Data Analysis",
+      "skill": "Percent change with an unknown original",
+      "difficulty": "hard",
+      "type": "spr",
+      "stem": "A store's revenue increased by $20\\%$ from January to February, and then decreased by $25\\%$ from February to March. If the store's revenue in March was $\\$9{,}000$, what was its revenue in January, in dollars?",
+      "answer": "10000",
+      "accepted_spr": [
+        "10000",
+        "10,000",
+        "10000.0"
+      ],
+      "explanation": "Let $J$ be the January revenue. February is $1.20J$, and March is $0.75(1.20J)=0.90J$. So $0.90J = 9000$, giving $J = 10{,}000$.",
+      "desmos": "0.75*1.2x=9000",
+      "skill_note": "Work backwards with multipliers ($+20\\% \\to \\times 1.2$, $-25\\% \\to \\times 0.75$)."
+    }
+  ]
+}

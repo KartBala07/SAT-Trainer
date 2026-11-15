@@ -1,0 +1,546 @@
+{
+  "domain": "Geometry and Trigonometry",
+  "questions": [
+    {
+      "id": "GEO-0001",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Angles and parallel lines",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "Line $\\ell$ is parallel to line $m$, and a transversal intersects both lines. Two corresponding angles have measures $(3x+10)^\\circ$ and $(5x-30)^\\circ$. What is the value of $x$?",
+      "choices": [
+        "25",
+        "42",
+        "20",
+        "10"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "added the two expressions and set them equal to $180$, treating the angles as supplementary",
+        "solved $5x-30=180$ using only the second expression",
+        "correct",
+        "subtracted the constants in the wrong order, getting $2x=20$"
+      ],
+      "error_tags": [
+        "concept",
+        "setup",
+        "none",
+        "algebra"
+      ],
+      "explanation": "Corresponding angles formed by a transversal across parallel lines are equal, so $3x+10=5x-30$. Then $40=2x$, so $x=20$.",
+      "desmos": "3x+10=5x-30",
+      "skill_note": "Tests setting corresponding angles equal rather than adding them to $180$."
+    },
+    {
+      "id": "GEO-0002",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Triangle angle sum and isosceles triangles",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "In isosceles triangle $ABC$, $AB=AC$ and the vertex angle $\\angle A$ measures $40^\\circ$. What is the measure of $\\angle B$?",
+      "choices": [
+        "140",
+        "70",
+        "40",
+        "20"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "took $180^\\circ-40^\\circ=140^\\circ$ as a single base angle instead of splitting it between two equal base angles",
+        "correct",
+        "assumed the base angles equal the $40^\\circ$ vertex angle",
+        "split the vertex angle in half and used $20^\\circ$ as a base angle"
+      ],
+      "error_tags": [
+        "quantity",
+        "none",
+        "concept",
+        "setup"
+      ],
+      "explanation": "The base angles of an isosceles triangle are equal and the angles sum to $180^\\circ$, so $2\\angle B+40^\\circ=180^\\circ$. Thus $2\\angle B=140^\\circ$ and $\\angle B=70^\\circ$.",
+      "desmos": "180-40",
+      "skill_note": "Checks that the remaining $140^\\circ$ is split between two equal base angles."
+    },
+    {
+      "id": "GEO-0003",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Special right triangles",
+      "difficulty": "easy",
+      "type": "spr",
+      "stem": "In right triangle $ABC$, the right angle is at $C$ and $AC=BC$. If $AB=13\\sqrt{2}$, what is the length of $AC$?",
+      "answer": "13",
+      "accepted_spr": [
+        "13"
+      ],
+      "explanation": "An isosceles right triangle is a $45^\\circ$-$45^\\circ$-$90^\\circ$ triangle, so its hypotenuse is $\\sqrt{2}$ times each leg: $AB=AC\\sqrt{2}$. Therefore $AC\\sqrt{2}=13\\sqrt{2}$ and $AC=13$.",
+      "desmos": "13*sqrt(2)/sqrt(2)",
+      "skill_note": "Tests the $45$-$45$-$90$ ratio in reverse, from hypotenuse back to leg."
+    },
+    {
+      "id": "GEO-0004",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Similar triangles",
+      "difficulty": "easy",
+      "type": "mcq",
+      "stem": "Triangle $ABC$ is similar to triangle $DEF$, with $\\angle A$ corresponding to $\\angle D$. If $AB=6$, $BC=9$, and $DE=8$, what is the length of $EF$?",
+      "choices": [
+        "6.75",
+        "12",
+        "4.5",
+        "13.5"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "inverted the scale factor and computed $9\\cdot\\frac{6}{8}$",
+        "correct",
+        "took half of $BC$ instead of scaling it",
+        "multiplied by a scale factor of $1.5$ instead of $\\frac{8}{6}$"
+      ],
+      "error_tags": [
+        "concept",
+        "none",
+        "setup",
+        "quantity"
+      ],
+      "explanation": "The scale factor from $ABC$ to $DEF$ is $\\frac{DE}{AB}=\\frac{8}{6}=\\frac{4}{3}$, and $EF$ corresponds to $BC$. So $EF=9\\cdot\\frac{4}{3}=12$.",
+      "desmos": "9*8/6",
+      "skill_note": "Checks that the scale factor is applied in the correct direction, not inverted."
+    },
+    {
+      "id": "GEO-0005",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Radians and degrees",
+      "difficulty": "easy",
+      "type": "spr",
+      "stem": "An angle measures $\\frac{5\\pi}{6}$ radians. What is its measure in degrees?",
+      "answer": "150",
+      "accepted_spr": [
+        "150"
+      ],
+      "explanation": "Multiply by $\\frac{180^\\circ}{\\pi}$: $\\frac{5\\pi}{6}\\cdot\\frac{180}{\\pi}=\\frac{900}{6}=150$ degrees.",
+      "desmos": "5*pi/6*180/pi",
+      "skill_note": "Tests the radian-to-degree conversion factor with a non-unit fraction of $\\pi$."
+    },
+    {
+      "id": "GEO-0006",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Special right triangles",
+      "difficulty": "medium",
+      "type": "spr",
+      "stem": "In right triangle $PQR$, the right angle is at $Q$ and $\\angle P=30^\\circ$. The side opposite $\\angle P$ has length $7$. What is the length of the hypotenuse $PR$?",
+      "answer": "14",
+      "accepted_spr": [
+        "14"
+      ],
+      "explanation": "The triangle is a $30^\\circ$-$60^\\circ$-$90^\\circ$ triangle, so the side opposite the $30^\\circ$ angle is half the hypotenuse. Hence $PR=2\\cdot 7=14$.",
+      "desmos": "2*7",
+      "skill_note": "Tests the $30$-$60$-$90$ ratio from short leg to hypotenuse, not to the long leg."
+    },
+    {
+      "id": "GEO-0007",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Right triangle trigonometry",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "In right triangle $ABC$, the right angle is at $C$. If $AB=13$, $BC=5$, and $AC=12$, what is the value of $\\sin A$?",
+      "choices": [
+        "5/13",
+        "12/13",
+        "5/12",
+        "13/5"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "used the adjacent leg over the hypotenuse, which is $\\cos A$",
+        "used opposite over adjacent, which is $\\tan A$",
+        "inverted the sine ratio"
+      ],
+      "error_tags": [
+        "none",
+        "concept",
+        "concept",
+        "concept"
+      ],
+      "explanation": "$\\sin A=\\frac{BC}{AB}=\\frac{5}{13}$, since $BC$ is opposite $\\angle A$ and $AB$ is the hypotenuse.",
+      "desmos": "5/13",
+      "skill_note": "Discriminates sine from cosine and tangent when all three sides are labeled."
+    },
+    {
+      "id": "GEO-0008",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Complementary angle identities",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "If $\\sin(x^\\circ)=\\cos(32^\\circ)$ and $0<x<90$, what is the value of $x$?",
+      "choices": [
+        "32",
+        "122",
+        "148",
+        "58"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "assumed the two angles must be equal, so $x=32$",
+        "added $90$ to $32$ instead of subtracting $32$ from $90$",
+        "used the supplement of $32^\\circ$",
+        "correct"
+      ],
+      "error_tags": [
+        "concept",
+        "setup",
+        "concept",
+        "none"
+      ],
+      "explanation": "Sine of an angle equals cosine of its complement, so $x=90-32=58$. Indeed $\\sin 58^\\circ=\\cos 32^\\circ$.",
+      "desmos": "sin(58)-cos(32)",
+      "skill_note": "Tests the cofunction identity $\\sin x=\\cos(90-x)$ and which direction to subtract."
+    },
+    {
+      "id": "GEO-0009",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Arc length",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "A circle has radius $9$. A central angle measures $80^\\circ$. What is the length of the arc intercepted by this central angle?",
+      "choices": [
+        "$8\\pi$",
+        "$2\\pi$",
+        "$4\\pi$",
+        "$\\frac{4\\pi}{9}$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "used the diameter $18$ as the radius",
+        "used half the central angle, $40^\\circ$",
+        "correct",
+        "reported the radian measure of the central angle instead of an arc length"
+      ],
+      "error_tags": [
+        "concept",
+        "misread",
+        "none",
+        "quantity"
+      ],
+      "explanation": "The arc is the fraction $\\frac{80}{360}=\\frac{2}{9}$ of the circumference $2\\pi(9)=18\\pi$. So the arc length is $\\frac{2}{9}\\cdot 18\\pi=4\\pi$.",
+      "desmos": "80/360*2*pi*9",
+      "skill_note": "Tests arc length as a fraction of circumference and the units of the result."
+    },
+    {
+      "id": "GEO-0010",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Sector area",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "A circle has radius $6$. A sector of the circle has a central angle of $120^\\circ$. What is the area of the sector?",
+      "choices": [
+        "$24\\pi$",
+        "$4\\pi$",
+        "$6\\pi$",
+        "$12\\pi$"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "used the diameter $12$ as the radius",
+        "computed the arc length instead of the sector area",
+        "used $\\frac{60}{360}$ of the circle",
+        "correct"
+      ],
+      "error_tags": [
+        "concept",
+        "quantity",
+        "setup",
+        "none"
+      ],
+      "explanation": "The sector is $\\frac{120}{360}=\\frac{1}{3}$ of the circle, whose area is $\\pi(6)^2=36\\pi$. So the sector area is $\\frac{1}{3}\\cdot 36\\pi=12\\pi$.",
+      "desmos": "120/360*pi*6^2",
+      "skill_note": "Tests sector area against arc length, using a fraction of the full area."
+    },
+    {
+      "id": "GEO-0011",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Volume of cylinders",
+      "difficulty": "medium",
+      "type": "mcq",
+      "stem": "A right circular cylinder has a diameter of $6$ and a height of $10$. What is the volume of the cylinder?",
+      "choices": [
+        "$90\\pi$",
+        "$360\\pi$",
+        "$30\\pi$",
+        "$45\\pi$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "used the diameter $6$ as the radius",
+        "used $\\pi r h$ instead of $\\pi r^2 h$",
+        "halved the height along with the radius"
+      ],
+      "error_tags": [
+        "none",
+        "unit",
+        "concept",
+        "setup"
+      ],
+      "explanation": "The radius is half the diameter, $r=3$, so $V=\\pi r^2h=\\pi(3)^2(10)=90\\pi$.",
+      "desmos": "pi*3^2*10",
+      "skill_note": "Tests halving the diameter before squaring in a volume formula."
+    },
+    {
+      "id": "GEO-0012",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Coordinate geometry: midpoint and distance",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "Point $M$ is the midpoint of $\\overline{AB}$, where $A=(-1,2)$ and $B=(5,10)$. What is the length of $\\overline{AM}$?",
+      "choices": [
+        "10",
+        "5",
+        "25",
+        "2.5"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "found the full length $AB$ instead of $AM$",
+        "correct",
+        "squared the distance and stopped there",
+        "divided the length by $2$ twice"
+      ],
+      "error_tags": [
+        "quantity",
+        "none",
+        "concept",
+        "setup"
+      ],
+      "explanation": "The midpoint is $M=\\left(\\frac{-1+5}{2},\\frac{2+10}{2}\\right)=(2,6)$. Then $AM=\\sqrt{(2+1)^2+(6-2)^2}=\\sqrt{9+16}=5$.",
+      "desmos": "sqrt((2+1)^2+(6-2)^2)",
+      "skill_note": "Tests midpoint coordinates followed by the distance formula, for half the segment."
+    },
+    {
+      "id": "GEO-0013",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Tangent lines and perpendicular slopes",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "A circle with center $O$ at the origin has radius $5$. Point $P(3,4)$ lies on the circle. What is the slope of the line tangent to the circle at $P$?",
+      "choices": [
+        "$\\frac{4}{3}$",
+        "$\\frac{3}{4}$",
+        "$-\\frac{3}{4}$",
+        "$-\\frac{4}{3}$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "used the slope of radius $OP$ itself",
+        "changed the sign of the radius slope but did not take the reciprocal",
+        "correct",
+        "took the reciprocal of the radius slope but kept its sign"
+      ],
+      "error_tags": [
+        "concept",
+        "algebra",
+        "none",
+        "algebra"
+      ],
+      "explanation": "The radius $OP$ has slope $\\frac{4-0}{3-0}=\\frac{4}{3}$. A tangent is perpendicular to the radius, so its slope is the negative reciprocal, $-\\frac{3}{4}$.",
+      "desmos": "-1/(4/3)",
+      "skill_note": "Tests that a tangent slope is the negative reciprocal of the radius slope."
+    },
+    {
+      "id": "GEO-0014",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Volume of cones",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "A right circular cone has radius $6$ and height $8$. What is the volume of the cone?",
+      "choices": [
+        "$288\\pi$",
+        "$384\\pi$",
+        "$24\\pi$",
+        "$96\\pi$"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "omitted the factor $\\frac{1}{3}$ from the cone volume formula",
+        "used the diameter $12$ as the radius",
+        "used $r=3$, halving the radius twice",
+        "correct"
+      ],
+      "error_tags": [
+        "concept",
+        "unit",
+        "setup",
+        "none"
+      ],
+      "explanation": "$V=\\frac{1}{3}\\pi r^2h=\\frac{1}{3}\\pi(6)^2(8)=\\frac{1}{3}(288\\pi)=96\\pi$.",
+      "desmos": "1/3*pi*6^2*8",
+      "skill_note": "Tests the $\\frac{1}{3}$ factor and using the radius rather than the diameter."
+    },
+    {
+      "id": "GEO-0015",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Volume of pyramids",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "A square pyramid has a base with side length $6$ and a height of $10$. What is the volume of the pyramid?",
+      "choices": [
+        "120",
+        "360",
+        "180",
+        "60"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "omitted the factor $\\frac{1}{3}$",
+        "used $\\frac{1}{2}Bh$ instead of $\\frac{1}{3}Bh$",
+        "used $\\frac{1}{6}Bh$"
+      ],
+      "error_tags": [
+        "none",
+        "concept",
+        "concept",
+        "concept"
+      ],
+      "explanation": "The base area is $6^2=36$, so $V=\\frac{1}{3}Bh=\\frac{1}{3}(36)(10)=120$.",
+      "desmos": "1/3*36*10",
+      "skill_note": "Tests the pyramid volume factor together with the base area of a square."
+    },
+    {
+      "id": "GEO-0016",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Volume of spheres",
+      "difficulty": "hard",
+      "type": "mcq",
+      "stem": "A sphere has a diameter of $6$. What is the volume of the sphere?",
+      "choices": [
+        "$288\\pi$",
+        "$36\\pi$",
+        "$12\\pi$",
+        "$108\\pi$"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "used the diameter $6$ as the radius",
+        "correct",
+        "used $\\frac{4}{3}\\pi r^2$ instead of $\\frac{4}{3}\\pi r^3$",
+        "used $4\\pi r^3$ instead of $\\frac{4}{3}\\pi r^3$"
+      ],
+      "error_tags": [
+        "unit",
+        "none",
+        "concept",
+        "concept"
+      ],
+      "explanation": "The radius is $3$, so $V=\\frac{4}{3}\\pi r^3=\\frac{4}{3}\\pi(27)=36\\pi$.",
+      "desmos": "4/3*pi*3^3",
+      "skill_note": "Tests halving the diameter and cubing the radius in the sphere formula."
+    },
+    {
+      "id": "GEO-0017",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Similar triangles with trigonometry",
+      "difficulty": "very_hard",
+      "type": "mcq",
+      "stem": "In right triangle $ABC$, the right angle is at $A$, $AB=8$, $AC=15$, and $BC=17$. Triangle $DEF$ is similar to triangle $ABC$ with $\\angle D$ corresponding to $\\angle A$, and the scale factor from $ABC$ to $DEF$ is $2.5$. What is the value of $\\cos E$?",
+      "choices": [
+        "$\\frac{15}{17}$",
+        "$\\frac{15}{8}$",
+        "$\\frac{8}{17}$",
+        "$\\frac{17}{8}$"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "computed $\\sin B=\\frac{15}{17}$ instead of $\\cos B$",
+        "used opposite over adjacent, which is $\\tan B$",
+        "correct",
+        "inverted the cosine ratio"
+      ],
+      "error_tags": [
+        "concept",
+        "concept",
+        "none",
+        "concept"
+      ],
+      "explanation": "Similarity preserves angle measures, so $\\angle E=\\angle B$ and the scale factor does not change the cosine. In $ABC$, $\\cos B=\\frac{AB}{BC}=\\frac{8}{17}$, so $\\cos E=\\frac{8}{17}$.",
+      "desmos": "8/17",
+      "skill_note": "Tests that similarity leaves trig ratios unchanged and that the scale factor is a decoy."
+    },
+    {
+      "id": "GEO-0018",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Density and volume",
+      "difficulty": "very_hard",
+      "type": "spr",
+      "stem": "A rectangular block has dimensions $20$ cm by $15$ cm by $10$ cm and a mass of $7.5$ kg. What is the density of the block, in grams per cubic centimeter?",
+      "answer": "2.5",
+      "accepted_spr": [
+        "2.5",
+        "5/2"
+      ],
+      "explanation": "The volume is $20\\cdot 15\\cdot 10=3000$ cubic centimeters, and the mass is $7.5$ kg $=7500$ grams. Density is mass divided by volume: $\\frac{7500}{3000}=2.5$ grams per cubic centimeter.",
+      "desmos": "7500/(20*15*10)",
+      "skill_note": "Tests converting kilograms to grams before dividing mass by volume."
+    },
+    {
+      "id": "GEO-0019",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Dilations and area/volume scaling",
+      "difficulty": "very_hard",
+      "type": "mcq",
+      "stem": "A rectangular prism has volume $30$ cubic centimeters and surface area $62$ square centimeters. The prism is dilated by a scale factor of $2$. What are the volume and surface area, in cubic centimeters and square centimeters, of the image?",
+      "choices": [
+        "60 and 124",
+        "240 and 124",
+        "120 and 248",
+        "240 and 248"
+      ],
+      "answer": "D",
+      "choice_notes": [
+        "multiplied both volume and surface area by the scale factor $2$",
+        "scaled the volume correctly but multiplied the surface area by $2$",
+        "multiplied the volume by $2$ but scaled the surface area correctly",
+        "correct"
+      ],
+      "error_tags": [
+        "concept",
+        "concept",
+        "concept",
+        "none"
+      ],
+      "explanation": "Under a dilation with scale factor $k=2$, volume is multiplied by $k^3=8$ and area by $k^2=4$. The new volume is $30\\cdot 8=240$ and the new surface area is $62\\cdot 4=248$.",
+      "desmos": "30*2^3, 62*2^2",
+      "skill_note": "Tests that volume scales by $k^3$ and area by $k^2$, not by $k$."
+    },
+    {
+      "id": "GEO-0020",
+      "domain": "Geometry and Trigonometry",
+      "skill": "Circle equations: completing the square",
+      "difficulty": "extreme",
+      "type": "mcq",
+      "stem": "The equation $x^2+y^2-6x+10y+18=0$ represents a circle in the $xy$-plane. What are the center and radius of the circle?",
+      "choices": [
+        "$(3,-5)$, radius $4$",
+        "$(3,-5)$, radius $16$",
+        "$(-3,5)$, radius $4$",
+        "$(3,-5)$, radius $2$"
+      ],
+      "answer": "A",
+      "choice_notes": [
+        "correct",
+        "did not take the square root of $16$",
+        "moved the center in the wrong direction, a sign error",
+        "took half of the radius"
+      ],
+      "error_tags": [
+        "none",
+        "concept",
+        "sign",
+        "algebra"
+      ],
+      "explanation": "Complete the square twice: $x^2-6x=(x-3)^2-9$ and $y^2+10y=(y+5)^2-25$. So $(x-3)^2+(y+5)^2=9+25-18=16$, giving center $(3,-5)$ and radius $\\sqrt{16}=4$.",
+      "desmos": "(x-3)^2+(y+5)^2=16",
+      "skill_note": "Tests completing the square twice, the sign of the center, and taking $\\sqrt{r^2}$."
+    }
+  ]
+}
