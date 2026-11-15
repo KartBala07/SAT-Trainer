@@ -231,6 +231,21 @@
         </div>` : `<div class="empty">Clean sheet. Move up a difficulty tier.</div>`}
       </div>
 
+      ${state.schedule && global.Coach
+        ? (() => {
+            const next = global.Coach.nextSession(state.schedule);
+            const m = state.model || { attempts: 0 };
+            return `<div class="plan-update">
+              <div>
+                <span class="pill accent" style="font-size:10.5px">Plan updated</span>
+                <h4>${esc(next ? next.title : 'Schedule rebuilt')}</h4>
+                <p class="faint">${next ? `${esc(next.dow)} ${esc(next.dateLabel)} · ${next.minutes} min · ` : ''}${m.attempts} attempt${m.attempts === 1 ? '' : 's'} on record. The schedule re-cut itself around what you just missed.</p>
+              </div>
+              <a class="btn lg" href="#/plan">See what changed ${ICONS.arrow}</a>
+            </div>`;
+          })()
+        : ''}
+
       <div style="display:flex;gap:10px;justify-content:center;margin-top:26px;flex-wrap:wrap">
         <button class="btn primary lg" data-start="full">Retake full test</button>
         ${secKeys.map((k) => `<button class="btn lg" data-start="${k}">Redo ${esc(S().SECTIONS[k].short)}</button>`).join('')}

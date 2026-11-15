@@ -318,8 +318,14 @@
     return buildModule(bank, sectionKey, profileKey, { rand, used });
   }
 
-  function buildDrill(bank, sectionKey, domain, n, rand) {
-    const pool = poolFor(bank, sectionKey).filter((q) => q.domain === domain);
+  function buildDrill(bank, sectionKey, domain, n, rand, topic) {
+    let pool = poolFor(bank, sectionKey).filter((q) => q.domain === domain);
+    // a topic is finer than a domain: use it when there is enough material,
+    // and silently fall back to the whole domain when there is not
+    if (topic && global.Coach && global.Coach.topicOf) {
+      const narrowed = pool.filter((q) => global.Coach.topicOf(q.skill, q.domain) === topic);
+      if (narrowed.length >= 5) pool = narrowed;
+    }
     const buckets = {};
     for (const q of pool) (buckets[q.difficulty] = buckets[q.difficulty] || []).push(q);
     for (const k of Object.keys(buckets)) buckets[k] = shuffle(buckets[k], rand);

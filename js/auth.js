@@ -245,6 +245,19 @@
     return { ok: false, error: state.syncError || 'sync failed' };
   }
 
+  /* ---------- profile (survey + coach state) ---------- */
+  async function saveProfile(profile) {
+    if (!state.backend || !state.user) return { ok: false };
+    const out = await req('/api/profile', { method: 'PUT', body: JSON.stringify(profile || {}) });
+    return { ok: out.ok };
+  }
+
+  async function loadProfile() {
+    if (!state.backend || !state.user) return null;
+    const out = await req('/api/profile');
+    return out.ok ? out.body.profile : null;
+  }
+
   /* ---------- top bar chip ---------- */
   function initials(name, email) {
     const s = (name || email || 'G').trim();
@@ -379,6 +392,8 @@
     signOut,
     signInDev,
     openPanel,
+    saveProfile,
+    loadProfile,
     onChange: (fn) => listeners.push(fn),
     isSignedIn: () => !!state.user,
   };

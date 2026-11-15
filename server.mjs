@@ -310,6 +310,23 @@ const server = createServer(async (req, res) => {
       return json(res, 200, { ok: true });
     }
 
+    /* ---- profile (onboarding survey + coach state) ---- */
+    if (path === '/api/profile') {
+      const cur = currentUser(req);
+      if (!cur) return json(res, 401, { error: 'not signed in' });
+      if (req.method === 'GET') {
+        return json(res, 200, { profile: store.getProfile(cur.user.id) });
+      }
+      if (req.method === 'PUT' || req.method === 'POST') {
+        const body = JSON.parse((await readBody(req)) || '{}');
+        const profile = body && typeof body === 'object' ? body : {};
+        if (JSON.stringify(profile).length > 200_000) return json(res, 413, { error: 'profile too large' });
+        store.setProfile(cur.user.id, profile);
+        return json(res, 200, { ok: true, profile: store.getProfile(cur.user.id) });
+      }
+      return json(res, 405, { error: 'method not allowed' });
+    }
+
     /* ---- progress ---- */
     if (path === '/api/progress') {
       const cur = currentUser(req);

@@ -153,6 +153,8 @@
         </div>
       </div>
 
+      ${planStrip(state)}
+
       <div class="section-cards">${sectionCards}</div>
 
       <div class="home-grid two">
@@ -194,6 +196,43 @@
         <p class="p-sub" style="margin:16px 0 0;max-width:78ch">Every question is original, written to the Digital SAT's formats and difficulty curve, with each answer key verified. The real College Board items are free at <a href="https://satsuite.collegeboard.org/practice/practice-tests" target="_blank" rel="noopener">satsuite.collegeboard.org</a> — use one for your final timed dress rehearsal.</p>
       </div>
     </div>`);
+  }
+
+  function planStrip(state) {
+    const plan = state.settings && state.settings.plan;
+    const C = global.Coach;
+    if (!C) return '';
+    const ready = plan && C.isComplete(plan);
+    if (!ready) {
+      return `<div class="plan-strip">
+        <div class="ps-left">
+          <span class="pill">No plan yet</span>
+          <h3>Tell the coach your test date and how much time you have</h3>
+          <p class="ps-detail">Four questions. It then builds a dated schedule around your weak spots — and rebuilds it after every attempt.</p>
+        </div>
+        <div class="ps-right"><a class="btn primary lg" href="#/setup">Build my plan →</a></div>
+      </div>`;
+    }
+    const until = C.daysUntil(plan);
+    const next = state.schedule ? C.nextSession(state.schedule) : null;
+    const model = state.model || { attempts: 0 };
+    const kind = next ? (global.CoachView && global.CoachView.KIND_LABEL[next.kind]) || next.kind : '';
+    const shortTitle = next ? next.title.replace(/^Repair:\s*/i, '') : '';
+    const tuneWord = model.attempts === 1 ? 'your last attempt' : `your last ${model.attempts} attempts`;
+    return `<div class="plan-strip">
+      <div class="ps-left">
+        <div class="ps-kicker">
+          <span class="pill accent">Test in ${until} day${until === 1 ? '' : 's'}</span>
+          ${next ? `<span class="ps-when">${esc(kind)} · ${esc(next.dow)} ${esc(next.dateLabel)} · ${next.minutes} min</span>` : ''}
+        </div>
+        <h3>${next ? esc(shortTitle) : 'Schedule is built'}</h3>
+        <p class="ps-detail">${next ? `${next.count ? `${next.count} questions · ` : ''}${model.attempts ? `rebuilt from ${esc(tuneWord)}` : 'baseline week — the plan re-cuts itself after your first attempt'}` : 'Open the plan to see the sessions.'}</p>
+      </div>
+      <div class="ps-right">
+        ${next && next.launch ? `<button class="btn primary lg" data-start="${esc(next.launch)}">Start session ${ICONS.arrow}</button>` : ''}
+        <a class="ps-link" href="#/plan">Open plan</a>
+      </div>
+    </div>`;
   }
 
   function sparkline(rows) {
@@ -331,5 +370,5 @@
     </div>`;
   }
 
-  global.Views = { home, test, solutionHTML, diffPill, shortDomain, ICONS, el, sparkline, passageHTML };
+  global.Views = { home, test, solutionHTML, diffPill, shortDomain, ICONS, el, sparkline, passageHTML, planStrip };
 })(window);

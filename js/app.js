@@ -17,7 +17,17 @@
     attempt: null,
     showSolution: false,
     lastResults: null,
+    model: null,
+    schedule: null,
   };
+
+  function refreshCoach() {
+    if (!global.Coach) return;
+    state.model = global.Coach.buildModel(state.history);
+    state.schedule = state.settings.plan && global.Coach.isComplete(state.settings.plan)
+      ? global.Coach.buildSchedule(state.model, state.settings.plan)
+      : null;
+  }
 
   /* ---------------- storage ---------------- */
   const LS = {
@@ -57,6 +67,7 @@
     }
     state.history = [...map.values()].sort((x, y) => y.at - x.at).slice(0, 200);
     LS.set('sat.history', state.history);
+    refreshCoach();
     if (state.route === '#/' || state.route === '#/history') renderRoute();
   }
 
@@ -225,8 +236,22 @@
         let qs;
         if (mode === 'quick') qs = S().buildQuick(state.bank[sectionKey], sectionKey, 10);
         else if (mode === 'ladder') qs = S().buildLadder(state.bank[sectionKey], sectionKey, 12);
-        else qs = S().buildDrill(state.bank[sectionKey], sectionKey, parts[2], 12);
-        a.modules = [{ section: sectionKey, mod: 0, label: mode === 'quick' ? 'Quick 10' : mode === 'ladder' ? 'Difficulty ladder' : parts[2], shortLabel: mode === 'quick' ? 'Quick 10' : mode === 'ladder' ? 'Ladder' : parts[2], questions: qs, limitSec: mode === 'quick' ? 15 * 60 : null }];
+        else {
+          const dom = decodeURIComponent(parts[2] || '');
+          const topic = parts[3] ? decodeURIComponent(parts[3]) : null;
+          qs = S().buildDrill(state.bank[sectionKey], sectionKey, dom, 12, undefined, topic);
+        }
+        const domLabel = mode === 'drill'
+          ? (parts[3] ? decodeURIComponent(parts[3]) : decodeURIComponent(parts[2] || ''))
+          : '';
+        a.modules = [{
+          section: sectionKey,
+          mod: 0,
+          label: mode === 'quick' ? 'Quick 10' : mode === 'ladder' ? 'Difficulty ladder' : domLabel,
+          shortLabel: mode === 'quick' ? 'Quick 10' : mode === 'ladder' ? 'Ladder' : domLabel,
+          questions: qs,
+          limitSec: mode === 'quick' ? 15 * 60 : null,
+        }];
         a.sequence = [{}];
         modeLabel = mode === 'quick' ? `Quick 10 · ${S().SECTIONS[sectionKey].short}` : mode === 'ladder' ? `Ladder · ${S().SECTIONS[sectionKey].short}` : `Drill · ${S().SECTIONS[sectionKey].short}`;
       }
@@ -319,6 +344,21 @@
       crumb.textContent = 'Desmos & timing';
       view.innerHTML = '';
       view.appendChild(global.Tips.view(state));
+      $('#timerSlot').innerHTML = '';
+      return;
+    }
+    if (route === '#/plan') {
+      crumb.textContent = 'Plan';
+      view.innerHTML = '';
+      const havePlan = state.settings.plan && global.Coach && global.Coach.isComplete(state.settings.plan);
+      view.appendChild(havePlan ? global.CoachView.planView(state) : global.CoachView.survey(state));
+      $('#timerSlot').innerHTML = '';
+      return;
+    }
+    if (route === '#/setup') {
+      crumb.textContent = 'Setup';
+      view.innerHTML = '';
+      view.appendChild(global.CoachView.survey(state));
       $('#timerSlot').innerHTML = '';
       return;
     }
@@ -540,7 +580,37 @@
       math: a.results.math ? { scaled: a.results.math.scaled, correct: a.results.math.correct, total: a.results.math.total, path: a.results.math.path } : null,
       misses: [...(a.results.rw ? a.results.rw.records : []), ...(a.results.math ? a.results.math.records : [])].filter((r) => !r.correct).map((r) => r.id),
     };
+    // per-skill ledger so the coach can model progress across attempts
+    const skillAgg = new Map();
+    for (const key of ['rw', 'math']) {
+      const b = bySec[key];
+      if (!b) continue;
+      for (const r of b.records) {
+        const k = r.skill || r.domain;
+        const cur = skillAgg.get(k) || { k, d: r.domain, s: key, n: 0, c: 0, t: {} };
+        cur.n++;
+        if (r.correct) cur.c++;
+        else if (r.errorTag && r.errorTag !== 'none') cur.t[r.errorTag] = (cur.t[r.errorTag] || 0) + 1;
+        skillAgg.set(k, cur);
+      }
+    }
+    entry.skills = [...skillAgg.values()];
+    const errAgg = {};
+    for (const key of ['rw', 'math']) {
+      for (const f of (a.results[key] ? a.results[key].analysis.fingerprint : [])) {
+        errAgg[f.tag] = (errAgg[f.tag] || 0) + f.n;
+      }
+    }
+    entry.errors = errAgg;
+    const pace = a.timer && a.timer.paceSec ? a.timer.paceSec : 90;
+    const secKeysDone = ['rw', 'math'].filter((k) => a.results[k]);
+    const avgAcross = secKeysDone.length
+      ? secKeysDone.reduce((sum, k) => sum + a.results[k].analysis.avgSec, 0) / secKeysDone.length
+      : 0;
+    entry.timing = { avgSec: Math.round(avgAcross), paceSec: Math.round(pace) };
+
     saveAttempt(entry);
+    refreshCoach();
     go('#/results');
   }
 
@@ -792,6 +862,56 @@
         return startAttempt(`drill:${sec}:${dom.join(':')}`);
       }
       if (closest('[data-home]')) return go('#/');
+
+      // ---- plan survey ----
+      const dayBtn = closest('[data-plan-day]');
+      if (dayBtn) return dayBtn.classList.toggle('on');
+      const minBtn = closest('[data-plan-minutes]');
+      if (minBtn) {
+        $$('[data-plan-minutes]').forEach((b) => b.classList.toggle('on', b === minBtn));
+        return;
+      }
+      const quick = closest('[data-plan-quick]');
+      if (quick) {
+        const n = Number(quick.dataset.planQuick) || 14;
+        const d = new Date();
+        d.setDate(d.getDate() + n);
+        const el = $('#planDate');
+        if (el) el.value = d.toISOString().slice(0, 10);
+        const hint = $('#planDateHint');
+        if (hint) hint.textContent = `${n} days from today`;
+        return;
+      }
+      if (closest('[data-plan-save]')) {
+        const dateEl = $('#planDate');
+        const goalEl = $('#planGoal');
+        const rwEl = $('#planRw');
+        const mathEl = $('#planMath');
+        const days = $$('.day-chip.on[data-plan-day]').map((b) => Number(b.dataset.planDay));
+        const minEl = $('.day-chip.on[data-plan-minutes]');
+        const minutes = minEl ? Number(minEl.dataset.planMinutes) : 45;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const testDate = dateEl && dateEl.value;
+        if (!testDate || new Date(`${testDate}T00:00:00`) <= today) return toast('Pick a test date in the future');
+        if (!days.length) return toast('Pick at least one study day');
+        state.settings.plan = {
+          testDate,
+          days,
+          minutes,
+          goal: Math.max(400, Math.min(1600, Number(goalEl && goalEl.value) || 1500)),
+          baseline: {
+            rw: rwEl && rwEl.value ? Number(rwEl.value) : null,
+            math: mathEl && mathEl.value ? Number(mathEl.value) : null,
+          },
+          createdAt: Date.now(),
+        };
+        saveSettings();
+        refreshCoach();
+        if (global.Auth && global.Auth.isSignedIn()) global.Auth.saveProfile({ plan: state.settings.plan });
+        go('#/plan');
+        return;
+      }
       if (closest('[data-goto-history]')) return go('#/history');
 
       if (closest('[data-edit-rw]')) {
@@ -959,9 +1079,16 @@
       toast('Question bank manifest missing — run: node build-bank.mjs');
     }
 
+    refreshCoach();
     if (global.Auth) {
       try {
         await global.Auth.boot();
+        const remote = await global.Auth.loadProfile();
+        if (remote && remote.plan && !(state.settings.plan && state.settings.plan.createdAt)) {
+          state.settings.plan = remote.plan;
+          saveSettings();
+          refreshCoach();
+        }
       } catch (e) {
         console.error('auth boot failed', e);
       }

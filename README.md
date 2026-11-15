@@ -60,9 +60,25 @@ After every attempt:
 - **Why you lost points** — every miss tagged, split into *execution* errors you already own vs *knowledge* gaps you don't
 - **Pace** — average vs the real per-question budget, how many you burned rushing, how many you solved too slowly
 - **Question-by-question review** — the passage, the stem, your answer, the correct one, the worked solution, and what your specific wrong answer implies
-- **A 14-day plan** built from that attempt, starting with your weakest domain by name, with full retests on day 7 and day 12
-
 Attempts accumulate in **Score history** (stored in the browser) with a bar chart on the 400–1600 scale, so "am I actually improving" has an answer.
+
+## The coach and the plan
+
+The plan is not a template. It is rebuilt from your history every time you finish an attempt.
+
+**Onboarding** (`#/setup`) asks four things: test date, which weekdays you can study, how long a session is, and your target. That is enough to cut a dated schedule, and it is re-cut automatically as data arrives.
+
+**The learner model** (`js/coach.js`) works on topics, not raw question skills. The bank has 215 distinct skill strings ("Linear functions from tables", "Slope from two points"…), far too fine to accumulate evidence, so each is folded into one of 29 curriculum topics by an ordered keyword classifier. Order matters: a generic pattern early in the list swallows skills that belong to a narrower topic. `node tools/check-topics.mjs` runs the classifier over all 2,242 questions and reports the distribution plus any topic that spans unrelated domains — run it after touching the patterns.
+
+Per topic it keeps questions seen, misses, recency-weighted accuracy (14-day half-life, so a recent miss outweighs an old one), staleness, and the error tags behind the misses. Risk = 0.55·recent failure + 0.35·lifetime failure + 0.10·staleness, then shrunk toward the mean by `1 − e^(−n/3)` so one lucky or unlucky question can't become "your biggest leak". Skills are folded per attempt before the update — otherwise two algebra skills in one set would count that attempt twice and double its weight.
+
+**The schedule** starts with repair (untimed, weakest topics, the clock deliberately off), moves to sharpened timed sets at the real per-question budget with spaced revisits, then rehearsal (a full test if you have a 2-hour slot, otherwise a single module under the real clock), and tapers over the last two days. Only sections you have actually practised get scheduled; a math-only history produces a math-only plan. Each session's **Start** button launches the drill it prescribes — topic-filtered, not a generic set in the same domain.
+
+**Tips** come from the same model: the biggest leak with its numbers and the specific error pattern behind it, a trend line when recent accuracy diverges from earlier, a blind-spot warning for a domain inside a section you already work in, and — before your first attempt — the baseline prompt. Every tip is traceable to the questions that produced it.
+
+**Deterministic by design.** There is no model call here, deliberately: the advice is arithmetic over your own answers, so it works offline, costs nothing, is instant, and cannot invent a diagnosis. An LLM would add conversational coaching, not better diagnosis.
+
+State lives in `localStorage` for guests. Signed in, the survey also syncs to `GET|PUT /api/profile` so the plan follows you to another device.
 
 ## Scoring accuracy
 
@@ -73,13 +89,16 @@ Raw → scaled uses a conversion table interpolated from released digital forms,
 ```
 index.html               shell
 styles.css styles2.css   design system (light + dark)
-js/engine.js             module construction, adaptive routing, scoring, analysis, plan
+js/engine.js             module construction, adaptive routing, scoring, analysis
+js/coach.js              learner model, topic classifier, schedule, tips
+js/coachview.js          onboarding survey + plan page
 js/views.js              home, test, passage rendering
 js/tips.js               Desmos + timing playbook
 js/results.js            results, history
 js/app.js                state, timer, calculator, routing
 js/mathrender.js         KaTeX + pipe-table renderer
 data/{manifest,math,rw}.json   the materialised bank (what the site loads)
+tools/check-topics.mjs   verifies the topic classifier against the whole bank
 question-packs/*.json    hand-authored questions
 generators/*.mjs         parametric generators (source of the bulk)
 build-bank.mjs           generators -> data/*.json, validates + de-duplicates
@@ -107,7 +126,8 @@ SAT_DEV_AUTH=1 node server.mjs  # adds a dev sign-in button (never use in produc
 ```
 
 API: `POST /api/auth/google`, `POST /api/auth/dev`, `GET /api/me`, `POST /api/auth/logout`,
-`GET /api/progress`, `PUT /api/progress` (union merge, idempotent per attempt).
+`GET /api/progress`, `PUT /api/progress` (union merge, idempotent per attempt),
+`GET /api/profile`, `PUT /api/profile` (the onboarding survey and coach state, one JSON blob per user, 200 KB cap).
 
 ### Turning on Google sign-in
 
