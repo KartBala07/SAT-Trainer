@@ -51,7 +51,7 @@ export const WIC_3 = [
   ["race",
     "The [race] to map the aquifer before the wells ran dry drew hydrologists from four countries, each hoping to publish first and none willing to share raw seismic data.",
     "a competitive rush",
-    ["a group of people sharing ancestry", "a contest of speed", "to move very quickly"],
+    ["a group of people sharing ancestry", "a channel of water leading to a mill", "to move very quickly"],
     "Four competing teams hoping to publish first describe a contest for priority, which is the figurative 'race'.",
     3],
   ["raise",

@@ -15,12 +15,12 @@ const SK = {
 };
 
 const RULE = {
-  SEMI: 'A semicolon may join two independent clauses that are closely related, but it may not join a clause to a fragment, and a comma or a colon cannot do its work.',
-  SPLICE: 'Two independent clauses must be separated by a period (or a semicolon); a comma alone between them is a comma splice, and no mark at all is a fused sentence.',
-  COLON: 'A colon after an independent clause signals that a list or an explanation follows; a semicolon or comma cannot introduce a list, and a list cannot simply be run on.',
-  DASH: 'A pair of dashes sets off an interruption, and both marks must match; when the interruption itself contains commas or a full clause, dashes are the only workable choice.',
-  APPOS: 'A nonessential appositive is set off by commas on both sides; omitting either comma fuses the appositive into the sentence.',
-  ESS: 'An essential (restrictive) element identifies which one is meant, so it takes no commas; setting it off with commas changes the meaning and mispunctuates the sentence.',
+  SEMI: 'A semicolon joins two closely related independent clauses; a comma alone would be a splice, no mark at all would be a fused sentence, and a colon would promise a list or an explanation that does not follow.',
+  SPLICE: 'Two independent clauses need a period or a semicolon between them: a comma alone creates a comma splice, and no mark at all creates a fused sentence.',
+  COLON: 'A colon follows an independent clause and introduces a list or an explanation; a semicolon needs an independent clause on both sides, and a comma cannot announce a list.',
+  DASH: 'Dashes that frame an interruption must match; when the interruption contains commas or a full clause, a pair of dashes is the only workable choice.',
+  APPOS: 'A nonessential appositive renames the noun before it and takes a comma on each side.',
+  ESS: 'An essential element identifies which one is meant and takes no commas; setting it off suggests it is extra information the sentence could do without.',
   INTRO: 'An introductory word, phrase, or clause is followed by a comma before the main clause begins.',
   SERIES: 'Items in a series are separated by commas, with a comma before the conjunction; semicolons belong only in a series whose items already contain commas.',
   SV: 'No punctuation may separate a subject from its verb or a verb from its object.',
@@ -561,7 +561,7 @@ for (const f of essential) {
           o(`, ${rel}`, false, 'adds a comma after the noun but never closes the clause'),
           o(`; ${rel}`, false, 'uses a semicolon before a dependent clause'),
         ],
-        /^ [A-Za-z]/,
+        /^[A-Za-z]/,
         f.note
       );
     }
@@ -732,7 +732,7 @@ for (const f of sv) {
           o(`; ${tail}.`, false, 'inserts a semicolon inside a single clause'),
           o(`: ${tail}.`, false, 'inserts a colon inside a single clause, where it has nothing to introduce'),
         ],
-        /^ [A-Za-z0-9]/,
+        /^[A-Za-z0-9]/,
         f.note
       );
     }

@@ -149,7 +149,7 @@ export const TRANS_2 = [
     e: "The absence of explanation sits oddly against the contradictions, so the blank marks contrast with what the reader expects.",
     n: "Contradictions raise a question that the text then declines to answer.", lvl: 3 },
   { p: "The vaccine must be stored at minus seventy degrees, which few rural clinics can manage. ______, a freeze-dried version that survives at room temperature is now in late-stage trials.",
-    k: "Accordingly", w: ["However", "Likewise", "For instance"],
+    k: "Consequently", w: ["In short", "Likewise", "For instance"],
     e: "The new formulation is a response to the storage problem, so the blank marks a consequence that follows from the constraint.",
     n: "A constraint provokes a technical response. 'Likewise' would make the new version a parallel case instead.", lvl: 4 },
   { p: "The choir's earliest recordings were made in a church with a seven-second reverberation. ______, every later recording was made in a studio with almost none, which critics said stripped the sound of its character.",

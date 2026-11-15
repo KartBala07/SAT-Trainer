@@ -58,7 +58,7 @@ export const o = (text, ok, note, tag) => ({ text, ok, note, tag: tag || 'concep
  * spec: { id, skill, rule, difficulty, passage, options[4], expect, skillNote }
  */
 export function assemble(spec, key) {
-  const opts = spec.options;
+  const opts = spec.options.map((x) => ({ ...x, text: x.text.trim() }));
   if (!Array.isArray(opts) || opts.length !== 4) {
     throw new Error(`${spec.id}: needs exactly 4 options, got ${opts && opts.length}`);
   }

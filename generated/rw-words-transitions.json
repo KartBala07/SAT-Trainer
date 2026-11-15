@@ -12,7 +12,7 @@
       "choices": [
         "reluctance to reveal one's feelings",
         "arrange for a table to be held",
-        "land set aside for a specific group",
+        "troops held back from the front line",
         "set aside for later use"
       ],
       "answer": "D",
@@ -2053,7 +2053,7 @@
       "skill": "Words in context",
       "difficulty": "medium",
       "type": "mcq",
-      "passage": "The biography is unusually [sympathetic] to its subject, treating his failed investments as the product of a panic he could not have foreseen rather than as evidence of recklessness.",
+      "passage": "The biography is unusually [sympathetic] to its subject, treating his failed investments as the product of a panic he could not have foreseen rather than as evidence of recklessness, and crediting him with the bank reforms that followed.",
       "stem": "As used in the text, what does the word \"sympathetic\" most nearly mean?",
       "choices": [
         "favorably disposed toward",
@@ -2183,7 +2183,7 @@
         "a flow of electricity",
         "a flow of water or air",
         "accepted at the present time",
-        "happening right now in a river"
+        "a draft of air through a window"
       ],
       "answer": "C",
       "choice_notes": [
@@ -2275,7 +2275,7 @@
       "choices": [
         "a hard protective shell",
         "to throw a fishing line",
-        "caused something to fall or be directed",
+        "caused to be felt",
         "a group of actors"
       ],
       "answer": "C",
@@ -2741,7 +2741,7 @@
         "a group of people sharing ancestry",
         "to move very quickly",
         "a competitive rush",
-        "a contest of speed"
+        "a channel of water leading to a mill"
       ],
       "answer": "C",
       "choice_notes": [
@@ -3328,7 +3328,7 @@
       "stem": "As used in the text, what does the word \"store\" most nearly mean?",
       "choices": [
         "hold and accumulate",
-        "to put something away for future use",
+        "to supply or furnish what is needed",
         "a shop that sells goods",
         "a computer memory location"
       ],
@@ -7388,17 +7388,17 @@
       "passage": "The vaccine must be stored at minus seventy degrees, which few rural clinics can manage. ______, a freeze-dried version that survives at room temperature is now in late-stage trials.",
       "stem": "Which choice completes the text with the most logical transition?",
       "choices": [
-        "Accordingly",
+        "Consequently",
         "For instance",
         "Likewise",
-        "However"
+        "In short"
       ],
       "answer": "A",
       "choice_notes": [
         "correct",
         "wrong relationship: For instance",
         "wrong relationship: Likewise",
-        "wrong relationship: However"
+        "wrong relationship: In short"
       ],
       "error_tags": [
         "none",
@@ -7416,7 +7416,7 @@
       "skill": "Transitions",
       "difficulty": "extreme",
       "type": "mcq",
-      "passage": "The Romans lined their aqueduct channels with a volcanic cement that hardened underwater and resisted frost. ______, nineteenth-century engineers in the same region used portland cement, which cracked in the first hard winter.",
+      "passage": "The Romans lined their aqueduct channels with a volcanic cement that hardened even underwater. ______, nineteenth-century engineers in the same region used a mixture of brick dust and lime that set only in the presence of water.",
       "stem": "Which choice completes the text with the most logical transition?",
       "choices": [
         "However",
@@ -7437,8 +7437,8 @@
         "none",
         "misread"
       ],
-      "explanation": "Two engineering choices are compared in the same setting, so the blank marks a parallel case.",
-      "skill_note": "Careful: the outcomes differ, but the sentences compare practices, and 'similarly' introduces the parallel practice, not an agreement in results."
+      "explanation": "Both sentences describe a mortar that cures under water, so the blank marks a parallel practice.",
+      "skill_note": "One ancient, one industrial, same chemistry. A contrast transition would deny the parallel."
     },
     {
       "id": "RWW-0241",
@@ -7478,7 +7478,7 @@
       "skill": "Transitions",
       "difficulty": "extreme",
       "type": "mcq",
-      "passage": "The restoration team cleaned the fresco with lasers rather than solvents. ______, conservators at a nearby site used a poultice of ammonium carbonate, with results that took four years to stabilize.",
+      "passage": "The restoration team cleaned the fresco with lasers rather than solvents. ______, conservators at a nearby site used a poultice of ammonium carbonate, which lifted the grime without disturbing the pigment.",
       "stem": "Which choice completes the text with the most logical transition?",
       "choices": [
         "However",
@@ -7499,8 +7499,8 @@
         "none",
         "misread"
       ],
-      "explanation": "A parallel conservation effort in another location is offered for comparison, so the blank marks similarity of situation.",
-      "skill_note": "Both are cleaning methods; the differences in outcome do not cancel the parallel."
+      "explanation": "Both sentences describe a method that removed grime without damaging the paint, so the blank marks a parallel case.",
+      "skill_note": "Different tools, same result. The parallel is the point, not a contrast between methods."
     },
     {
       "id": "RWW-0243",

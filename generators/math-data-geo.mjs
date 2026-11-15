@@ -331,9 +331,18 @@ function plainNumber(text) {
   return null;
 }
 
+/** the app only typesets $...$ spans, so wrap any bare LaTeX choice text */
+function choiceTex(t) {
+  if (t == null) return t;
+  const s = String(t);
+  if (s.startsWith('$')) return s;
+  if (/\\[a-zA-Z]/.test(s) || /\^/.test(s)) return '$' + s + '$';
+  return s;
+}
+
 /**
  * Assemble one item. `body` must carry num (number), text (LaTeX answer),
- * alts (3 tuples [value, text, note, tag]) and optionally spr (grid-in text).
+ * alts (3 tuples [value, note, tag]) and optionally spr (grid-in text).
  */
 function assemble(r, g, L, body, wantSpr) {
   const stem = body.stem;
@@ -376,9 +385,10 @@ function assemble(r, g, L, body, wantSpr) {
   }
 
   const correct = body.num;
-  const chosen = [{ v: correct, t: body.text, note: 'correct', tag: 'none' }];
-  const seen = new Set([keyOf(correct, body.text)]);
-  const texts = new Set([body.text]);
+  const correctText = choiceTex(body.text);
+  const chosen = [{ v: correct, t: correctText, note: 'correct', tag: 'none' }];
+  const seen = new Set([keyOf(correct, correctText)]);
+  const texts = new Set([correctText]);
   for (const tup of body.alts) {
     let v;
     let t;
@@ -394,6 +404,7 @@ function assemble(r, g, L, body, wantSpr) {
       t = formatLike(body.text, v);
     }
     if (t == null) t = num(v);
+    t = choiceTex(t);
     const k = keyOf(v, t);
     if (seen.has(k) || texts.has(t)) continue;
     if (typeof v === 'number' && typeof correct === 'number' && Math.abs(v - correct) <= EPS) continue;
@@ -480,7 +491,7 @@ function gRatioParts(r, L) {
       [(a + 1) * per, 'used one extra part of the ratio for the ingredient asked about', 'setup'],
     ],
     stem,
-    expl: `The ratio has $${a}+${b}=${a + b}$ equal parts, so one part is $${total}\\div${a + b}=${per}$ ${ctx.unit}. ${capA} makes up $${a}$ of those parts, so the batch contains $${a}\\times${per}=${ans}$ ${ctx.unit}.`,
+    expl: `The ratio has $${a}+${b}=${a + b}$ equal parts, so one part is $${total}\\div${a + b}=${per}$ ${ctx.unit}. Of those ${a + b} parts, $${a}$ are ${ctx.a}, so the batch contains $${a}\\times${per}=${ans}$ ${ctx.unit}.`,
     desmos: `${total}/(${a}+${b})*${a}`,
     note: 'The trap is treating the ratio numbers as amounts instead of as counts of equal parts.',
     check: `verified $${a}\\times${per}+${b}\\times${per}=${total}$ equals the stated batch size`,
@@ -680,7 +691,7 @@ function gPercentOf(r, L) {
       text: num(ans),
       spr: num(ans),
       alts: [
-        [Math.round(p * n * 1e6) / 1e6, 'multiplied the percent by the number and never divided by $100$', 'concept'],
+        [Math.round(n * (1 + p / 100) * 1e6) / 1e6, 'increased the number by the percent instead of taking the percent of it', 'concept'],
         [Math.round(((p * n) / 10) * 1e6) / 1e6, 'divided by $10$ instead of $100$', 'arithmetic'],
         [Math.round((n - ans) * 1e6) / 1e6, 'found the part of the number that is not in the percent', 'misread'],
       ],
@@ -1055,10 +1066,16 @@ reg({ fn: gCompareSD, domain: DATA_DOMAIN, skill: 'Comparing standard deviations
 
 /* ---- weighted average ---- */
 function gWeightedAvg(r, L) {
-  const n1 = r.int(6, 12 + 2 * L);
-  const n2 = r.int(4, 12 + 2 * L);
+  let n1 = r.int(6, 12 + 2 * L);
+  let n2 = r.int(4, 12 + 2 * L);
   const a1 = r.int(60, 78);
   const a2 = r.int(80, 95);
+  // prefer a combined mean that terminates cleanly
+  for (let i = 0; i < 40; i++) {
+    const t = n1 * a1 + n2 * a2;
+    if (t % (n1 + n2) === 0 || String(Math.round((t / (n1 + n2)) * 100) / 100).split('.')[1]?.length <= 2) break;
+    n2 = r.int(4, 12 + 2 * L);
+  }
   const total = n1 * a1 + n2 * a2;
   const ans = Math.round((total / (n1 + n2)) * 1e4) / 1e4;
   const stem = `In one class, ${n1} students scored a mean of ${a1} on a test. In a second class, ${n2} students scored a mean of ${a2} on the same test. What is the mean score of all ${n1 + n2} students combined?`;
@@ -1420,7 +1437,7 @@ function gScatterSlope(r, L) {
       [Math.round((base + slope * k) * 1e6) / 1e6, 'gave the predicted value, not the change in it', 'quantity'],
     ],
     stem,
-    expl: `Each additional ${c.xUnit} of ${c.xLabel} changes the prediction by ${num(slope)} ${c.yUnit}, so ${k} ${c.xUnits} change it by $${k}\\times${num(slope)}=${num(ans)}$. The prediction ${dir} by ${num(Math.abs(ans))} ${c.yUnit}.`,
+    expl: `Each additional ${c.xUnit} changes the prediction by ${num(slope)} ${c.yUnit}, so ${k} ${c.xUnits} change it by $${k}\\times${num(slope)}=${num(ans)}$. The prediction ${dir} by ${num(Math.abs(ans))} ${c.yUnit}.`,
     desmos: `y=${num(base)}${slope < 0 ? '-' : '+'}${num(Math.abs(slope))}x`,
     note: 'The slope is the change per one unit; multiply it by the number of units asked about.',
     check: `evaluated the model at $x=${k}$ and at $x=0$: difference $=${num(ans)}$`,
@@ -1517,7 +1534,7 @@ function gDensity(r, L) {
       [Math.round((d / m) * 1e6) / 1e6, 'divided density by mass', 'concept'],
     ],
     stem,
-    expl: `Volume is mass divided by density: $${num(m)}\\div${num(d)}=${v}$ milliliters.`,
+    expl: `Volume is mass divided by density: $${num(m)}\\div${num(d)}=${v}$ milliliters. Density fixes how much volume each gram occupies, so dividing by it converts mass into volume.`,
     desmos: `${num(m)}/${num(d)}`,
     note: 'When the unknown is volume, density goes in the denominator.',
     check: `multiplied back: $${v}\\times${num(d)}=${num(m)}$ grams`,
@@ -1963,6 +1980,24 @@ function gPythagoras(r, L) {
   const a = tri[0] * k;
   const b = tri[1] * k;
   const c = tri[2] * k;
+  if (L >= 3 && r.chance(0.4)) {
+    const per = a + b + c;
+    return {
+      num: per,
+      text: num(per),
+      spr: num(per),
+      alts: [
+        [a + b, String(a + b), 'omitted the hypotenuse from the perimeter', 'setup'],
+        [Math.round((per * 2 - c) * 1e6) / 1e6, String(per * 2 - c), 'counted one side twice', 'arithmetic'],
+        [c, String(c), 'gave the hypotenuse only', 'misread'],
+      ],
+      stem: `A right triangle has legs of length ${a} and ${b}. What is the perimeter of the triangle?`,
+      expl: `The hypotenuse is $\\sqrt{${a * a}+${b * b}}=${c}$, so the perimeter is $${a}+${b}+${c}=${per}$. The perimeter needs all three sides, including the one not given directly.`,
+      desmos: `${a}+${b}+sqrt(${a}^2+${b}^2)`,
+      note: 'Find the missing hypotenuse first, then add all three sides.',
+      check: `checked $${a}^2+${b}^2=${c * c}$ and $${a}+${b}+${c}=${per}$`,
+    };
+  }
   const askHyp = r.chance(0.55);
   if (askHyp) {
     const stem = `A right triangle has legs of length ${a} and ${b}. What is the length of its hypotenuse?`;
@@ -2004,6 +2039,26 @@ reg({ fn: gPythagoras, domain: GEO_DOMAIN, skill: 'Pythagorean theorem', count: 
 /* ---- 45-45-90 ---- */
 function gTri45(r, L) {
   const k = r.int(3, 9 + 3 * L);
+  if (L >= 3 && r.chance(0.35)) {
+    // two-step: hypotenuse -> area of the triangle
+    const even = k % 2 === 0 ? k : k + 1;
+    const area = (even * even) / 2;
+    return {
+      num: area,
+      text: num(area),
+      spr: num(area),
+      alts: [
+        [even * even, String(even * even), 'gave the square of the leg instead of half of it', 'concept'],
+        [even * 2, String(even * 2), 'gave the hypotenuse of the legs', 'misread'],
+        [Math.round((even * Math.SQRT2) * 1e6) / 1e6, num(Math.round(even * Math.SQRT2 * 1e6) / 1e6), 'used the hypotenuse as a leg', 'setup'],
+      ],
+      stem: `In a $45^\\circ$-$45^\\circ$-$90^\\circ$ triangle, the hypotenuse has length $${even}\\sqrt{2}$. What is the area of the triangle, in square units?`,
+      expl: `Each leg is $\\frac{${even}\\sqrt{2}}{\\sqrt{2}}=${even}$. The triangle is right-angled with both legs ${even}, so its area is $\\frac{1}{2}(${even})(${even})=${area}$ square units.`,
+      desmos: `${even}^2/2`,
+      note: 'Recover a leg from the hypotenuse first, then use $\\frac{1}{2}bh$ with the two legs.',
+      check: `checked $${even}^2+${even}^2=${2 * even * even}$ and area $=\\frac{1}{2}\\times${even * even}=${area}$`,
+    };
+  }
   const askLeg = r.chance(0.5);
   if (askLeg) {
     const hypTex = k === 1 ? '\\sqrt{2}' : `${k}\\sqrt{2}`;
@@ -2046,7 +2101,7 @@ reg({ fn: gTri45, domain: GEO_DOMAIN, skill: '45-45-90 triangles', count: 9, spr
 /* ---- 30-60-90 ---- */
 function gTri3060(r, L) {
   const s = r.int(2, 7 + 2 * L);
-  const kind = r.int(0, 2);
+  const kind = r.int(0, L >= 3 ? 3 : 2);
   const longTex = s === 1 ? '\\sqrt{3}' : `${s}\\sqrt{3}`;
   if (kind === 0) {
     const stem = `In a $30^\\circ$-$60^\\circ$-$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length ${s}. What is the length of the hypotenuse?`;
@@ -2081,6 +2136,24 @@ function gTri3060(r, L) {
       expl: `The hypotenuse is twice the shortest side, so the side opposite $30^\\circ$ is $${2 * s}\\div2=${s}$.`,
       desmos: `${2 * s}/2`,
       note: 'Halve the hypotenuse to recover the shortest side.',
+      check: `checked $${s}^2+${3 * s * s}=${4 * s * s}=(${2 * s})^2$`,
+    };
+  }
+  if (kind === 3) {
+    // two-step: long leg -> hypotenuse
+    return {
+      num: 2 * s,
+      text: num(2 * s),
+      spr: num(2 * s),
+      alts: [
+        [Math.round(s * Math.sqrt(3) * 1e6) / 1e6, num(Math.round(s * Math.sqrt(3) * 1e6) / 1e6), 'kept the longer leg as the answer', 'misread'],
+        [Math.round((s * Math.sqrt(3) * 2) * 1e6) / 1e6, num(Math.round(s * Math.sqrt(3) * 2) * 1e6), 'doubled the longer leg instead of dividing by $\\sqrt{3}$ first', 'concept'],
+        [s, String(s), 'gave the shorter leg', 'misread'],
+      ],
+      stem: `In a $30^\\circ$-$60^\\circ$-$90^\\circ$ triangle, the side opposite the $60^\\circ$ angle has length $${longTex}$. What is the length of the hypotenuse?`,
+      expl: `The longer leg is $\\sqrt{3}$ times the shorter leg, so the shorter leg is $\\frac{${longTex}}{\\sqrt{3}}=${s}$. The hypotenuse is twice the shorter leg, $2\\times${s}=${2 * s}$.`,
+      desmos: `${s}*sqrt(3)/sqrt(3)*2`,
+      note: 'Two steps: divide by $\\sqrt{3}$ to reach the short leg, then double it for the hypotenuse.',
       check: `checked $${s}^2+${3 * s * s}=${4 * s * s}=(${2 * s})^2$`,
     };
   }
@@ -2993,7 +3066,8 @@ export function verifyItems(items, metas) {
 
     const keyIdx = 'ABCD'.indexOf(it.answer);
     const keyed = it.choices[keyIdx];
-    if (keyed !== meta.text) problems.push(`${where}: keyed choice "${keyed}" != computed text "${meta.text}"`);
+    const bare = (s) => String(s).replace(/^\$/, '').replace(/\$$/, '');
+    if (bare(keyed) !== bare(meta.text)) problems.push(`${where}: keyed choice "${keyed}" != computed text "${meta.text}"`);
 
     if (typeof meta.num === 'number') {
       const keyVal = parseVal(keyed);

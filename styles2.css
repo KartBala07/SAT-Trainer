@@ -86,7 +86,7 @@
 .ring-wrap.sm svg { display: block; }
 
 /* ---------- tips ---------- */
-.tips-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.tips-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: start; }
 .tip-card {
   position: relative; padding: 18px 20px 16px;
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
@@ -110,6 +110,8 @@
   background: var(--surface-2); border: 1px dashed var(--line-strong);
 }
 .tip-expr code { font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); white-space: pre-wrap; }
+.tip-expr .btn { border: 1px solid var(--line-strong); background: var(--surface); color: var(--accent-ink); font-weight: 650; }
+.tip-expr .btn:hover { background: var(--accent-soft); border-color: var(--accent); }
 
 /* ---------- nav grid for 27-question modules ---------- */
 .qnav-grid.dense { grid-template-columns: repeat(5, 1fr); gap: 5px; }

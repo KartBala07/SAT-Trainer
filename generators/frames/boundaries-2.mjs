@@ -14,14 +14,14 @@ const SK = {
 };
 
 const RULE = {
-  SING: 'A singular possessive noun takes an apostrophe before the s; without the apostrophe the word is merely plural, and a plural possessive would put the apostrophe after the s.',
+  SING: 'A singular possessive noun takes an apostrophe before the s; the plain plural takes none, and a plural possessive puts the apostrophe after the s.',
   PLUR: 'A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s.',
   NAME: 'A singular name that ends in s still takes an apostrophe and an s to show possession in edited American prose.',
-  CONTR: 'A contraction marks the missing letters with an apostrophe placed exactly where the letters were dropped; misspelling or omitting the apostrophe turns the word into something else.',
-  ITS: "Its is the possessive form and takes no apostrophe; it's is always the contraction of it is or it has.",
-  WHOSE: "Whose is the possessive form; who's is always the contraction of who is or who has.",
+  CONTR: 'A contraction marks dropped letters with an apostrophe placed exactly where they were dropped.',
+  ITS: "Its is possessive and takes no apostrophe; it's is always the contraction of it is or it has.",
+  WHOSE: "Whose is possessive; who's is always the contraction of who is or who has.",
   QUOTE: 'In American style a period or comma closing a quotation goes inside the closing quotation mark, and both marks are required.',
-  HYPH: 'A compound modifier before a noun is hyphenated with a single short hyphen; an em dash or en dash is not a hyphen, and an -ly adverb is never hyphenated to the word it modifies.',
+  HYPH: 'A compound modifier before a noun takes a single short hyphen; an em dash or en dash is not a hyphen, and an -ly adverb is never hyphenated to what it modifies.',
 };
 
 const out = [];

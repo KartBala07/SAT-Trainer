@@ -147,7 +147,7 @@ export const WIC_4 = [
   ["store",
     "Peat bogs [store] roughly twice as much carbon per hectare as the forests that replaced them, which is why draining a bog releases more than clearing a wood.",
     "hold and accumulate",
-    ["a shop that sells goods", "to put something away for future use", "a computer memory location"],
+    ["a shop that sells goods", "to supply or furnish what is needed", "a computer memory location"],
     "Bogs holding carbon over centuries are accumulating it, the 'store' sense of retention, not a shop.",
     3],
   ["story",

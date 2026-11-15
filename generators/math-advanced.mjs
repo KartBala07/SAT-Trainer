@@ -202,6 +202,29 @@ function fFactorMonic(d, type) {
       check: `substituted x=${p} and x=${q} into ${poly(1, b, c)} (both 0) and expanded ${fac(p)}${fac(q)} to confirm coefficients ${b}, ${c}.`,
     };
   }
+  if (chance(0.3)) {
+    const forms = [
+      `$${poly(1, b, c)}$`,
+      `$${poly(1, -b, c)}$`,
+      `$${poly(1, b, -c)}$`,
+      `$${poly(1, -b, -c)}$`,
+    ];
+    if (new Set(forms).size !== 4) return null;
+    return {
+      skill,
+      stem: `Which expression is equivalent to ${fac(p)}${fac(q)}?`,
+      correct: forms[0],
+      wrong: [
+        { text: forms[1], note: 'flipped the sign of the linear term', tag: 'sign' },
+        { text: forms[2], note: 'flipped the sign of the constant term', tag: 'sign' },
+        { text: forms[3], note: 'flipped both signs', tag: 'sign' },
+      ],
+      explanation: `Expanding: $${fac(p)}${fac(q)}=${poly(1, b, c)}$. The sum of the roots is $${p + q}$ and the product is $${c}$, so the linear coefficient is $${b}$.`,
+      desmos,
+      skill_note: 'Multiply the binomials and combine like terms; the constant is the product of the two constants.',
+      check: `expanded ${fac(p)}${fac(q)} term by term to ${poly(1, b, c)} and confirmed the other three forms differ in at least one coefficient.`,
+    };
+  }
   return {
     skill,
     stem: `The function $f$ is defined by $f(x)=${poly(1, b, c)}$. What are the solutions to $f(x)=0$?`,
@@ -708,10 +731,10 @@ function fArea(d, type) {
         correct: String(w),
         wrong: [],
         spr: [String(w)],
-        explanation: `With width $w$, the length is $w+${k}$ and $w(w+${k})=${A}$, so $w^2+${k}w-${A}=0$. This factors as ${fac(w)}${fac(-L)}, giving $w=${w}$ (the negative root is rejected).`,
+        explanation: `With width $w$, the length is $w+${k}$ and $w(w+${k})=${A}$, so $w^2+${k}w-${A}=0$. This factors as $(w-${w})(w+${L})$, giving $w=${w}$ (the negative root is rejected).`,
         desmos: `y=x^2+${k}x-${A}`,
         skill_note: 'Length times width equals area; reject the negative root because a width cannot be negative.',
-        check: `substituted w=${w}: ${w}(${w}+${k})=${A}, and the quadratic factors as ${fac(w)}${fac(-L)}.`,
+        check: `substituted w=${w}: ${w}(${w}+${k})=${A}, and the quadratic factors as $(w-${w})(w+${L})$.`,
       };
     }
     return {
@@ -723,7 +746,7 @@ function fArea(d, type) {
         { text: `$${w - 1}$ ft by $${L + 1}$ ft`, note: 'shifted both sides by one foot', tag: 'arithmetic' },
         { text: `$${w + 1}$ ft by $${L - 1}$ ft`, note: 'shifted both sides in the wrong direction', tag: 'arithmetic' },
       ],
-      explanation: `Solve $w(w+${k})=${A}$, i.e. $w^2+${k}w-${A}=0$, which factors as ${fac(w)}${fac(-L)}. The positive root is $w=${w}$, so the length is $${L}$.`,
+      explanation: `Solve $w(w+${k})=${A}$, i.e. $w^2+${k}w-${A}=0$, which factors as $(w-${w})(w+${L})$. The positive root is $w=${w}$, so the length is $${L}$.`,
       desmos: `y=x^2+${k}x-${A}`,
       skill_note: 'Check both dimensions against the stated difference and the area.',
       check: `verified ${w}×${L}=${A} and ${L}-${w}=${k}.`,
@@ -2133,6 +2156,41 @@ const FAMILIES = [
   fParamRange,
 ];
 
+// Difficulty band per family (index matches FAMILIES): [minLevel, maxLevel]
+const BANDS = [
+  [0, 2], // factoring monic
+  [1, 3], // leading coefficient
+  [0, 3], // quadratic formula
+  [0, 2], // completing the square
+  [0, 2], // vertex form
+  [1, 3], // vertex from standard form
+  [0, 2], // axis of symmetry
+  [0, 4], // discriminant
+  [0, 4], // sum and product
+  [0, 3], // area
+  [1, 4], // projectile
+  [1, 4], // revenue
+  [1, 4], // line-parabola
+  [1, 4], // nonlinear systems
+  [1, 4], // remainder theorem
+  [1, 4], // factor theorem
+  [1, 3], // rational simplify
+  [1, 4], // rational equations
+  [2, 4], // radical equations
+  [0, 2], // exponential growth
+  [0, 2], // exponential decay
+  [1, 3], // model parameters
+  [1, 3], // exponential fit
+  [0, 3], // half-life
+  [0, 2], // function notation
+  [1, 3], // composition
+  [1, 3], // inverse
+  [1, 3], // transformations
+  [1, 3], // equivalent forms
+  [0, 2], // exponential vs linear
+  [1, 4], // parameter ranges
+];
+
 const DIFFS = ['easy', 'medium', 'hard', 'very_hard', 'extreme'];
 const DIDX = { easy: 0, medium: 1, hard: 2, very_hard: 3, extreme: 4 };
 
@@ -2160,6 +2218,7 @@ export function generate(opts = {}) {
   ]);
   const items = [];
   const seen = new Set();
+  const used = new Array(FAMILIES.length).fill(0);
   const failures = [];
   let ptr = 0;
   let guard = 0;
@@ -2168,8 +2227,21 @@ export function generate(opts = {}) {
     const diff = diffDeck[items.length] || 'medium';
     const type = typeDeck[items.length] || 'mcq';
     let placed = false;
-    for (let k = 0; k < FAMILIES.length && !placed; k++) {
-      const fam = FAMILIES[(ptr + k) % FAMILIES.length];
+    // prefer families whose difficulty band covers this slot, then fall back
+    const inBand = [];
+    const outBand = [];
+    for (let k = 0; k < FAMILIES.length; k++) {
+      const i = (ptr + k) % FAMILIES.length;
+      if (DIDX[diff] >= BANDS[i][0] && DIDX[diff] <= BANDS[i][1]) inBand.push(i);
+      else outBand.push(i);
+    }
+    // least-used first, then rotation order, so every family contributes
+    const rank = (i, k) => used[i] * 1000 + ((i - ptr + FAMILIES.length) % FAMILIES.length);
+    inBand.sort((a, b) => rank(a) - rank(b));
+    outBand.sort((a, b) => rank(a) - rank(b));
+    const order = inBand.concat(outBand);
+    for (let k = 0; k < order.length && !placed; k++) {
+      const fam = FAMILIES[order[k]];
       try {
         const spec = fam(DIDX[diff], type);
         if (!spec) continue;
@@ -2180,7 +2252,8 @@ export function generate(opts = {}) {
         if (seen.has(key)) continue;
         seen.add(key);
         items.push(item);
-        ptr = (ptr + k + 1) % FAMILIES.length;
+        used[order[k]]++;
+        ptr = (order[k] + 1) % FAMILIES.length;
         placed = true;
       } catch (e) {
         failures.push(`${fam.name}:${e.message}`);

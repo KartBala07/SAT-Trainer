@@ -14,6 +14,11 @@ import { WIC_ALL, TRANS_ALL, COE_ALL } from './rw-data/index.mjs';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(HERE, '..', 'generated', 'rw-words-transitions.json');
 
+// Command of Evidence sits under "Information and Ideas" on the real Digital
+// SAT. If a downstream schema only allows the other two R&W domains, point
+// this at 'Expression of Ideas'.
+const COE_DOMAIN = 'Information and Ideas';
+
 const WIC_NOTE = [
   'another common sense of the word',
   'a related but wrong sense',
@@ -90,7 +95,7 @@ function coeDrafts(specs) {
     }
     return {
       skill: 'Command of Evidence',
-      domain: 'Information and Ideas',
+      domain: COE_DOMAIN,
       passage: s.p,
       stem,
       correct: fillTemplate(s.k, s.table),

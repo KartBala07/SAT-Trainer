@@ -106,7 +106,7 @@
     },
     {
       t: 'Graph vs algebra: a 20-second decision',
-      d: 'Ask: does this question give me an equation and ask for a value? Graph it. Does it ask for an *equivalent form* or a *form that displays a feature*? Algebra, because Desmos cannot show you form. That single distinction decides most math time losses.',
+      d: 'Ask: does this question give me an equation and ask for a value? Graph it. Does it ask for an equivalent form, or for a form that displays a feature? Algebra, because Desmos cannot show you form. That single distinction decides most math time losses.',
       k: 'math',
     },
     {
