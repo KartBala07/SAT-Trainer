@@ -1,21 +1,38 @@
 // generators/validate.mjs — independent read-back check of generated/math-data-geo.json
-// Only reads the JSON: nothing is trusted from the generator's own verification.
+// Reads only the JSON: nothing is trusted from the generator's own verification.
 import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const FILE = join(dirname(fileURLToPath(import.meta.url)), '..', 'generated', 'math-data-geo.json');
-const raw = readFileSync(FILE, 'utf8');
-const doc = JSON.parse(raw);
+const doc = JSON.parse(readFileSync(FILE, 'utf8'));
 const items = doc.items;
 
 const DIFF = ['easy', 'medium', 'hard', 'very_hard', 'extreme'];
 const TAGS = ['misread', 'sign', 'algebra', 'concept', 'setup', 'unit', 'quantity', 'arithmetic', 'none'];
-const errors = [];
-const warn = [];
-const fail = (m) => errors.push(m);
 
-// ---------- number reading ----------
+/* ---------------- check bookkeeping ---------------- */
+const CHECKS = [];
+function check(name) {
+  const c = { name, fails: 0, notes: [], detail: '' };
+  CHECKS.push(c);
+  return {
+    fail(msg) {
+      c.fails++;
+      if (c.notes.length < 4) c.notes.push(msg);
+      return false;
+    },
+    ok(detail) {
+      c.detail = detail == null ? '' : String(detail);
+      return true;
+    },
+    get pass() {
+      return c.fails === 0;
+    },
+  };
+}
+
+/* ---------------- helpers ---------------- */
 function num(s) {
   const t = String(s).replace(/\$/g, '').replace(/\{,\}/g, '').replace(/,/g, '').replace(/\\%/g, '').trim();
   if (t === '') return NaN;
@@ -24,7 +41,6 @@ function num(s) {
 }
 const near = (a, b) => Math.abs(a - b) <= 1e-6 + 1e-6 * Math.max(Math.abs(a), Math.abs(b));
 
-// ---------- tables ----------
 function parseTables(stem) {
   const lines = String(stem).split('\n');
   const tables = [];
@@ -34,8 +50,9 @@ function parseTables(stem) {
     const rows = [];
     let j = i;
     while (j < lines.length && lines[j].trim().startsWith('|')) {
-      const cells = lines[j].trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim());
-      if (!/^[\s:|-]*-{2,}[\s:|-]*$/.test(lines[j])) rows.push(cells);
+      if (!/^[\s|:|-]*-{2,}[\s|:|-]*$/.test(lines[j].trim())) {
+        rows.push(lines[j].trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim()));
+      }
       j++;
     }
     tables.push(rows);
@@ -44,156 +61,182 @@ function parseTables(stem) {
   return tables;
 }
 
-function checkTable(rows, id, substitute) {
-  const body = rows.map((r) => r.map((c) => (c === '?' ? substitute : c)));
-  if (body.length < 3) return fail(`${id}: table has fewer than 2 data rows`);
-  const head = body[0];
-  const data = body.slice(1);
-  const numeric = (c) => (c === '?' ? NaN : num(c));
-  // row sums: last column is a total
-  for (let r = 0; r < data.length; r++) {
-    const row = data[r];
-    const total = numeric(row[row.length - 1]);
-    if (!Number.isFinite(total)) fail(`${id}: table row ${r} has no numeric total`);
-    if (row[0] === 'Total') continue;
-    const parts = row.slice(1, -1).map(numeric);
-    if (parts.every(Number.isFinite)) {
-      const s = parts.reduce((a, b) => a + b, 0);
-      if (!near(s, total)) fail(`${id}: table row "${row[0]}" sums to ${s}, total says ${total}`);
-    }
-  }
-  // column sums: last row is a total
-  const last = data[data.length - 1];
-  if (last[0] !== 'Total') fail(`${id}: table has no Total row`);
-  for (let c = 1; c < head.length; c++) {
-    const total = numeric(last[c]);
-    const parts = data.slice(0, -1).map((r) => numeric(r[c]));
-    if (!Number.isFinite(total)) { fail(`${id}: table column ${c} has no numeric total`); continue; }
-    if (parts.every(Number.isFinite)) {
-      const s = parts.reduce((a, b) => a + b, 0);
-      if (!near(s, total)) fail(`${id}: table column "${head[c]}" sums to ${s}, total says ${total}`);
-    }
-  }
-}
+/* ---------------- run every check ---------------- */
+const cCount = check('count >= 470');
+const cIds = check('ids unique + sequential');
+const cDomains = check('domain split (data >= 250, geo >= 220)');
+const cDiff = check('difficulty labels + distribution ~25/30/25/15/5');
+const cChoices = check('exactly 4 choices per mcq');
+const cAnswer = check('answer key is A-D');
+const cNotes = check('choice_notes / error_tags length 4, one correct + one none');
+const cTags = check('error_tags in vocabulary');
+const cDistinct = check('choices distinct (text and numeric value)');
+const cTables = check('every table row and column total consistent');
+const cDollars = check('balanced $ delimiters');
+const cJunk = check('no NaN / undefined / Infinity / null');
+const cPunct = check('no stray template artifacts');
+const cSpr = check('spr answer + accepted_spr are grid-able numbers');
+const cFields = check('all required fields present');
+const cProse = check('stem / explanation / skill_note / check non-trivial');
 
-// ---------- main ----------
 const ids = new Set();
 const domains = {};
 const diffs = {};
 const types = {};
 const skills = {};
+let tableCount = 0;
+let mcqCount = 0;
 
-for (const it of items) {
+items.forEach((it, idx) => {
   const id = it.id;
-  if (!id) fail('item without id');
-  if (ids.has(id)) fail(`duplicate id ${id}`);
-  ids.add(id);
 
-  for (const f of ['section', 'domain', 'skill', 'difficulty', 'type', 'stem', 'explanation', 'skill_note', 'check', 'desmos']) {
-    if (it[f] == null) fail(`${id}: missing field ${f}`);
-    else if (typeof it[f] !== 'string') fail(`${id}: field ${f} is not a string`);
+  // ids
+  if (!id) cIds.fail(`item ${idx} has no id`);
+  else if (ids.has(id)) cIds.fail(`duplicate id ${id}`);
+  else ids.add(id);
+  if (id !== 'DGGX-' + String(idx + 1).padStart(4, '0')) cIds.fail(`${id} out of sequence at position ${idx + 1}`);
+
+  // fields
+  for (const f of ['id', 'section', 'domain', 'skill', 'difficulty', 'type', 'stem', 'explanation', 'desmos', 'skill_note', 'check', 'answer']) {
+    if (it[f] == null) cFields.fail(`${id}: missing ${f}`);
+    else if (typeof it[f] !== 'string') cFields.fail(`${id}: ${f} not a string`);
   }
-  if (it.section !== 'math') fail(`${id}: section is ${it.section}`);
-  if (it.domain !== 'Problem-Solving and Data Analysis' && it.domain !== 'Geometry and Trigonometry') fail(`${id}: bad domain ${it.domain}`);
-  if (!DIFF.includes(it.difficulty)) fail(`${id}: bad difficulty ${it.difficulty}`);
-  if (it.type !== 'mcq' && it.type !== 'spr') fail(`${id}: bad type ${it.type}`);
-  if (!it.stem || it.stem.length < 18) fail(`${id}: stem too short`);
-  const words = it.explanation.trim().length;
-  if (words < 60) fail(`${id}: explanation only ${words} chars`);
-  if (!it.check || it.check.length < 8) fail(`${id}: check text too short`);
+  if (it.section !== 'math') cFields.fail(`${id}: section=${it.section}`);
+  if (!['Problem-Solving and Data Analysis', 'Geometry and Trigonometry'].includes(it.domain)) cFields.fail(`${id}: bad domain ${it.domain}`);
+  if (!DIFF.includes(it.difficulty)) cDiff.fail(`${id}: bad difficulty ${it.difficulty}`);
+  if (!['mcq', 'spr'].includes(it.type)) cFields.fail(`${id}: bad type ${it.type}`);
+  if (!it.stem || it.stem.length < 18) cProse.fail(`${id}: stem too short`);
+  if (!it.explanation || it.explanation.length < 60) cProse.fail(`${id}: explanation too short`);
+  if (!it.skill_note || it.skill_note.length < 12) cProse.fail(`${id}: skill_note too short`);
+  if (!it.check || it.check.length < 10) cProse.fail(`${id}: check too short`);
 
   domains[it.domain] = (domains[it.domain] || 0) + 1;
   diffs[it.difficulty] = (diffs[it.difficulty] || 0) + 1;
   types[it.type] = (types[it.type] || 0) + 1;
   skills[it.skill] = (skills[it.skill] || 0) + 1;
 
-  // dollars balanced (ignore escaped \$ used for money)
+  // math delimiters (escaped \$ used for money is not a delimiter)
   const bare = it.stem.replace(/\\\$/g, '');
-  const dollars = (bare.match(/\$/g) || []).length;
-  if (dollars % 2 !== 0) fail(`${id}: unbalanced $ in stem`);
-  if (/\$\s*\$/.test(it.stem)) fail(`${id}: empty math span`);
-  if (/\\\$\\\$/.test(it.stem)) fail(`${id}: doubled money delimiter`);
-  if (/\b(NaN|undefined|Infinity|null)\b/.test(JSON.stringify(it))) fail(`${id}: NaN/undefined/Infinity/null in item`);
-  if (it.stem.includes('${')) fail(`${id}: template artifact \${`);
-  if (/\s{3,}/.test(it.stem)) fail(`${id}: runs of spaces in stem`);
+  if ((bare.match(/\$/g) || []).length % 2 !== 0) cDollars.fail(`${id}: odd number of $ in stem`);
+  if (/\$\s*\$/.test(it.stem)) cDollars.fail(`${id}: empty math span`);
+  if (/\\\$\\\$/.test(it.stem)) cDollars.fail(`${id}: doubled money delimiter`);
+  for (const c of it.choices || []) {
+    const b = String(c).replace(/\\\$/g, '');
+    if ((b.match(/\$/g) || []).length % 2 !== 0) cDollars.fail(`${id}: odd $ in choice ${c}`);
+    if (/\\[a-zA-Z]/.test(String(c)) && !String(c).includes('$')) cDollars.fail(`${id}: bare LaTeX choice ${c}`);
+  }
+
+  // junk
+  const js = JSON.stringify(it);
+  if (/\bNaN\b|\bundefined\b|\bInfinity\b|\bnull\b/.test(js)) cJunk.fail(`${id}: NaN/undefined/Infinity/null`);
+  if (it.stem.includes('${') || /\s{3,}/.test(it.stem)) cPunct.fail(`${id}: template artifact or run of spaces`);
 
   // tables
   const tables = parseTables(it.stem);
+  tableCount += tables.length;
   for (const rows of tables) {
-    let sub = '0';
-    if (it.type === 'spr') sub = it.answer;
-    else if (it.choices) sub = it.choices['ABCD'.indexOf(it.answer)];
-    if (rows.flat().includes('?')) checkTable(rows, id, sub);
-    else checkTable(rows, id, sub);
+    let sub = it.type === 'spr' ? it.answer : it.choices['ABCD'.indexOf(it.answer)];
+    const body = rows.map((r) => r.map((c) => (c === '?' ? sub : c)));
+    if (body.length < 3) {
+      cTables.fail(`${id}: table has fewer than 2 data rows`);
+      continue;
+    }
+    const head = body[0];
+    const data = body.slice(1);
+    if (data[data.length - 1][0] !== 'Total') cTables.fail(`${id}: table has no Total row`);
+    for (let r = 0; r < data.length - 1; r++) {
+      const row = data[r];
+      const total = num(row[row.length - 1]);
+      const parts = row.slice(1, -1).map(num);
+      if (!Number.isFinite(total)) cTables.fail(`${id}: row "${row[0]}" total not numeric`);
+      else if (parts.every(Number.isFinite) && !near(parts.reduce((a, b) => a + b, 0), total)) {
+        cTables.fail(`${id}: row "${row[0]}" sums to ${parts.reduce((a, b) => a + b, 0)} but total is ${total}`);
+      }
+    }
+    for (let c = 1; c < head.length; c++) {
+      const total = num(data[data.length - 1][c]);
+      const parts = data.slice(0, -1).map((r) => num(r[c]));
+      if (!Number.isFinite(total)) cTables.fail(`${id}: column "${head[c]}" total not numeric`);
+      else if (parts.every(Number.isFinite) && !near(parts.reduce((a, b) => a + b, 0), total)) {
+        cTables.fail(`${id}: column "${head[c]}" sums to ${parts.reduce((a, b) => a + b, 0)} but total is ${total}`);
+      }
+    }
   }
-  if (tables.length > 3) fail(`${id}: ${tables.length} tables in one stem`);
 
   if (it.type === 'mcq') {
-    if (!Array.isArray(it.choices) || it.choices.length !== 4) { fail(`${id}: choices length ${it.choices && it.choices.length}`); continue; }
-    if (new Set(it.choices).size !== 4) fail(`${id}: duplicate choice text`);
-    if (!/^[ABCD]$/.test(it.answer)) fail(`${id}: answer ${it.answer}`);
-    if (!Array.isArray(it.choice_notes) || it.choice_notes.length !== 4) fail(`${id}: choice_notes length`);
-    if (!Array.isArray(it.error_tags) || it.error_tags.length !== 4) fail(`${id}: error_tags length`);
-    if ((it.choice_notes || []).filter((n) => n === 'correct').length !== 1) fail(`${id}: choice_notes needs exactly one "correct"`);
-    if ((it.error_tags || []).filter((t) => t === 'none').length !== 1) fail(`${id}: error_tags needs exactly one "none"`);
-    for (const t of it.error_tags || []) if (!TAGS.includes(t)) fail(`${id}: bad tag ${t}`);
-    for (const n of it.choice_notes || []) if (!n || n.length < 3) fail(`${id}: empty choice note`);
-    if (it.accepted_spr) fail(`${id}: mcq has accepted_spr`);
-    // numeric choices: the key must be unique among parseable values
+    mcqCount++;
+    if (!Array.isArray(it.choices) || it.choices.length !== 4) {
+      cChoices.fail(`${id}: ${it.choices ? it.choices.length : 0} choices`);
+      return;
+    }
+    if (new Set(it.choices).size !== 4) cDistinct.fail(`${id}: duplicate choice text`);
+    if (!/^[ABCD]$/.test(it.answer)) cAnswer.fail(`${id}: answer ${it.answer}`);
+    if (!Array.isArray(it.choice_notes) || it.choice_notes.length !== 4) cNotes.fail(`${id}: choice_notes length ${it.choice_notes && it.choice_notes.length}`);
+    else if (it.choice_notes.filter((n) => n === 'correct').length !== 1) cNotes.fail(`${id}: ${it.choice_notes.filter((n) => n === 'correct').length} notes say correct`);
+    else if (it.choice_notes.some((n) => !n || n.length < 4)) cNotes.fail(`${id}: empty choice note`);
+    if (!Array.isArray(it.error_tags) || it.error_tags.length !== 4) cNotes.fail(`${id}: error_tags length ${it.error_tags && it.error_tags.length}`);
+    else {
+      if (it.error_tags.filter((t) => t === 'none').length !== 1) cNotes.fail(`${id}: ${it.error_tags.filter((t) => t === 'none').length} 'none' tags`);
+      for (const t of it.error_tags) if (!TAGS.includes(t)) cTags.fail(`${id}: bad tag ${t}`);
+    }
+    if (it.accepted_spr) cFields.fail(`${id}: mcq carries accepted_spr`);
     const keyIdx = 'ABCD'.indexOf(it.answer);
     const keyVal = num(it.choices[keyIdx]);
+    const vals = it.choices.map(num);
     if (Number.isFinite(keyVal)) {
       it.choices.forEach((c, i) => {
         const v = num(c);
-        if (i !== keyIdx && Number.isFinite(v) && near(v, keyVal)) fail(`${id}: choice ${'ABCD'[i]} duplicates the key value`);
+        if (i !== keyIdx && Number.isFinite(v) && near(v, keyVal)) cDistinct.fail(`${id}: choice ${'ABCD'[i]} equals the key value`);
       });
+      if (vals.every(Number.isFinite) && new Set(vals.map((v) => v.toFixed(6))).size !== 4) cDistinct.fail(`${id}: numeric choices not distinct`);
     }
-    // all four numeric choices equal each other?
-    const vals = it.choices.map(num);
-    if (vals.every(Number.isFinite) && new Set(vals.map((v) => v.toFixed(6))).size !== 4) fail(`${id}: numeric choices not distinct`);
   } else {
-    if (it.choices) fail(`${id}: spr has choices`);
-    if (it.choice_notes) fail(`${id}: spr has choice_notes`);
-    if (it.error_tags) fail(`${id}: spr has error_tags`);
-    if (!Array.isArray(it.accepted_spr) || !it.accepted_spr.length) fail(`${id}: missing accepted_spr`);
-    const v = num(it.answer);
-    if (!Number.isFinite(v) && !/^-?\d+\/\d+$/.test(it.answer)) fail(`${id}: spr answer "${it.answer}" not grid-able`);
+    if (it.choices) cFields.fail(`${id}: spr carries choices`);
+    if (it.choice_notes || it.error_tags) cFields.fail(`${id}: spr carries note/tag arrays`);
+    if (!Array.isArray(it.accepted_spr) || !it.accepted_spr.length) cSpr.fail(`${id}: accepted_spr missing`);
+    const isFrac = (s) => /^-?\d+\/\d+$/.test(s);
+    const v = isFrac(it.answer) ? Number(it.answer.split('/')[0]) / Number(it.answer.split('/')[1]) : num(it.answer);
+    if (!Number.isFinite(v)) cSpr.fail(`${id}: answer "${it.answer}" not grid-able`);
     for (const a of it.accepted_spr || []) {
-      const av = /^-?\d+\/\d+$/.test(a) ? Number(a.split('/')[0]) / Number(a.split('/')[1]) : num(a);
-      if (!Number.isFinite(av)) fail(`${id}: accepted_spr "${a}" not numeric`);
+      const av = isFrac(a) ? Number(a.split('/')[0]) / Number(a.split('/')[1]) : num(a);
+      if (!Number.isFinite(av)) cSpr.fail(`${id}: accepted_spr "${a}" not numeric`);
+      else if (Number.isFinite(v) && !near(av, v)) cSpr.fail(`${id}: accepted_spr "${a}" differs from answer`);
     }
   }
-}
+});
 
-// ---------- report ----------
+if (items.length < 470) cCount.fail(`only ${items.length} items`);
+const nData = domains['Problem-Solving and Data Analysis'] || 0;
+const nGeo = domains['Geometry and Trigonometry'] || 0;
+if (nData < 250) cDomains.fail(`only ${nData} data items`);
+if (nGeo < 220) cDomains.fail(`only ${nGeo} geometry items`);
+const share = (d) => (100 * (diffs[d] || 0)) / items.length;
+if (Math.abs(share('easy') - 25) > 5) cDiff.fail(`easy ${share('easy').toFixed(1)}%`);
+if (Math.abs(share('medium') - 30) > 5) cDiff.fail(`medium ${share('medium').toFixed(1)}%`);
+if (Math.abs(share('hard') - 25) > 5) cDiff.fail(`hard ${share('hard').toFixed(1)}%`);
+if (Math.abs(share('very_hard') - 15) > 4) cDiff.fail(`very_hard ${share('very_hard').toFixed(1)}%`);
+if (Math.abs(share('extreme') - 5) > 2.5) cDiff.fail(`extreme ${share('extreme').toFixed(1)}%`);
+
+/* ---------------- report ---------------- */
 const pct = (n) => ((100 * n) / items.length).toFixed(1) + '%';
 console.log(`file            ${FILE}`);
-console.log(`items           ${items.length}  (need >= 470)`);
+console.log(`items           ${items.length}`);
 console.log(`by domain       ${Object.entries(domains).map(([k, v]) => `${k}: ${v}`).join(' | ')}`);
-console.log(`by difficulty   ${DIFF.map((d) => `${d}: ${diffs[d] || 0} (${pct(diffs[d] || 0)})`).join(' | ')}`);
+console.log(`by difficulty   ${DIFF.map((d) => `${d} ${diffs[d] || 0} (${pct(diffs[d] || 0)})`).join(' | ')}`);
 console.log(`by type         ${Object.entries(types).map(([k, v]) => `${k}: ${v} (${pct(v)})`).join(' | ')}`);
-console.log(`skills          ${Object.keys(skills).length}`);
-console.log(`tables          ${items.reduce((a, i) => a + parseTables(i.stem).length, 0)}`);
+console.log(`skills          ${Object.keys(skills).length}   tables ${tableCount}   mcq ${mcqCount}   spr ${types.spr || 0}`);
 console.log('');
-if (types.mcq !== (diffs && Object.values(types).reduce((a, b) => a + b, 0) - types.spr)) warn.push('type totals odd');
-if (items.length < 470) fail(`only ${items.length} items`);
-if ((domains['Problem-Solving and Data Analysis'] || 0) < 250) fail('fewer than 250 data items');
-if ((domains['Geometry and Trigonometry'] || 0) < 220) fail('fewer than 220 geometry items');
-
-console.log(`errors          ${errors.length}`);
-if (errors.length) {
-  const grouped = {};
-  for (const e of errors) {
-    const k = e.split(':').slice(1).join(':').trim().slice(0, 60);
-    grouped[k] = (grouped[k] || 0) + 1;
-  }
-  console.log('top error kinds:');
-  Object.entries(grouped).sort((a, b) => b[1] - a[1]).slice(0, 15).forEach(([k, v]) => console.log(`  ${v}x ${k}`));
-  console.log('first 20:');
-  errors.slice(0, 20).forEach((e) => console.log('  ' + e));
-} else {
-  console.log('validation      PASS');
+const width = Math.max(...CHECKS.map((c) => c.name.length));
+let failed = 0;
+for (const c of CHECKS) {
+  const pass = c.fails === 0;
+  if (!pass) failed++;
+  const detail = c.detail ? `  ${c.detail}` : '';
+  console.log(`  ${pass ? 'PASS' : 'FAIL'}  ${c.name.padEnd(width)}${c.fails ? `  ${c.fails} failure(s)` : ''}${detail}`);
+  for (const n of c.notes) console.log(`          ${n}`);
 }
 console.log('');
+console.log(failed === 0 ? `validation      PASS (${CHECKS.length}/${CHECKS.length} checks)` : `validation      FAIL (${failed} of ${CHECKS.length} checks)`);
+console.log('');
 console.log('per-skill counts:');
-Object.entries(skills).sort((a, b) => b[1] - a[1]).forEach(([k, v]) => console.log(`  ${String(v).padStart(3)}  ${k}`));
+Object.entries(skills).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).forEach(([k, v]) => console.log(`  ${String(v).padStart(3)}  ${k}`));

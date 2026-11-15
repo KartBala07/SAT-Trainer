@@ -279,7 +279,7 @@
         <p class="p-sub">Newest first.</p>
         ${hist.map((h) => `<div class="hist-row">
           <div><div style="font-weight:600">${new Date(h.at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</div><div class="faint" style="font-size:11.5px">${new Date(h.at).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}</div></div>
-          <div class="h-score" style="color:var(--accent-ink)">${h.total || '—'}</div>
+          <div class="h-score" style="color:var(--accent-ink)">${h.total || (h.rw && h.rw.scaled) || (h.math && h.math.scaled) || '—'}</div>
           <div class="faint" style="font-size:12.5px">${esc(h.mode || '')}${h.rw ? ` · RW ${h.rw.scaled} (${h.rw.correct}/${h.rw.total})` : ''}${h.math ? ` · Math ${h.math.scaled} (${h.math.correct}/${h.math.total})` : ''}</div>
           <div class="tnum faint" style="font-size:12.5px;text-align:right">${h.rw && h.math ? `RW ${h.rw.scaled}` : ''}</div>
         </div>`).join('')}

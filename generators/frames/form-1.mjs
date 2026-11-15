@@ -68,7 +68,7 @@ frame(
   [
     'treats the phrase introduced by "as well as" as part of a compound subject',
     'uses a plural verb with a singular subject',
-    'shifts to a progressive tense that the sentence does not support',
+    'shifts to a tense or form that the sentence does not call for',
   ],
   [
     {
@@ -98,7 +98,7 @@ frame(
   [
     'lets the verb agree with the nearest plural noun rather than the head noun of the subject',
     'uses a plural verb although the subject is singular',
-    'uses a tense that does not fit the time frame the sentence establishes',
+    'uses a verb form that does not fit the time frame the sentence establishes',
   ],
   [
     {
@@ -127,7 +127,7 @@ frame(
   'Two interruptions stack up here: an appositive phrase and a relative clause. Neither changes the number of the subject.',
   [
     'agrees with the plural noun inside the relative clause instead of with the singular subject',
-    'agrees with the noun in the appositive instead of with the subject',
+    'uses a plural verb with a singular subject',
     'uses a plural verb form with a singular head noun',
   ],
   [
@@ -188,9 +188,9 @@ frame(
   'The county has delayed its decision on the new ferry terminal twice since March.',
   'The noun that follows "there" is the real subject, so read past the blank before choosing.',
   [
-    'uses a singular verb even though the subject that follows is plural',
-    'uses a past singular verb with a plural subject',
-    'uses a singular perfect form with a plural subject',
+    'agrees with a noun other than the one that follows the verb',
+    'uses a singular verb where the delayed subject is plural',
+    'uses a singular perfect form where the delayed subject is plural',
   ],
   [
     { p: 'There ______ several reasons for the delay.', ok: 'are', w: ['is', 'was', 'has been'] },
@@ -360,7 +360,7 @@ frame(
   [
     'lets the plural noun in the comparison control the verb',
     'uses a plural verb with a collective subject',
-    'uses a plural perfect form with a singular subject',
+    'uses a verb form that does not agree with the singular pronoun',
   ],
   [
     {
@@ -422,7 +422,7 @@ frame(
   [
     'agrees with the plural noun after "of" instead of with the singular pronoun',
     'uses a plural verb with a singular indefinite pronoun',
-    'uses a plural perfect form with a singular subject',
+    'uses a verb form that does not agree with the singular pronoun',
   ],
   [
     {
@@ -538,9 +538,9 @@ frame(
   'The company has grown quickly since 2015 and now employs about four hundred people.',
   'Match the pronoun to the noun it replaces, not to the noun nearest it.',
   [
-    'uses a plural pronoun with a singular antecedent',
+    'uses a pronoun that does not agree with its antecedent',
     'uses the contraction of "it is" where a possessive is needed',
-    'substitutes a contraction of "they are" for a possessive',
+    'uses a homophone of the possessive',
   ],
   [
     {
@@ -568,9 +568,9 @@ frame(
   'The museum reopened in May after a long closure and a change of directors.',
   'An intervening phrase or a compound subject decides which pronoun is right.',
   [
-    'uses a plural pronoun with a singular antecedent',
-    'uses the contraction of "it is" instead of a possessive',
-    'uses a plural pronoun where the antecedent is a single body',
+    'uses a pronoun that does not agree with its antecedent',
+    'uses a contraction where a possessive is required',
+    'uses a form that cannot serve as the required possessive',
   ],
   [
     {
@@ -598,9 +598,9 @@ frame(
   'Every object in the collection has been photographed and measured by the staff.',
   'Singular antecedents with "each" or "every" take singular pronouns even when a plural noun follows.',
   [
-    'lets the plural noun after "of" control the pronoun',
-    'uses a plural possessive with a singular antecedent',
-    'uses the contraction of "it is" where a possessive is required',
+    'uses a pronoun that does not agree with its antecedent',
+    'uses a contraction where a possessive is required',
+    'uses a form that cannot serve as the required possessive',
   ],
   [
     {
@@ -628,9 +628,9 @@ frame(
   'The archive holds letters from three generations of keepers and their families.',
   'A collective antecedent acting as a unit takes a singular pronoun, even when the sentence goes on to mention members.',
   [
-    'uses a plural pronoun because the sentence later mentions individual members',
-    'uses a plural possessive with a collective antecedent',
+    'uses a pronoun that does not agree with its antecedent',
     'uses a contraction where a possessive is required',
+    'uses a form that cannot serve as the required possessive',
   ],
   [
     {
@@ -788,12 +788,12 @@ frame(
     {
       p: 'The award went to the keeper ______ the town trusted more than any other.',
       ok: 'whom',
-      w: ['who', 'which', 'himself'],
+      w: ['who', 'which', 'whose'],
     },
     {
       p: 'The survey was completed by the same team ______ the county hired in 2004.',
       ok: 'whom',
-      w: ['who', 'which', 'themselves'],
+      w: ['who', 'which', 'whose'],
     },
     {
       p: 'The letters were returned to the family ______ the curator had consulted.',
@@ -904,7 +904,7 @@ frame(
   [
     'lets "one" control the verb inside the relative clause',
     'uses a singular verb although the relative pronoun refers to a plural noun',
-    'uses a singular perfect form where a plural past is required',
+    'uses a singular form where a plural past is required',
   ],
   [
     {

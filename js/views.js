@@ -199,10 +199,11 @@
   function sparkline(rows) {
     return `<div class="spark-bars">
       ${rows.map((r) => {
-        const h = Math.max(6, Math.round(((r.total || 0) - 400) / 1200 * 100));
+        const score = r.total || (r.rw && r.rw.scaled) || (r.math && r.math.scaled) || 0;
+        const h = Math.max(6, Math.round((score - 400) / 1200 * 100));
         const d = new Date(r.at);
-        return `<div class="spark-col" title="${r.total || ''} · ${r.mode || ''}">
-          <div class="spark-bar" style="height:${h}%"><span class="spark-val">${r.total || ''}</span></div>
+        return `<div class="spark-col" title="${score} · ${r.mode || ''}">
+          <div class="spark-bar" style="height:${h}%"><span class="spark-val">${score}</span></div>
           <div class="spark-date">${d.toLocaleDateString(undefined, { month: 'numeric', day: 'numeric' })}</div>
         </div>`;
       }).join('')}

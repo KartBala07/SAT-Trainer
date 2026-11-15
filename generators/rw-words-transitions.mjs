@@ -4,7 +4,7 @@
 //   node generators/rw-words-transitions.mjs
 //   -> generated/rw-words-transitions.json   {"items":[...]}
 
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, statSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -132,7 +132,8 @@ export function main() {
   }
   mkdirSync(dirname(OUT), { recursive: true });
   writeFileSync(OUT, JSON.stringify(bank, null, 2) + '\n');
-  console.log(`wrote ${OUT} (${(JSON.stringify(bank).length / 1024).toFixed(0)} KB)`);
+  const kb = Math.round(statSync(OUT).size / 1024);
+  console.log(`wrote ${OUT} (${kb} KB)`);
   return v;
 }
 

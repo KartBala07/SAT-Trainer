@@ -1,3 +1,7 @@
 node_modules/
 .DS_Store
 *.log
+data/accounts.db
+data/accounts.db-wal
+data/accounts.db-shm
+config.local.json

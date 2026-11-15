@@ -95,7 +95,46 @@ node build-bank.mjs
 
 It reports per-source counts, difficulty spread, and every item it dropped or repaired. Adding a pack is just dropping a JSON file in `question-packs/` with the same shape and re-running the build.
 
+## Accounts, backend, guest mode
+
+**Guest mode is the default and needs nothing.** No account, no network, no server — attempts, scores, the 14-day plan and history all live in this browser's local storage. The chip in the top bar says *Guest*.
+
+Signing in only adds cross-device sync. The backend in `server.mjs` is zero-dependency (`node:http`, `node:sqlite`, `node:crypto`) and stores accounts in `data/accounts.db`, which the static handler refuses to serve.
+
+```
+node server.mjs                 # http://127.0.0.1:8899
+SAT_DEV_AUTH=1 node server.mjs  # adds a dev sign-in button (never use in production)
+```
+
+API: `POST /api/auth/google`, `POST /api/auth/dev`, `GET /api/me`, `POST /api/auth/logout`,
+`GET /api/progress`, `PUT /api/progress` (union merge, idempotent per attempt).
+
+### Turning on Google sign-in
+
+1. In Google Cloud Console → **APIs & Services → Credentials → Create credentials → OAuth client ID → Web application**.
+2. Under **Authorised JavaScript origins** add every origin the app runs on:
+   `http://localhost:8899` and, if you use Pages, `https://kartbala07.github.io`.
+3. Start the server with the client ID:
+   ```
+   GOOGLE_CLIENT_ID=xxxx.apps.googleusercontent.com node server.mjs
+   ```
+   or put it in `config.local.json` as `{"googleClientId": "…"}`.
+4. If the front end is served from a different origin than the backend (Pages → hosted API), set `apiBase` in `js/config.js` to the backend URL and add the front-end origin to `SAT_ALLOWED_ORIGINS` on the server:
+   ```
+   SAT_ALLOWED_ORIGINS=https://kartbala07.github.io
+   ```
+
+Until step 3 is done, the panel says sign-in isn't configured and guest mode carries on — nothing breaks.
+
+### Hosting the backend
+
+GitHub Pages only serves files, so the API has to live somewhere that runs Node: Render, Fly.io, Railway, a VPS, or just your laptop. Run `node server.mjs`, set `PORT`, `GOOGLE_CLIENT_ID` and `SAT_ALLOWED_ORIGINS`, and point `apiBase` at it. The database is a single file, so back it up by copying `data/accounts.db`.
+
+### How the auth works
+
+The browser gets a Google ID token (Google Identity Services) and posts it to the backend, which verifies the RS256 signature against Google's published keys and checks `iss`, `aud` and `exp` before opening a session. The session is a 32-byte random token, returned to the client and also set as an `HttpOnly`, `SameSite` cookie for same-origin use.
+
 ## Two things worth knowing
 
 1. **These questions are original.** College Board's real items are copyrighted, so these are written to the same formats, traps and difficulty curve. For your final dress rehearsal, use an official released form: <https://satsuite.collegeboard.org/practice/practice-tests>.
-2. **The app works without the server.** It's a static site — open it from GitHub Pages, or locally through `server.mjs`. Progress lives in your browser's local storage, so clearing site data clears your history.
+2. **The app works without the server.** Guest mode is a static site: open it from GitHub Pages, or locally through `server.mjs`. Progress lives in your browser's local storage, so clearing site data clears your history — sign in if you want it on more than one device.

@@ -76,7 +76,7 @@
         "9"
       ],
       "explanation": "A perfect square needs $n=\\left(\\frac{-6}{2}\\right)^2=9$. Then $x^2 - 6x + 9=(x - 3)^2$.",
-      "desmos": "y=x^2 - 6x + 10",
+      "desmos": "y=x^2 - 6x + 9",
       "skill_note": "Half the linear coefficient, squared — the sign of b disappears because of the squaring.",
       "check": "expanded (x-3)^2 and confirmed the x-coefficient -6 and constant 9."
     },

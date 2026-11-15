@@ -125,20 +125,30 @@ const plur = [
 for (const f of plur) {
   for (const pre of f.pres) {
     for (const [base, tail] of f.items) {
-      const plural = base === 'child' ? 'children' : base === 'woman' ? 'women' : 'men';
+      const PLURALS = { bird: 'birds', turtle: 'turtles', gull: 'gulls', child: 'children', woman: 'women', man: 'men' };
+      const plural = PLURALS[base];
+      const endsInS = plural.endsWith('s');
+      const opts = endsInS
+        ? [
+            o(`${plural}'`, true, 'correct'),
+            o(`${plural}`, false, 'leaves the noun plural with no apostrophe at all'),
+            o(`${base}'s`, false, 'uses the singular possessive even though the sentence describes a group'),
+            o(`${plural}'s`, false, 'adds an s after the apostrophe to a plural that already ends in s'),
+          ]
+        : [
+            o(`${plural}'s`, true, 'correct'),
+            o(`${plural}s'`, false, 'treats an irregular plural as if it ended in s'),
+            o(`${base}'s`, false, 'uses the singular possessive even though the sentence describes a group'),
+            o(`${plural}`, false, 'leaves the noun plural with no apostrophe at all'),
+          ];
       add(
         f.id,
         SK.PLUR,
         RULE.PLUR,
         f.diff,
         `${pre} The ______ ${tail}.`,
-        [
-          o(`${plural}'s`, true, 'correct'),
-          o(`${plural}s'`, false, 'treats an irregular plural as if it ended in s'),
-          o(`${base}'s`, false, 'uses the singular possessive even though the sentence describes a group'),
-          o(`${plural}`, false, 'leaves the noun plural with no apostrophe at all'),
-        ],
-        new RegExp(`^${plural}'s$`),
+        opts,
+        endsInS ? new RegExp(`^${plural}'$`) : new RegExp(`^${plural}'s$`),
         f.note
       );
     }

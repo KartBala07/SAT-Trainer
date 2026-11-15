@@ -539,7 +539,7 @@ const essential = [
     ],
     triples: [
       ['The only bridge', 'that crosses the river within the county', 'was built in 1902'],
-      ['The first scientist', 'who described the species', 'was a country doctor'],
+      ['The first report', 'that described the species', 'appeared in 1912'],
       ['The one gallery', 'that survived the 1974 fire', 'now holds the glass collection'],
     ],
     note: 'Words like "only", "first", and "one" make the clause identifying, so no commas belong around it.',

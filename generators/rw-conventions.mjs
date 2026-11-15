@@ -236,17 +236,8 @@ export function generate() {
 }
 
 export function generateBundle() {
-  return {
-    items,
-    meta: {
-      generator: 'rw-conventions',
-      domain: DOMAIN,
-      count: items.length,
-      byDifficulty: report.byDiff,
-      bySkill: report.bySkill,
-      seed: 'mulberry32/fnv1a',
-    },
-  };
+  // Shape matches the other packs in generated/: { "items": [...] }
+  return { items };
 }
 
 export const stats = {

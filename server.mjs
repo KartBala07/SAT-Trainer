@@ -1,19 +1,245 @@
 #!/usr/bin/env node
-// SAT Math Trainer — zero-dependency server
-// node server.mjs  ->  http://127.0.0.1:8899
+/* ============================================================
+   SAT Trainer — backend
+   Zero dependencies: node:http, node:sqlite, node:crypto.
+
+   Serves the static app and adds:
+     GET  /api/health            -> server + auth configuration status
+     GET  /api/config            -> public client config (client id, dev flag)
+     POST /api/auth/google       -> verify a Google ID token, open a session
+     POST /api/auth/dev          -> dev-only session (SAT_DEV_AUTH=1)
+     GET  /api/me                -> current user
+     POST /api/auth/logout       -> close the session
+     GET  /api/progress          -> saved attempts for the signed-in user
+     PUT  /api/progress          -> merge attempts (union), returns merged set
+
+   Auth is a bearer token (returned in JSON) and also set as an HttpOnly
+   cookie for same-origin use. Guest mode needs none of this: the app works
+   entirely offline against localStorage when the API is unreachable.
+   ============================================================ */
 
 import { createServer } from 'node:http';
-import { readFile, writeFile, mkdir, readdir, stat } from 'node:fs/promises';
+import { readFile, stat, mkdir } from 'node:fs/promises';
 import { createReadStream } from 'node:fs';
-import { join, extname, normalize, relative } from 'node:path';
+import { join, extname, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { randomBytes, verify as cryptoVerify, createPublicKey } from 'node:crypto';
+import { DatabaseSync } from 'node:sqlite';
 
 const ROOT = fileURLToPath(new URL('.', import.meta.url));
-const SERVE = ROOT;
 const DATA = join(ROOT, 'data');
-const PACKS = join(ROOT, 'question-packs');
 const PORT = Number(process.env.PORT || 8899);
+const DEV_AUTH = process.env.SAT_DEV_AUTH === '1';
+const SESSION_DAYS = 30;
 
+/* ---------------- config ---------------- */
+let cfg = { googleClientId: process.env.GOOGLE_CLIENT_ID || '', allowedOrigins: [] };
+try {
+  cfg = Object.assign(cfg, JSON.parse(await readFile(join(ROOT, 'config.local.json'), 'utf8')));
+} catch {
+  /* optional */
+}
+if (process.env.SAT_ALLOWED_ORIGINS) {
+  cfg.allowedOrigins = process.env.SAT_ALLOWED_ORIGINS.split(',').map((s) => s.trim()).filter(Boolean);
+}
+// same-machine development origins are always allowed
+const LOOPBACK = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/;
+
+function originAllowed(origin) {
+  if (!origin) return true;
+  if (LOOPBACK.test(origin)) return true;
+  return (cfg.allowedOrigins || []).includes(origin);
+}
+
+/* ---------------- database ---------------- */
+await mkdir(DATA, { recursive: true });
+const db = new DatabaseSync(join(DATA, 'accounts.db'));
+db.exec(`
+  PRAGMA journal_mode = WAL;
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY,
+    sub TEXT UNIQUE NOT NULL,
+    email TEXT,
+    name TEXT,
+    picture TEXT,
+    created_at INTEGER NOT NULL,
+    last_seen INTEGER NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS sessions (
+    token TEXT PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    expires_at INTEGER NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS attempts (
+    user_id INTEGER NOT NULL,
+    aid TEXT NOT NULL,
+    at INTEGER NOT NULL,
+    mode TEXT,
+    total INTEGER,
+    rw INTEGER,
+    math INTEGER,
+    payload TEXT NOT NULL,
+    PRIMARY KEY (user_id, aid)
+  );
+  CREATE INDEX IF NOT EXISTS attempts_user_at ON attempts(user_id, at DESC);
+`);
+
+const q = {
+  upsertUser: db.prepare(`
+    INSERT INTO users (sub,email,name,picture,created_at,last_seen) VALUES (?,?,?,?,?,?)
+    ON CONFLICT(sub) DO UPDATE SET email=excluded.email, name=excluded.name,
+      picture=excluded.picture, last_seen=excluded.last_seen RETURNING *`),
+  userById: db.prepare('SELECT * FROM users WHERE id=?'),
+  newSession: db.prepare('INSERT INTO sessions (token,user_id,created_at,expires_at) VALUES (?,?,?,?)'),
+  session: db.prepare('SELECT * FROM sessions WHERE token=? AND expires_at>?'),
+  delSession: db.prepare('DELETE FROM sessions WHERE token=?'),
+  purgeSessions: db.prepare('DELETE FROM sessions WHERE expires_at<?'),
+  attempts: db.prepare('SELECT payload FROM attempts WHERE user_id=? ORDER BY at DESC LIMIT 500'),
+  upsertAttempt: db.prepare(`
+    INSERT INTO attempts (user_id,aid,at,mode,total,rw,math,payload) VALUES (?,?,?,?,?,?,?,?)
+    ON CONFLICT(user_id,aid) DO UPDATE SET payload=excluded.payload, at=excluded.at,
+      mode=excluded.mode, total=excluded.total, rw=excluded.rw, math=excluded.math`),
+  countUsers: db.prepare('SELECT COUNT(*) AS n FROM users'),
+};
+
+/* ---------------- google id token verification ---------------- */
+let jwksCache = { at: 0, keys: [] };
+
+async function googleKeys() {
+  if (Date.now() - jwksCache.at < 3600_000 && jwksCache.keys.length) return jwksCache.keys;
+  const res = await fetch('https://www.googleapis.com/oauth2/v3/certs', { signal: AbortSignal.timeout(6000) });
+  if (!res.ok) throw new Error('could not fetch Google signing keys');
+  const json = await res.json();
+  jwksCache = { at: Date.now(), keys: json.keys || [] };
+  return jwksCache.keys;
+}
+
+const b64u = (s) => Buffer.from(String(s).replace(/-/g, '+').replace(/_/g, '/'), 'base64');
+
+export async function verifyGoogleToken(jwt, clientId) {
+  const parts = String(jwt || '').split('.');
+  if (parts.length !== 3) throw new Error('malformed token');
+  const [h, p, s] = parts;
+  const header = JSON.parse(b64u(h).toString('utf8'));
+  const payload = JSON.parse(b64u(p).toString('utf8'));
+  if (header.alg !== 'RS256') throw new Error('unexpected alg');
+
+  const keys = await googleKeys();
+  const jwk = keys.find((k) => k.kid === header.kid) || keys[0];
+  if (!jwk) throw new Error('no signing key');
+
+  const key = createPublicKey({ key: { kty: 'RSA', n: jwk.n, e: jwk.e }, format: 'jwk' });
+  const ok = cryptoVerify('RSA-SHA256', Buffer.from(`${h}.${p}`), key, b64u(s));
+  if (!ok) throw new Error('bad signature');
+
+  const now = Math.floor(Date.now() / 1000);
+  if (!(payload.exp > now)) throw new Error('token expired');
+  if (!['accounts.google.com', 'https://accounts.google.com'].includes(payload.iss)) throw new Error('bad issuer');
+  if (clientId && payload.aud !== clientId) throw new Error('audience mismatch');
+  if (!payload.sub) throw new Error('no subject');
+  return {
+    sub: payload.sub,
+    email: payload.email || null,
+    name: payload.name || payload.given_name || null,
+    picture: payload.picture || null,
+  };
+}
+
+/* ---------------- helpers ---------------- */
+function cors(req, res) {
+  const origin = req.headers.origin;
+  if (origin && originAllowed(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  }
+}
+
+function json(res, code, body) {
+  res.writeHead(code, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+  res.end(JSON.stringify(body));
+}
+
+function readBody(req, limit = 2_000_000) {
+  return new Promise((resolve, reject) => {
+    let data = '';
+    req.on('data', (c) => {
+      data += c;
+      if (data.length > limit) reject(new Error('payload too large'));
+    });
+    req.on('end', () => resolve(data));
+    req.on('error', reject);
+  });
+}
+
+function parseCookies(header) {
+  const out = {};
+  for (const part of String(header || '').split(';')) {
+    const i = part.indexOf('=');
+    if (i > 0) out[part.slice(0, i).trim()] = decodeURIComponent(part.slice(i + 1).trim());
+  }
+  return out;
+}
+
+function tokenFrom(req) {
+  const auth = req.headers.authorization || '';
+  if (auth.startsWith('Bearer ')) return auth.slice(7).trim();
+  return parseCookies(req.headers.cookie).sat_session || null;
+}
+
+function currentUser(req) {
+  const token = tokenFrom(req);
+  if (!token) return null;
+  const row = q.session.get(token, Date.now());
+  if (!row) return null;
+  const user = q.userById.get(row.user_id);
+  return user ? { user, token } : null;
+}
+
+function setSessionCookie(res, req, token, maxAgeSec) {
+  const crossSite = req.headers.origin && !LOOPBACK.test(req.headers.origin);
+  const attrs = [
+    `sat_session=${token}`,
+    'Path=/',
+    'HttpOnly',
+    `Max-Age=${maxAgeSec}`,
+    `SameSite=${crossSite ? 'None' : 'Lax'}`,
+  ];
+  if (crossSite || (req.headers['x-forwarded-proto'] || '').includes('https')) attrs.push('Secure');
+  res.setHeader('Set-Cookie', attrs.join('; '));
+}
+
+function openSession(req, res, profile) {
+  const now = Date.now();
+  const user = q.upsertUser.get(profile.sub, profile.email, profile.name, profile.picture, now, now);
+  const token = randomBytes(32).toString('hex');
+  const expires = now + SESSION_DAYS * 86400_000;
+  q.newSession.run(token, user.id, now, expires);
+  q.purgeSessions.run(now);
+  setSessionCookie(res, req, token, SESSION_DAYS * 86400);
+  return {
+    token,
+    user: { id: user.id, email: user.email, name: user.name, picture: user.picture },
+  };
+}
+
+function normaliseAttempt(a) {
+  if (!a || typeof a !== 'object' || typeof a.at !== 'number') return null;
+  return {
+    aid: `${a.at}:${a.modeKey || a.mode || 'attempt'}`,
+    at: a.at,
+    mode: String(a.mode || '').slice(0, 120),
+    total: Number.isFinite(a.total) ? a.total : null,
+    rw: a.rw && Number.isFinite(a.rw.scaled) ? a.rw.scaled : null,
+    math: a.math && Number.isFinite(a.math.scaled) ? a.math.scaled : null,
+    payload: JSON.stringify(a),
+  };
+}
+
+/* ---------------- static ---------------- */
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
@@ -28,153 +254,152 @@ const MIME = {
   '.ico': 'image/x-icon',
 };
 
-let bank = { questions: [], builtAt: null, domains: [] };
+// Only these files under data/ are public. accounts.db, WAL files and anything
+// else there must never be served.
+const PUBLIC_DATA = new Set(['manifest.json', 'math.json', 'rw.json']);
 
-async function loadBank() {
-  const files = (await readdir(PACKS)).filter((f) => f.endsWith('.json'));
-  const questions = [];
-  for (const f of files.sort()) {
-    try {
-      const raw = await readFile(join(PACKS, f), 'utf8');
-      const pack = JSON.parse(raw);
-      const list = Array.isArray(pack) ? pack : pack.questions || [];
-      for (const q of list) {
-        // normalise domain casing / ids
-        q.domain = q.domain || (pack.domain ?? 'Math');
-        q.source = f;
-        questions.push(q);
-      }
-    } catch (e) {
-      console.warn(`  ! skipped ${f}: ${e.message}`);
-    }
+async function serveStatic(req, res, path) {
+  let rel = path === '/' ? 'index.html' : path.slice(1);
+  rel = normalize(rel).replace(/^([.][.][/\\])+/, '');
+  const seg = rel.split('/');
+  if (seg.some((s) => s.startsWith('.') || s === 'node_modules')) return json(res, 404, { error: 'not found' });
+  if (seg[0] === 'data' && !PUBLIC_DATA.has(seg.slice(1).join('/'))) {
+    return json(res, 404, { error: 'not found' });
   }
-  const seen = new Set();
-  const unique = questions.filter((q) => {
-    if (!q.id || seen.has(q.id)) return false;
-    seen.add(q.id);
-    return true;
-  });
-  bank = {
-    questions: unique,
-    builtAt: new Date().toISOString(),
-    domains: [...new Set(unique.map((q) => q.domain))],
-    packs: files,
-  };
-  return bank;
-}
-
-async function jsonFile(path, fallback) {
+  const file = join(ROOT, rel);
+  if (!file.startsWith(ROOT)) return json(res, 403, { error: 'forbidden' });
+  let st;
   try {
-    return JSON.parse(await readFile(path, 'utf8'));
+    st = await stat(file);
   } catch {
-    return fallback;
+    return json(res, 404, { error: 'not found' });
   }
-}
-
-async function writeJson(path, value) {
-  await mkdir(DATA, { recursive: true });
-  await writeFile(path, JSON.stringify(value, null, 2));
-}
-
-function send(res, code, body, type = 'application/json; charset=utf-8') {
-  res.writeHead(code, {
-    'Content-Type': type,
-    'Cache-Control': 'no-store',
-    'Access-Control-Allow-Origin': '*',
+  if (st.isDirectory()) return json(res, 404, { error: 'not found' });
+  res.writeHead(200, {
+    'Content-Type': MIME[extname(file)] || 'application/octet-stream',
+    'Content-Length': st.size,
+    'Cache-Control': extname(file) === '.json' ? 'no-cache' : 'no-store',
   });
-  res.end(body);
+  createReadStream(file).pipe(res);
 }
 
-function readBody(req) {
-  return new Promise((resolve, reject) => {
-    let data = '';
-    req.on('data', (c) => {
-      data += c;
-      if (data.length > 5_000_000) reject(new Error('too large'));
-    });
-    req.on('end', () => resolve(data));
-    req.on('error', reject);
-  });
-}
-
+/* ---------------- server ---------------- */
 const server = createServer(async (req, res) => {
-  const url = new URL(req.url, `http://${req.headers.host}`);
+  const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const path = decodeURIComponent(url.pathname);
+  cors(req, res);
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204);
+    return res.end();
+  }
 
   try {
-    // ---------- API ----------
-    if (path === '/api/bank') {
-      return send(res, 200, JSON.stringify(bank));
-    }
-    if (path === '/api/reload') {
-      await loadBank();
-      return send(res, 200, JSON.stringify({ ok: true, count: bank.questions.length }));
-    }
-    if (path === '/api/history') {
-      if (req.method === 'GET') {
-        const hist = await jsonFile(join(DATA, 'history.json'), []);
-        return send(res, 200, JSON.stringify(hist));
-      }
-      if (req.method === 'POST') {
-        const body = JSON.parse(await readBody(req));
-        const hist = await jsonFile(join(DATA, 'history.json'), []);
-        hist.unshift(body);
-        await writeJson(join(DATA, 'history.json'), hist.slice(0, 100));
-        return send(res, 200, JSON.stringify({ ok: true, n: hist.length }));
-      }
-      if (req.method === 'DELETE') {
-        await writeJson(join(DATA, 'history.json'), []);
-        return send(res, 200, JSON.stringify({ ok: true }));
-      }
-    }
-    if (path === '/api/settings') {
-      if (req.method === 'GET') {
-        return send(res, 200, JSON.stringify(await jsonFile(join(DATA, 'settings.json'), {})));
-      }
-      if (req.method === 'POST') {
-        await writeJson(join(DATA, 'settings.json'), JSON.parse(await readBody(req)));
-        return send(res, 200, JSON.stringify({ ok: true }));
-      }
-    }
+    /* ---- public config ---- */
     if (path === '/api/health') {
-      return send(res, 200, JSON.stringify({ ok: true, questions: bank.questions.length }));
+      return json(res, 200, {
+        ok: true,
+        accounts: q.countUsers.get().n,
+        authConfigured: Boolean(cfg.googleClientId) || DEV_AUTH,
+        devAuth: DEV_AUTH,
+      });
+    }
+    if (path === '/api/config') {
+      return json(res, 200, {
+        googleClientId: cfg.googleClientId || '',
+        devAuth: DEV_AUTH,
+        // only advertise the dev endpoint when it is actually enabled
+        authConfigured: Boolean(cfg.googleClientId) || DEV_AUTH,
+      });
     }
 
-    // ---------- static ----------
-    let rel = path === '/' ? 'index.html' : path.slice(1);
-    rel = normalize(rel).replace(/^([.][.][/\\])+/, '');
-    if (rel.split('/').some((seg) => seg.startsWith('.') || seg === 'node_modules')) {
-      return send(res, 404, 'Not found', 'text/plain');
+    /* ---- auth ---- */
+    if (path === '/api/auth/google' && req.method === 'POST') {
+      const body = JSON.parse((await readBody(req)) || '{}');
+      if (!body.credential) return json(res, 400, { error: 'missing credential' });
+      if (!cfg.googleClientId) return json(res, 501, { error: 'google sign-in is not configured on this server' });
+      let profile;
+      try {
+        profile = await verifyGoogleToken(body.credential, cfg.googleClientId);
+      } catch (e) {
+        return json(res, 401, { error: `could not verify Google token: ${e.message}` });
+      }
+      return json(res, 200, openSession(req, res, profile));
     }
-    const file = join(SERVE, rel);
-    if (!file.startsWith(SERVE)) return send(res, 403, 'forbidden', 'text/plain');
-    let st;
-    try {
-      st = await stat(file);
-    } catch {
-      return send(res, 404, 'Not found', 'text/plain');
+
+    if (path === '/api/auth/dev' && req.method === 'POST') {
+      if (!DEV_AUTH) return json(res, 404, { error: 'not found' });
+      const body = JSON.parse((await readBody(req)) || '{}');
+      const email = String(body.email || 'dev@localhost').slice(0, 200);
+      return json(res, 200, openSession(req, res, {
+        sub: `dev:${email}`,
+        email,
+        name: body.name || email.split('@')[0],
+        picture: null,
+      }));
     }
-    if (st.isDirectory()) return send(res, 404, 'Not found', 'text/plain');
-    res.writeHead(200, {
-      'Content-Type': MIME[extname(file)] || 'application/octet-stream',
-      'Content-Length': st.size,
-      'Cache-Control': 'no-store',
-    });
-    createReadStream(file).pipe(res);
+
+    if (path === '/api/me') {
+      const cur = currentUser(req);
+      if (!cur) return json(res, 401, { error: 'not signed in' });
+      return json(res, 200, {
+        user: { id: cur.user.id, email: cur.user.email, name: cur.user.name, picture: cur.user.picture },
+        attempts: q.attempts.all(cur.user.id).length,
+      });
+    }
+
+    if (path === '/api/auth/logout' && req.method === 'POST') {
+      const token = tokenFrom(req);
+      if (token) q.delSession.run(token);
+      setSessionCookie(res, req, '', 0);
+      return json(res, 200, { ok: true });
+    }
+
+    /* ---- progress ---- */
+    if (path === '/api/progress') {
+      const cur = currentUser(req);
+      if (!cur) return json(res, 401, { error: 'not signed in' });
+
+      if (req.method === 'GET') {
+        const attempts = q.attempts.all(cur.user.id).map((r) => {
+          try {
+            return JSON.parse(r.payload);
+          } catch {
+            return null;
+          }
+        }).filter(Boolean);
+        return json(res, 200, { attempts });
+      }
+
+      if (req.method === 'PUT' || req.method === 'POST') {
+        const body = JSON.parse((await readBody(req)) || '{}');
+        const incoming = Array.isArray(body.attempts) ? body.attempts : [];
+        let saved = 0;
+        for (const a of incoming.slice(0, 500)) {
+          const n = normaliseAttempt(a);
+          if (!n) continue;
+          q.upsertAttempt.run(cur.user.id, n.aid, n.at, n.mode, n.total, n.rw, n.math, n.payload);
+          saved++;
+        }
+        const merged = q.attempts.all(cur.user.id).map((r) => JSON.parse(r.payload));
+        return json(res, 200, { saved, attempts: merged });
+      }
+      return json(res, 405, { error: 'method not allowed' });
+    }
+
+    /* ---- static ---- */
+    return serveStatic(req, res, path);
   } catch (err) {
     console.error(err);
-    send(res, 500, JSON.stringify({ error: String(err) }));
+    return json(res, 500, { error: 'server error' });
   }
 });
-
-await loadBank();
-await mkdir(DATA, { recursive: true });
 
 server.listen(PORT, '127.0.0.1', async () => {
   console.log(`\n  SAT Trainer`);
   console.log(`  http://127.0.0.1:${PORT}\n`);
   try {
-    const man = JSON.parse(await readFile(join(ROOT, 'data', 'manifest.json'), 'utf8'));
+    const man = JSON.parse(await readFile(join(DATA, 'manifest.json'), 'utf8'));
     console.log(`  bank: ${man.total} questions`);
     for (const [k, s] of Object.entries(man.sections)) {
       console.log(`    ${k.padEnd(5)} ${String(s.count).padStart(5)}  ${JSON.stringify(s.byDiff)}`);
@@ -182,5 +407,7 @@ server.listen(PORT, '127.0.0.1', async () => {
   } catch {
     console.log('  ! data/manifest.json missing — run: node build-bank.mjs');
   }
+  console.log(`\n  accounts: ${q.countUsers.get().n} · google sign-in: ${cfg.googleClientId ? 'configured' : 'NOT configured'}`);
+  if (DEV_AUTH) console.log('  ⚠  SAT_DEV_AUTH=1 — anyone can sign in as anyone. Never use this in production.');
   console.log('');
 });

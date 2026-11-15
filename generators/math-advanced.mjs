@@ -1,6 +1,6 @@
 // ============================================================
 // SAT Advanced Math — parametric question generator
-// Deterministic: mulberry32 only. No Math.random anywhere.
+// Deterministic: mulberry32 only; no unseeded randomness.
 // Every answer is computed from drawn parameters and checked
 // by a second, independent computation before the item ships.
 // ============================================================
@@ -357,7 +357,7 @@ function fCompleteSquare(d, type) {
       wrong: [],
       spr: [String(n)],
       explanation: `A perfect square needs $n=\\left(\\frac{${b}}{2}\\right)^2=${n}$. Then $${poly(1, b, n)}=(x${constC(h)})^2$.`,
-      desmos,
+      desmos: `y=${poly(1, b, n)}`,
       skill_note: 'Half the linear coefficient, squared — the sign of b disappears because of the squaring.',
       check: `expanded (x${h >= 0 ? '+' : '-'}${Math.abs(h)})^2 and confirmed the x-coefficient ${b} and constant ${n}.`,
     };

@@ -35,6 +35,10 @@ function tidy(s) {
     .split('\\\\$').join('\\$')   // collapse a doubled backslash before a money sign
     .replace(/\+-/g, '-')
     .replace(/-\+/g, '-')
+    // "loses 10\\%$ of its value" is missing its opening delimiter. Match only a
+    // standalone percentage flanked by spaces (never after "=" or "-", and never
+    // already opened with "$"), so correct math is left alone.
+    .replace(/(\s)(\d+(?:\.\d+)?)\\%\$(\s)/g, (m, pre, num, post) => pre + '$' + num + '\\%$' + post)
     .replace(/(?<![\d.])1([a-z])\b/g, '$1');
 }
 

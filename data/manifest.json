@@ -1,20 +1,20 @@
 {
- "builtAt": "2026-11-15T22:07:10.374Z",
- "total": 2235,
+ "builtAt": "2026-11-15T22:14:41.107Z",
+ "total": 2242,
  "sections": {
   "math": {
-   "count": 1275,
+   "count": 1282,
    "byDomain": {
-    "Advanced Math": 368,
+    "Advanced Math": 378,
     "Algebra": 389,
-    "Geometry and Trigonometry": 241,
+    "Geometry and Trigonometry": 238,
     "Problem-Solving and Data Analysis": 277
    },
    "byDiff": {
-    "easy": 321,
+    "easy": 322,
     "medium": 379,
-    "hard": 315,
-    "very_hard": 188,
+    "hard": 316,
+    "very_hard": 193,
     "extreme": 72
    },
    "skills": 163

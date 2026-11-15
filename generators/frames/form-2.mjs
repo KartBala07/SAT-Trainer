@@ -95,7 +95,7 @@ frame(
   'The station has kept a continuous record since 1911.',
   'When one verb is a present perfect, the verb joined to it by "and" normally shares that auxiliary.',
   [
-    'shifts to the simple past although the sentence began in the present perfect',
+    'breaks the perfect construction by shifting to another tense',
     'uses a participle where the shared auxiliary requires a past participle',
     'shifts to the simple present in the middle of a perfect construction',
   ],
@@ -311,7 +311,7 @@ frame(
     {
       p: 'The committee requires that every object ______ photographed before it moves.',
       ok: 'be',
-      w: ['is', 'was', 'were'],
+      w: ['is', 'was', 'will be'],
     },
   ]
 );
@@ -323,9 +323,9 @@ frame(
   'The gallery hangs work at eye level as a matter of policy.',
   'The base form after "that" has no -s even when the subject is singular.',
   [
-    'adds the third-person -s to a verb in the subjunctive',
-    'uses the past tense after a demand',
-    'uses a progressive form after a demand',
+    'uses the indicative present after a demand',
+    'uses the past indicative after a demand',
+    'uses the future after a demand',
   ],
   [
     {
@@ -333,7 +333,7 @@ frame(
       ok: 'be',
       w: ['is', 'was', 'will be'],
     },
-    { p: 'The rules require that each visitor ______ a badge.', ok: 'wear', w: ['wears', 'wore', 'is wearing'] },
+    { p: 'The rules require that each visitor ______ a badge.', ok: 'wear', w: ['wears', 'wore', 'will wear'] },
     {
       p: 'The board requested that the report ______ before the meeting.',
       ok: 'be finished',
@@ -349,9 +349,9 @@ frame(
   'The terms of the gift are unusually strict and have been enforced before.',
   'A subjunctive condition can drop "if" and invert: Were ..., Had ..., Should ....',
   [
-    'uses the base form after an inverted subjunctive opener',
-    'uses the indicative past after an inverted "had" opener',
+    'uses a base form where the inverted construction needs a past participle',
     'uses a participle where the inverted construction needs a past participle',
+    'uses an infinitive where the inverted construction needs a past participle',
   ],
   [
     {
@@ -362,9 +362,13 @@ frame(
     {
       p: 'Had the harbor ______ deeper, the ferry could have docked.',
       ok: 'been',
-      w: ['be', 'was', 'being'],
+      w: ['be', 'being', 'to be'],
     },
-    { p: 'Should the bridge ______ closed, traffic will be diverted.', ok: 'be', w: ['is', 'was', 'being'] },
+    {
+      p: 'Had the survey ______ earlier, the storm would not have mattered.',
+      ok: 'begun',
+      w: ['begin', 'beginning', 'to begin'],
+    },
   ]
 );
 
@@ -376,7 +380,7 @@ frame(
   'A negative subjunctive demand puts "not" before the base form, not after an auxiliary.',
   [
     'uses the indicative present in a negative subjunctive demand',
-    'uses the past indicative in a negative subjunctive demand',
+    'uses a past or progressive form where the base form is required',
     'uses a participle where the base form is required',
   ],
   [
@@ -393,7 +397,7 @@ frame(
     {
       p: 'It is essential that every visitor ______ the rules before entering.',
       ok: 'read',
-      w: ['reads', 'will read', 'is reading'],
+      w: ['reads', 'was reading', 'being read'],
     },
   ]
 );
@@ -409,7 +413,7 @@ frame(
   [
     'switches the item to a gerund while the other items keep their original form',
     'switches the item to an infinitive while the other items keep their original form',
-    'switches the item to a noun where the other items are verbs or adjectives',
+    'switches the item to a different part of speech from the other items',
   ],
   [
     {
@@ -467,9 +471,9 @@ frame(
   'The proposal has been under review since March and has already been revised twice.',
   'Long items make it easy to lose the pattern; check the form of each item against the first.',
   [
-    'switches to a bare verb while the other items are gerunds',
-    'switches to an infinitive while the other items are gerunds',
-    'switches to a noun phrase while the other items are gerunds',
+    'switches the item to a different grammatical form from the one the series establishes',
+    'switches the item to an infinitive, breaking the series pattern',
+    'switches the item to a form that does not match the other items',
   ],
   [
     {
@@ -527,9 +531,9 @@ frame(
   'The proposal has been praised by both reviewers.',
   'Repeated prepositions and repeated relative clauses must stay identical in form across all items.',
   [
-    'drops the repeated element and substitutes a noun',
-    'switches the last item to an infinitive',
-    'switches the last item to an independent clause',
+    'replaces the clause with a noun phrase',
+    'replaces the clause with an infinitive',
+    'replaces the clause with an independent clause',
   ],
   [
     {
@@ -540,12 +544,12 @@ frame(
     {
       p: 'The job requires that the applicant read charts, that the applicant keep a log, and that the applicant ______ alone for weeks.',
       ok: 'work',
-      w: ['works', 'working', 'to work'],
+      w: ['a worker', 'to work', 'it works'],
     },
     {
       p: 'The foundation supports research that is ambitious, research that is risky, and research that ______.',
       ok: 'is unglamorous',
-      w: ['being unglamorous', 'to be unglamorous', 'unglamorous'],
+      w: ['the unglamorous kind', 'to be unglamorous', 'it is unglamorous'],
     },
   ]
 );
@@ -559,15 +563,15 @@ frame(
   'The fresco was cleaned over eighteen months by a team of four conservators.',
   '"Not only" must be followed by the same kind of structure as "but also".',
   [
-    'uses a gerund after "not only" where "but also" joins a past-tense verb',
-    'uses a noun after "not only" where "but also" joins a verb',
-    'uses a base form after "not only" where "but also" joins a past-tense verb',
+    'switches to a gerund, which does not match the structure on the other side of the pair',
+    'switches to an infinitive, which does not match the structure on the other side of the pair',
+    'switches to a form that does not match the structure on the other side of the pair',
   ],
   [
     {
       p: 'The restoration not only ______ but also doubled attendance.',
       ok: 'preserved the fresco',
-      w: ['preserving the fresco', 'preservation of the fresco', 'preserve the fresco'],
+      w: ['preserving the fresco', 'to preserve the fresco', 'preservation of the fresco'],
     },
     {
       p: 'The grant will support not only the survey but also ______.',
@@ -589,9 +593,9 @@ frame(
   'The new wing opens to the public in June after eighteen months of construction.',
   'Both halves of "not only ... but also" must be built the same way.',
   [
-    'uses a participle after "but also" where "not only" joins a finite verb',
-    'uses an infinitive after "but also" where "not only" joins a finite verb',
-    'uses a noun phrase after "but also" where "not only" joins a verb',
+    'switches to a gerund, which does not match the structure on the other side of the pair',
+    'switches to an infinitive, which does not match the structure on the other side of the pair',
+    'switches to a form that does not match the structure on the other side of the pair',
   ],
   [
     {
@@ -619,9 +623,9 @@ frame(
   'The design was revised after the first winter, when the heating bills arrived.',
   'The element after "but also" must match the element after "not only", not the whole sentence.',
   [
-    'uses a gerund after "but also" where "not only" joins a finite verb',
-    'uses an infinitive after "but also" where "not only" joins a finite verb',
-    'uses a noun after "but also" where "not only" joins a verb phrase',
+    'switches to a gerund, which does not match the structure on the other side of the pair',
+    'switches to an infinitive, which does not match the structure on the other side of the pair',
+    'switches to a form that does not match the structure on the other side of the pair',
   ],
   [
     {
@@ -750,7 +754,7 @@ frame(
   'A past-participle opener describes the subject that follows, not the person who found it.',
   [
     'supplies a subject that the participle cannot describe',
-    'turns the subject into an abstraction that cannot be written in pencil',
+    'supplies a subject that the participle cannot describe',
     'uses an expletive construction so the modifier has nothing to attach to',
   ],
   [
@@ -787,7 +791,7 @@ frame(
   [
     'uses "than", which belongs to a comparison of inequality',
     'uses "like" to introduce a full clause',
-    'uses "so" even though the first "as" already fixed the comparison',
+    'substitutes a word that cannot complete an as ... as comparison',
   ],
   [
     { p: 'The new bridge is as long ______ the old one.', ok: 'as', w: ['than', 'like', 'so'] },
@@ -805,7 +809,7 @@ frame(
   [
     'uses "than" after "as" has already opened the comparison',
     'uses "like" where a conjunction introducing a clause is required',
-    'uses "that" where the second half of the comparison belongs',
+    'substitutes a word that cannot complete the comparison',
   ],
   [
     { p: 'The harbor is not as deep ______ it was in 1900.', ok: 'as', w: ['than', 'like', 'that'] },
@@ -823,7 +827,7 @@ frame(
   [
     'uses "than" even though the sentence opens with "as many"',
     'uses "like" to introduce the compared clause',
-    'uses "that" where the second "as" belongs',
+    'substitutes a word that cannot complete the comparison',
   ],
   [
     { p: 'The county has twice as many bridges ______ it had in 1950.', ok: 'as', w: ['than', 'like', 'that'] },
@@ -861,7 +865,7 @@ frame(
   [
     'uses the quantifier that belongs with an uncountable noun',
     'uses the comparative adjective "lesser" where a quantifier is needed',
-    'uses a base form with no comparative ending',
+    'uses a form that cannot carry the comparison',
   ],
   [
     { p: 'The estuary holds ______ fish than it did a decade ago.', ok: 'fewer', w: ['less', 'lesser', 'few'] },
@@ -877,9 +881,9 @@ frame(
   'Attendance has fallen since the fare increase, according to the museum\'s own count.',
   'Visitors and miles are counted; sugar is measured.',
   [
-    'uses the quantifier that belongs with a countable noun',
+    'uses the wrong quantifier for the noun',
     'uses "lesser", which means lower in importance, not smaller in amount',
-    'uses a base form with no comparative ending',
+    'uses a form that cannot carry the comparison',
   ],
   [
     { p: 'The museum has ______ visitors this year than last.', ok: 'fewer', w: ['less', 'lesser', 'few'] },
@@ -895,9 +899,9 @@ frame(
   'The revised schedule takes effect in September and cuts three morning departures.',
   'Time and money are amounts, but trips and dollars are countable in context; read the noun, not the habit.',
   [
-    'uses "less" with a plural count noun',
+    'uses the wrong quantifier for the noun',
     'uses "lesser" where a plain quantifier is required',
-    'uses a base form with no comparative ending',
+    'uses a form that cannot carry the comparison',
   ],
   [
     { p: 'The new schedule requires ______ stops than the old one.', ok: 'fewer', w: ['less', 'lesser', 'few'] },

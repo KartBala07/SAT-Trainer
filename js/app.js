@@ -44,6 +44,20 @@
     state.history.unshift(entry);
     state.history = state.history.slice(0, 200);
     LS.set('sat.history', state.history);
+    if (global.Auth && global.Auth.isSignedIn()) global.Auth.push(entry);
+  }
+
+  // Called by the auth layer after a sync so both sides agree on one history.
+  function adoptHistory(list) {
+    if (!Array.isArray(list)) return;
+    const key = (h) => `${h.at}:${h.modeKey || h.mode || ''}`;
+    const map = new Map();
+    for (const h of list.concat(state.history)) {
+      if (h && typeof h.at === 'number') map.set(key(h), h);
+    }
+    state.history = [...map.values()].sort((x, y) => y.at - x.at).slice(0, 200);
+    LS.set('sat.history', state.history);
+    if (state.route === '#/' || state.route === '#/history') renderRoute();
   }
 
   /* ---------------- theme / toast ---------------- */
@@ -218,6 +232,7 @@
       }
     }
 
+    a.modeLabel = modeLabel;   // quick/ladder/drill/review set it after `a` was built
     if (!a.modules.length) {
       a.modules.push(buildModuleFor(a, 0));
     }
@@ -850,6 +865,9 @@
       }
     });
 
+    const acct = $('#acctChip');
+    if (acct) acct.addEventListener('click', () => global.Auth && global.Auth.openPanel());
+
     $('#btnTheme').addEventListener('click', () => {
       const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       applyTheme(cur);
@@ -941,6 +959,14 @@
       toast('Question bank manifest missing — run: node build-bank.mjs');
     }
 
+    if (global.Auth) {
+      try {
+        await global.Auth.boot();
+      } catch (e) {
+        console.error('auth boot failed', e);
+      }
+    }
+
     state.route = location.hash || '#/';
     if (!location.hash) location.hash = '#/';
     renderRoute();
@@ -948,5 +974,5 @@
   }
 
   document.addEventListener('DOMContentLoaded', boot);
-  global.__sat = { state, startAttempt, go, graphExpression, loadSection };
+  global.__sat = { state, startAttempt, go, graphExpression, loadSection, adoptHistory };
 })(window);

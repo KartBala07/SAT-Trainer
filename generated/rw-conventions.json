@@ -3720,28 +3720,28 @@
       "rule": "An essential element identifies which one is meant and takes no commas; setting it off suggests it is extra information the sentence could do without.",
       "difficulty": "hard",
       "type": "mcq",
-      "passage": "The county has changed a great deal since the bridge was widened in 1968. The first scientist ______ was a country doctor.",
+      "passage": "The county has changed a great deal since the bridge was widened in 1968. The first report ______ appeared in 1912.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        "; who described the species",
-        "who described the species",
-        ", who described the species,",
-        ", who described the species"
+        "that described the species",
+        "; that described the species",
+        ", that described the species",
+        ", that described the species,"
       ],
-      "answer": "B",
+      "answer": "A",
       "choice_notes": [
-        "uses a semicolon before a dependent clause",
         "correct",
-        "sets off an essential clause with commas, which implies the sentence could do without it",
-        "adds a comma after the noun but never closes the clause"
+        "uses a semicolon before a dependent clause",
+        "adds a comma after the noun but never closes the clause",
+        "sets off an essential clause with commas, which implies the sentence could do without it"
       ],
       "error_tags": [
-        "concept",
         "none",
+        "concept",
         "concept",
         "concept"
       ],
-      "explanation": "An essential element identifies which one is meant and takes no commas; setting it off suggests it is extra information the sentence could do without. Choice A uses a semicolon before a dependent clause. Choice C sets off an essential clause with commas, which implies the sentence could do without it. Choice D adds a comma after the noun but never closes the clause.",
+      "explanation": "An essential element identifies which one is meant and takes no commas; setting it off suggests it is extra information the sentence could do without. Choice B uses a semicolon before a dependent clause. Choice C adds a comma after the noun but never closes the clause. Choice D sets off an essential clause with commas, which implies the sentence could do without it.",
       "skill_note": "Words like \"only\", \"first\", and \"one\" make the clause identifying, so no commas belong around it."
     },
     {
@@ -3816,28 +3816,28 @@
       "rule": "An essential element identifies which one is meant and takes no commas; setting it off suggests it is extra information the sentence could do without.",
       "difficulty": "hard",
       "type": "mcq",
-      "passage": "The species was named in 1912 by a botanist who never saw it alive. The first scientist ______ was a country doctor.",
+      "passage": "The species was named in 1912 by a botanist who never saw it alive. The first report ______ appeared in 1912.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        ", who described the species",
-        "; who described the species",
-        ", who described the species,",
-        "who described the species"
+        ", that described the species,",
+        "that described the species",
+        "; that described the species",
+        ", that described the species"
       ],
-      "answer": "D",
+      "answer": "B",
       "choice_notes": [
-        "adds a comma after the noun but never closes the clause",
-        "uses a semicolon before a dependent clause",
         "sets off an essential clause with commas, which implies the sentence could do without it",
-        "correct"
+        "correct",
+        "uses a semicolon before a dependent clause",
+        "adds a comma after the noun but never closes the clause"
       ],
       "error_tags": [
         "concept",
+        "none",
         "concept",
-        "concept",
-        "none"
+        "concept"
       ],
-      "explanation": "An essential element identifies which one is meant and takes no commas; setting it off suggests it is extra information the sentence could do without. Choice A adds a comma after the noun but never closes the clause. Choice B uses a semicolon before a dependent clause. Choice C sets off an essential clause with commas, which implies the sentence could do without it.",
+      "explanation": "An essential element identifies which one is meant and takes no commas; setting it off suggests it is extra information the sentence could do without. Choice A sets off an essential clause with commas, which implies the sentence could do without it. Choice C uses a semicolon before a dependent clause. Choice D adds a comma after the noun but never closes the clause.",
       "skill_note": "Words like \"only\", \"first\", and \"one\" make the clause identifying, so no commas belong around it."
     },
     {
@@ -5675,16 +5675,16 @@
       "passage": "The colony has been surveyed every spring since 1994 by a team of trained volunteers. The ______ calls filled the air before sunrise.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        "men",
+        "gulls's",
         "gull's",
-        "mens'",
-        "men's"
+        "gulls",
+        "gulls'"
       ],
       "answer": "D",
       "choice_notes": [
-        "leaves the noun plural with no apostrophe at all",
+        "adds an s after the apostrophe to a plural that already ends in s",
         "uses the singular possessive even though the sentence describes a group",
-        "treats an irregular plural as if it ended in s",
+        "leaves the noun plural with no apostrophe at all",
         "correct"
       ],
       "error_tags": [
@@ -5693,7 +5693,7 @@
         "concept",
         "none"
       ],
-      "explanation": "A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s. Choice A leaves the noun plural with no apostrophe at all. Choice B uses the singular possessive even though the sentence describes a group. Choice C treats an irregular plural as if it ended in s.",
+      "explanation": "A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s. Choice A adds an s after the apostrophe to a plural that already ends in s. Choice B uses the singular possessive even though the sentence describes a group. Choice C leaves the noun plural with no apostrophe at all.",
       "skill_note": "Many birds own many nests, so the apostrophe follows the plural s; putting it before the s makes the owner singular."
     },
     {
@@ -5707,17 +5707,17 @@
       "passage": "The colony has been surveyed every spring since 1994 by a team of trained volunteers. The ______ nests were counted along the dunes.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        "men's",
+        "birds'",
         "bird's",
-        "mens'",
-        "men"
+        "birds",
+        "birds's"
       ],
       "answer": "A",
       "choice_notes": [
         "correct",
         "uses the singular possessive even though the sentence describes a group",
-        "treats an irregular plural as if it ended in s",
-        "leaves the noun plural with no apostrophe at all"
+        "leaves the noun plural with no apostrophe at all",
+        "adds an s after the apostrophe to a plural that already ends in s"
       ],
       "error_tags": [
         "none",
@@ -5725,7 +5725,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s. Choice B uses the singular possessive even though the sentence describes a group. Choice C treats an irregular plural as if it ended in s. Choice D leaves the noun plural with no apostrophe at all.",
+      "explanation": "A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s. Choice B uses the singular possessive even though the sentence describes a group. Choice C leaves the noun plural with no apostrophe at all. Choice D adds an s after the apostrophe to a plural that already ends in s.",
       "skill_note": "Many birds own many nests, so the apostrophe follows the plural s; putting it before the s makes the owner singular."
     },
     {
@@ -5740,15 +5740,15 @@
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
         "turtle's",
-        "mens'",
-        "men",
-        "men's"
+        "turtles",
+        "turtles's",
+        "turtles'"
       ],
       "answer": "D",
       "choice_notes": [
         "uses the singular possessive even though the sentence describes a group",
-        "treats an irregular plural as if it ended in s",
         "leaves the noun plural with no apostrophe at all",
+        "adds an s after the apostrophe to a plural that already ends in s",
         "correct"
       ],
       "error_tags": [
@@ -5757,7 +5757,7 @@
         "concept",
         "none"
       ],
-      "explanation": "A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s. Choice A uses the singular possessive even though the sentence describes a group. Choice B treats an irregular plural as if it ended in s. Choice C leaves the noun plural with no apostrophe at all.",
+      "explanation": "A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s. Choice A uses the singular possessive even though the sentence describes a group. Choice B leaves the noun plural with no apostrophe at all. Choice C adds an s after the apostrophe to a plural that already ends in s.",
       "skill_note": "Many birds own many nests, so the apostrophe follows the plural s; putting it before the s makes the owner singular."
     },
     {
@@ -5771,15 +5771,15 @@
       "passage": "Volunteers walk the beach at dawn throughout the nesting season, counting shells and tracks. The ______ calls filled the air before sunrise.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        "mens'",
-        "men",
+        "gulls",
+        "gulls's",
         "gull's",
-        "men's"
+        "gulls'"
       ],
       "answer": "D",
       "choice_notes": [
-        "treats an irregular plural as if it ended in s",
         "leaves the noun plural with no apostrophe at all",
+        "adds an s after the apostrophe to a plural that already ends in s",
         "uses the singular possessive even though the sentence describes a group",
         "correct"
       ],
@@ -5789,7 +5789,7 @@
         "concept",
         "none"
       ],
-      "explanation": "A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s. Choice A treats an irregular plural as if it ended in s. Choice B leaves the noun plural with no apostrophe at all. Choice C uses the singular possessive even though the sentence describes a group.",
+      "explanation": "A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s. Choice A leaves the noun plural with no apostrophe at all. Choice B adds an s after the apostrophe to a plural that already ends in s. Choice C uses the singular possessive even though the sentence describes a group.",
       "skill_note": "Many birds own many nests, so the apostrophe follows the plural s; putting it before the s makes the owner singular."
     },
     {
@@ -5803,15 +5803,15 @@
       "passage": "Volunteers walk the beach at dawn throughout the nesting season, counting shells and tracks. The ______ nests were counted along the dunes.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        "men",
-        "mens'",
+        "birds's",
+        "birds",
         "bird's",
-        "men's"
+        "birds'"
       ],
       "answer": "D",
       "choice_notes": [
+        "adds an s after the apostrophe to a plural that already ends in s",
         "leaves the noun plural with no apostrophe at all",
-        "treats an irregular plural as if it ended in s",
         "uses the singular possessive even though the sentence describes a group",
         "correct"
       ],
@@ -5821,7 +5821,7 @@
         "concept",
         "none"
       ],
-      "explanation": "A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s. Choice A leaves the noun plural with no apostrophe at all. Choice B treats an irregular plural as if it ended in s. Choice C uses the singular possessive even though the sentence describes a group.",
+      "explanation": "A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s. Choice A adds an s after the apostrophe to a plural that already ends in s. Choice B leaves the noun plural with no apostrophe at all. Choice C uses the singular possessive even though the sentence describes a group.",
       "skill_note": "Many birds own many nests, so the apostrophe follows the plural s; putting it before the s makes the owner singular."
     },
     {
@@ -5836,15 +5836,15 @@
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
         "turtle's",
-        "mens'",
-        "men",
-        "men's"
+        "turtles",
+        "turtles's",
+        "turtles'"
       ],
       "answer": "D",
       "choice_notes": [
         "uses the singular possessive even though the sentence describes a group",
-        "treats an irregular plural as if it ended in s",
         "leaves the noun plural with no apostrophe at all",
+        "adds an s after the apostrophe to a plural that already ends in s",
         "correct"
       ],
       "error_tags": [
@@ -5853,7 +5853,7 @@
         "concept",
         "none"
       ],
-      "explanation": "A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s. Choice A uses the singular possessive even though the sentence describes a group. Choice B treats an irregular plural as if it ended in s. Choice C leaves the noun plural with no apostrophe at all.",
+      "explanation": "A plural possessive puts the apostrophe after the plural s; a plural that does not end in s takes an apostrophe and then s. Choice A uses the singular possessive even though the sentence describes a group. Choice B leaves the noun plural with no apostrophe at all. Choice C adds an s after the apostrophe to a plural that already ends in s.",
       "skill_note": "Many birds own many nests, so the apostrophe follows the plural s; putting it before the s makes the owner singular."
     },
     {
@@ -8820,7 +8820,7 @@
       "choice_notes": [
         "uses a plural verb with a singular subject",
         "correct",
-        "shifts to a progressive tense that the sentence does not support",
+        "shifts to a tense or form that the sentence does not call for",
         "treats the phrase introduced by \"as well as\" as part of a compound subject"
       ],
       "error_tags": [
@@ -8829,7 +8829,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A uses a plural verb with a singular subject. Choice C shifts to a progressive tense that the sentence does not support. Choice D treats the phrase introduced by \"as well as\" as part of a compound subject.",
+      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A uses a plural verb with a singular subject. Choice C shifts to a tense or form that the sentence does not call for. Choice D treats the phrase introduced by \"as well as\" as part of a compound subject.",
       "skill_note": "\"As well as\" and \"together with\" do not turn a singular subject into a plural one."
     },
     {
@@ -8852,7 +8852,7 @@
       "choice_notes": [
         "uses a plural verb with a singular subject",
         "treats the phrase introduced by \"as well as\" as part of a compound subject",
-        "shifts to a progressive tense that the sentence does not support",
+        "shifts to a tense or form that the sentence does not call for",
         "correct"
       ],
       "error_tags": [
@@ -8861,7 +8861,7 @@
         "concept",
         "none"
       ],
-      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A uses a plural verb with a singular subject. Choice B treats the phrase introduced by \"as well as\" as part of a compound subject. Choice C shifts to a progressive tense that the sentence does not support.",
+      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A uses a plural verb with a singular subject. Choice B treats the phrase introduced by \"as well as\" as part of a compound subject. Choice C shifts to a tense or form that the sentence does not call for.",
       "skill_note": "\"As well as\" and \"together with\" do not turn a singular subject into a plural one."
     },
     {
@@ -8884,7 +8884,7 @@
       "choice_notes": [
         "uses a plural verb with a singular subject",
         "correct",
-        "shifts to a progressive tense that the sentence does not support",
+        "shifts to a tense or form that the sentence does not call for",
         "treats the phrase introduced by \"as well as\" as part of a compound subject"
       ],
       "error_tags": [
@@ -8893,7 +8893,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A uses a plural verb with a singular subject. Choice C shifts to a progressive tense that the sentence does not support. Choice D treats the phrase introduced by \"as well as\" as part of a compound subject.",
+      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A uses a plural verb with a singular subject. Choice C shifts to a tense or form that the sentence does not call for. Choice D treats the phrase introduced by \"as well as\" as part of a compound subject.",
       "skill_note": "\"As well as\" and \"together with\" do not turn a singular subject into a plural one."
     },
     {
@@ -8916,7 +8916,7 @@
       "choice_notes": [
         "uses a plural verb although the subject is singular",
         "lets the verb agree with the nearest plural noun rather than the head noun of the subject",
-        "uses a tense that does not fit the time frame the sentence establishes",
+        "uses a verb form that does not fit the time frame the sentence establishes",
         "correct"
       ],
       "error_tags": [
@@ -8925,7 +8925,7 @@
         "concept",
         "none"
       ],
-      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A uses a plural verb although the subject is singular. Choice B lets the verb agree with the nearest plural noun rather than the head noun of the subject. Choice C uses a tense that does not fit the time frame the sentence establishes.",
+      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A uses a plural verb although the subject is singular. Choice B lets the verb agree with the nearest plural noun rather than the head noun of the subject. Choice C uses a verb form that does not fit the time frame the sentence establishes.",
       "skill_note": "A long prepositional chain and a relative clause sit between the subject and the verb; find the head noun first."
     },
     {
@@ -8949,7 +8949,7 @@
         "lets the verb agree with the nearest plural noun rather than the head noun of the subject",
         "uses a plural verb although the subject is singular",
         "correct",
-        "uses a tense that does not fit the time frame the sentence establishes"
+        "uses a verb form that does not fit the time frame the sentence establishes"
       ],
       "error_tags": [
         "concept",
@@ -8957,7 +8957,7 @@
         "none",
         "concept"
       ],
-      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A lets the verb agree with the nearest plural noun rather than the head noun of the subject. Choice B uses a plural verb although the subject is singular. Choice D uses a tense that does not fit the time frame the sentence establishes.",
+      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A lets the verb agree with the nearest plural noun rather than the head noun of the subject. Choice B uses a plural verb although the subject is singular. Choice D uses a verb form that does not fit the time frame the sentence establishes.",
       "skill_note": "A long prepositional chain and a relative clause sit between the subject and the verb; find the head noun first."
     },
     {
@@ -8978,7 +8978,7 @@
       ],
       "answer": "B",
       "choice_notes": [
-        "uses a tense that does not fit the time frame the sentence establishes",
+        "uses a verb form that does not fit the time frame the sentence establishes",
         "correct",
         "lets the verb agree with the nearest plural noun rather than the head noun of the subject",
         "uses a plural verb although the subject is singular"
@@ -8989,7 +8989,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A uses a tense that does not fit the time frame the sentence establishes. Choice C lets the verb agree with the nearest plural noun rather than the head noun of the subject. Choice D uses a plural verb although the subject is singular.",
+      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A uses a verb form that does not fit the time frame the sentence establishes. Choice C lets the verb agree with the nearest plural noun rather than the head noun of the subject. Choice D uses a plural verb although the subject is singular.",
       "skill_note": "A long prepositional chain and a relative clause sit between the subject and the verb; find the head noun first."
     },
     {
@@ -9010,7 +9010,7 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "agrees with the noun in the appositive instead of with the subject",
+        "uses a plural verb with a singular subject",
         "agrees with the plural noun inside the relative clause instead of with the singular subject",
         "correct",
         "uses a plural verb form with a singular head noun"
@@ -9021,7 +9021,7 @@
         "none",
         "concept"
       ],
-      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A agrees with the noun in the appositive instead of with the subject. Choice B agrees with the plural noun inside the relative clause instead of with the singular subject. Choice D uses a plural verb form with a singular head noun.",
+      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice A uses a plural verb with a singular subject. Choice B agrees with the plural noun inside the relative clause instead of with the singular subject. Choice D uses a plural verb form with a singular head noun.",
       "skill_note": "Two interruptions stack up here: an appositive phrase and a relative clause. Neither changes the number of the subject."
     },
     {
@@ -9044,7 +9044,7 @@
       "choice_notes": [
         "correct",
         "agrees with the plural noun inside the relative clause instead of with the singular subject",
-        "agrees with the noun in the appositive instead of with the subject",
+        "uses a plural verb with a singular subject",
         "uses a plural verb form with a singular head noun"
       ],
       "error_tags": [
@@ -9053,7 +9053,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice B agrees with the plural noun inside the relative clause instead of with the singular subject. Choice C agrees with the noun in the appositive instead of with the subject. Choice D uses a plural verb form with a singular head noun.",
+      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice B agrees with the plural noun inside the relative clause instead of with the singular subject. Choice C uses a plural verb with a singular subject. Choice D uses a plural verb form with a singular head noun.",
       "skill_note": "Two interruptions stack up here: an appositive phrase and a relative clause. Neither changes the number of the subject."
     },
     {
@@ -9076,7 +9076,7 @@
       "choice_notes": [
         "correct",
         "agrees with the plural noun inside the relative clause instead of with the singular subject",
-        "agrees with the noun in the appositive instead of with the subject",
+        "uses a plural verb with a singular subject",
         "uses a plural verb form with a singular head noun"
       ],
       "error_tags": [
@@ -9085,7 +9085,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice B agrees with the plural noun inside the relative clause instead of with the singular subject. Choice C agrees with the noun in the appositive instead of with the subject. Choice D uses a plural verb form with a singular head noun.",
+      "explanation": "A verb agrees with its subject, not with a noun in an intervening phrase such as \"along with\", \"together with\", or \"as well as\". Choice B agrees with the plural noun inside the relative clause instead of with the singular subject. Choice C uses a plural verb with a singular subject. Choice D uses a plural verb form with a singular head noun.",
       "skill_note": "Two interruptions stack up here: an appositive phrase and a relative clause. Neither changes the number of the subject."
     },
     {
@@ -9202,10 +9202,10 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "uses a singular perfect form with a plural subject",
-        "uses a singular verb even though the subject that follows is plural",
+        "uses a singular perfect form where the delayed subject is plural",
+        "agrees with a noun other than the one that follows the verb",
         "correct",
-        "uses a past singular verb with a plural subject"
+        "uses a singular verb where the delayed subject is plural"
       ],
       "error_tags": [
         "concept",
@@ -9213,7 +9213,7 @@
         "none",
         "concept"
       ],
-      "explanation": "When a sentence opens with \"there\" or with a fronted prepositional phrase, the verb still agrees with the noun that follows it. Choice A uses a singular perfect form with a plural subject. Choice B uses a singular verb even though the subject that follows is plural. Choice D uses a past singular verb with a plural subject.",
+      "explanation": "When a sentence opens with \"there\" or with a fronted prepositional phrase, the verb still agrees with the noun that follows it. Choice A uses a singular perfect form where the delayed subject is plural. Choice B agrees with a noun other than the one that follows the verb. Choice D uses a singular verb where the delayed subject is plural.",
       "skill_note": "The noun that follows \"there\" is the real subject, so read past the blank before choosing."
     },
     {
@@ -9234,10 +9234,10 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "uses a singular verb even though the subject that follows is plural",
-        "uses a past singular verb with a plural subject",
+        "agrees with a noun other than the one that follows the verb",
+        "uses a singular verb where the delayed subject is plural",
         "correct",
-        "uses a singular perfect form with a plural subject"
+        "uses a singular perfect form where the delayed subject is plural"
       ],
       "error_tags": [
         "concept",
@@ -9245,7 +9245,7 @@
         "none",
         "concept"
       ],
-      "explanation": "When a sentence opens with \"there\" or with a fronted prepositional phrase, the verb still agrees with the noun that follows it. Choice A uses a singular verb even though the subject that follows is plural. Choice B uses a past singular verb with a plural subject. Choice D uses a singular perfect form with a plural subject.",
+      "explanation": "When a sentence opens with \"there\" or with a fronted prepositional phrase, the verb still agrees with the noun that follows it. Choice A agrees with a noun other than the one that follows the verb. Choice B uses a singular verb where the delayed subject is plural. Choice D uses a singular perfect form where the delayed subject is plural.",
       "skill_note": "The noun that follows \"there\" is the real subject, so read past the blank before choosing."
     },
     {
@@ -9266,10 +9266,10 @@
       ],
       "answer": "B",
       "choice_notes": [
-        "uses a past singular verb with a plural subject",
+        "uses a singular verb where the delayed subject is plural",
         "correct",
-        "uses a singular verb even though the subject that follows is plural",
-        "uses a singular perfect form with a plural subject"
+        "agrees with a noun other than the one that follows the verb",
+        "uses a singular perfect form where the delayed subject is plural"
       ],
       "error_tags": [
         "concept",
@@ -9277,7 +9277,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "When a sentence opens with \"there\" or with a fronted prepositional phrase, the verb still agrees with the noun that follows it. Choice A uses a past singular verb with a plural subject. Choice C uses a singular verb even though the subject that follows is plural. Choice D uses a singular perfect form with a plural subject.",
+      "explanation": "When a sentence opens with \"there\" or with a fronted prepositional phrase, the verb still agrees with the noun that follows it. Choice A uses a singular verb where the delayed subject is plural. Choice C agrees with a noun other than the one that follows the verb. Choice D uses a singular perfect form where the delayed subject is plural.",
       "skill_note": "The noun that follows \"there\" is the real subject, so read past the blank before choosing."
     },
     {
@@ -9778,7 +9778,7 @@
       ],
       "answer": "B",
       "choice_notes": [
-        "uses a plural perfect form with a singular subject",
+        "uses a verb form that does not agree with the singular pronoun",
         "correct",
         "lets the plural noun in the comparison control the verb",
         "uses a plural verb with a collective subject"
@@ -9789,7 +9789,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A collective noun such as jury, committee, or flock takes a singular verb when the group acts as a single unit. Choice A uses a plural perfect form with a singular subject. Choice C lets the plural noun in the comparison control the verb. Choice D uses a plural verb with a collective subject.",
+      "explanation": "A collective noun such as jury, committee, or flock takes a singular verb when the group acts as a single unit. Choice A uses a verb form that does not agree with the singular pronoun. Choice C lets the plural noun in the comparison control the verb. Choice D uses a plural verb with a collective subject.",
       "skill_note": "A comparison phrase sits between the collective noun and its verb; the comparison does not change the number."
     },
     {
@@ -9810,7 +9810,7 @@
       ],
       "answer": "D",
       "choice_notes": [
-        "uses a plural perfect form with a singular subject",
+        "uses a verb form that does not agree with the singular pronoun",
         "lets the plural noun in the comparison control the verb",
         "uses a plural verb with a collective subject",
         "correct"
@@ -9821,7 +9821,7 @@
         "concept",
         "none"
       ],
-      "explanation": "A collective noun such as jury, committee, or flock takes a singular verb when the group acts as a single unit. Choice A uses a plural perfect form with a singular subject. Choice B lets the plural noun in the comparison control the verb. Choice C uses a plural verb with a collective subject.",
+      "explanation": "A collective noun such as jury, committee, or flock takes a singular verb when the group acts as a single unit. Choice A uses a verb form that does not agree with the singular pronoun. Choice B lets the plural noun in the comparison control the verb. Choice C uses a plural verb with a collective subject.",
       "skill_note": "A comparison phrase sits between the collective noun and its verb; the comparison does not change the number."
     },
     {
@@ -9845,7 +9845,7 @@
         "uses a plural verb with a collective subject",
         "lets the plural noun in the comparison control the verb",
         "correct",
-        "uses a plural perfect form with a singular subject"
+        "uses a verb form that does not agree with the singular pronoun"
       ],
       "error_tags": [
         "concept",
@@ -9853,7 +9853,7 @@
         "none",
         "concept"
       ],
-      "explanation": "A collective noun such as jury, committee, or flock takes a singular verb when the group acts as a single unit. Choice A uses a plural verb with a collective subject. Choice B lets the plural noun in the comparison control the verb. Choice D uses a plural perfect form with a singular subject.",
+      "explanation": "A collective noun such as jury, committee, or flock takes a singular verb when the group acts as a single unit. Choice A uses a plural verb with a collective subject. Choice B lets the plural noun in the comparison control the verb. Choice D uses a verb form that does not agree with the singular pronoun.",
       "skill_note": "A comparison phrase sits between the collective noun and its verb; the comparison does not change the number."
     },
     {
@@ -9970,7 +9970,7 @@
       ],
       "answer": "D",
       "choice_notes": [
-        "uses a plural perfect form with a singular subject",
+        "uses a verb form that does not agree with the singular pronoun",
         "uses a plural verb with a singular indefinite pronoun",
         "agrees with the plural noun after \"of\" instead of with the singular pronoun",
         "correct"
@@ -9981,7 +9981,7 @@
         "concept",
         "none"
       ],
-      "explanation": "Each, every, either, neither, and one are singular and take singular verbs, even when a plural phrase follows them. Choice A uses a plural perfect form with a singular subject. Choice B uses a plural verb with a singular indefinite pronoun. Choice C agrees with the plural noun after \"of\" instead of with the singular pronoun.",
+      "explanation": "Each, every, either, neither, and one are singular and take singular verbs, even when a plural phrase follows them. Choice A uses a verb form that does not agree with the singular pronoun. Choice B uses a plural verb with a singular indefinite pronoun. Choice C agrees with the plural noun after \"of\" instead of with the singular pronoun.",
       "skill_note": "Each, every, either, neither, and one are grammatically singular no matter what follows them."
     },
     {
@@ -10002,7 +10002,7 @@
       ],
       "answer": "D",
       "choice_notes": [
-        "uses a plural perfect form with a singular subject",
+        "uses a verb form that does not agree with the singular pronoun",
         "uses a plural verb with a singular indefinite pronoun",
         "agrees with the plural noun after \"of\" instead of with the singular pronoun",
         "correct"
@@ -10013,7 +10013,7 @@
         "concept",
         "none"
       ],
-      "explanation": "Each, every, either, neither, and one are singular and take singular verbs, even when a plural phrase follows them. Choice A uses a plural perfect form with a singular subject. Choice B uses a plural verb with a singular indefinite pronoun. Choice C agrees with the plural noun after \"of\" instead of with the singular pronoun.",
+      "explanation": "Each, every, either, neither, and one are singular and take singular verbs, even when a plural phrase follows them. Choice A uses a verb form that does not agree with the singular pronoun. Choice B uses a plural verb with a singular indefinite pronoun. Choice C agrees with the plural noun after \"of\" instead of with the singular pronoun.",
       "skill_note": "Each, every, either, neither, and one are grammatically singular no matter what follows them."
     },
     {
@@ -10035,7 +10035,7 @@
       "answer": "C",
       "choice_notes": [
         "agrees with the plural noun after \"of\" instead of with the singular pronoun",
-        "uses a plural perfect form with a singular subject",
+        "uses a verb form that does not agree with the singular pronoun",
         "correct",
         "uses a plural verb with a singular indefinite pronoun"
       ],
@@ -10045,7 +10045,7 @@
         "none",
         "concept"
       ],
-      "explanation": "Each, every, either, neither, and one are singular and take singular verbs, even when a plural phrase follows them. Choice A agrees with the plural noun after \"of\" instead of with the singular pronoun. Choice B uses a plural perfect form with a singular subject. Choice D uses a plural verb with a singular indefinite pronoun.",
+      "explanation": "Each, every, either, neither, and one are singular and take singular verbs, even when a plural phrase follows them. Choice A agrees with the plural noun after \"of\" instead of with the singular pronoun. Choice B uses a verb form that does not agree with the singular pronoun. Choice D uses a plural verb with a singular indefinite pronoun.",
       "skill_note": "Each, every, either, neither, and one are grammatically singular no matter what follows them."
     },
     {
@@ -10354,8 +10354,8 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "substitutes a contraction of \"they are\" for a possessive",
-        "uses a plural pronoun with a singular antecedent",
+        "uses a homophone of the possessive",
+        "uses a pronoun that does not agree with its antecedent",
         "correct",
         "uses the contraction of \"it is\" where a possessive is needed"
       ],
@@ -10365,7 +10365,7 @@
         "none",
         "concept"
       ],
-      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A substitutes a contraction of \"they are\" for a possessive. Choice B uses a plural pronoun with a singular antecedent. Choice D uses the contraction of \"it is\" where a possessive is needed.",
+      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a homophone of the possessive. Choice B uses a pronoun that does not agree with its antecedent. Choice D uses the contraction of \"it is\" where a possessive is needed.",
       "skill_note": "Match the pronoun to the noun it replaces, not to the noun nearest it."
     },
     {
@@ -10386,10 +10386,10 @@
       ],
       "answer": "B",
       "choice_notes": [
-        "uses a plural pronoun with a singular antecedent",
+        "uses a pronoun that does not agree with its antecedent",
         "correct",
         "uses the contraction of \"it is\" where a possessive is needed",
-        "substitutes a contraction of \"they are\" for a possessive"
+        "uses a homophone of the possessive"
       ],
       "error_tags": [
         "concept",
@@ -10397,7 +10397,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a plural pronoun with a singular antecedent. Choice C uses the contraction of \"it is\" where a possessive is needed. Choice D substitutes a contraction of \"they are\" for a possessive.",
+      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a pronoun that does not agree with its antecedent. Choice C uses the contraction of \"it is\" where a possessive is needed. Choice D uses a homophone of the possessive.",
       "skill_note": "Match the pronoun to the noun it replaces, not to the noun nearest it."
     },
     {
@@ -10419,8 +10419,8 @@
       "answer": "D",
       "choice_notes": [
         "uses the contraction of \"it is\" where a possessive is needed",
-        "substitutes a contraction of \"they are\" for a possessive",
-        "uses a plural pronoun with a singular antecedent",
+        "uses a homophone of the possessive",
+        "uses a pronoun that does not agree with its antecedent",
         "correct"
       ],
       "error_tags": [
@@ -10429,7 +10429,7 @@
         "concept",
         "none"
       ],
-      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses the contraction of \"it is\" where a possessive is needed. Choice B substitutes a contraction of \"they are\" for a possessive. Choice C uses a plural pronoun with a singular antecedent.",
+      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses the contraction of \"it is\" where a possessive is needed. Choice B uses a homophone of the possessive. Choice C uses a pronoun that does not agree with its antecedent.",
       "skill_note": "Match the pronoun to the noun it replaces, not to the noun nearest it."
     },
     {
@@ -10450,10 +10450,10 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "uses a plural pronoun where the antecedent is a single body",
-        "uses the contraction of \"it is\" instead of a possessive",
+        "uses a form that cannot serve as the required possessive",
+        "uses a contraction where a possessive is required",
         "correct",
-        "uses a plural pronoun with a singular antecedent"
+        "uses a pronoun that does not agree with its antecedent"
       ],
       "error_tags": [
         "concept",
@@ -10461,7 +10461,7 @@
         "none",
         "concept"
       ],
-      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a plural pronoun where the antecedent is a single body. Choice B uses the contraction of \"it is\" instead of a possessive. Choice D uses a plural pronoun with a singular antecedent.",
+      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a form that cannot serve as the required possessive. Choice B uses a contraction where a possessive is required. Choice D uses a pronoun that does not agree with its antecedent.",
       "skill_note": "An intervening phrase or a compound subject decides which pronoun is right."
     },
     {
@@ -10482,10 +10482,10 @@
       ],
       "answer": "B",
       "choice_notes": [
-        "uses a plural pronoun with a singular antecedent",
+        "uses a pronoun that does not agree with its antecedent",
         "correct",
-        "uses a plural pronoun where the antecedent is a single body",
-        "uses the contraction of \"it is\" instead of a possessive"
+        "uses a form that cannot serve as the required possessive",
+        "uses a contraction where a possessive is required"
       ],
       "error_tags": [
         "concept",
@@ -10493,7 +10493,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a plural pronoun with a singular antecedent. Choice C uses a plural pronoun where the antecedent is a single body. Choice D uses the contraction of \"it is\" instead of a possessive.",
+      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a pronoun that does not agree with its antecedent. Choice C uses a form that cannot serve as the required possessive. Choice D uses a contraction where a possessive is required.",
       "skill_note": "An intervening phrase or a compound subject decides which pronoun is right."
     },
     {
@@ -10515,9 +10515,9 @@
       "answer": "A",
       "choice_notes": [
         "correct",
-        "uses a plural pronoun where the antecedent is a single body",
-        "uses a plural pronoun with a singular antecedent",
-        "uses the contraction of \"it is\" instead of a possessive"
+        "uses a form that cannot serve as the required possessive",
+        "uses a pronoun that does not agree with its antecedent",
+        "uses a contraction where a possessive is required"
       ],
       "error_tags": [
         "none",
@@ -10525,7 +10525,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice B uses a plural pronoun where the antecedent is a single body. Choice C uses a plural pronoun with a singular antecedent. Choice D uses the contraction of \"it is\" instead of a possessive.",
+      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice B uses a form that cannot serve as the required possessive. Choice C uses a pronoun that does not agree with its antecedent. Choice D uses a contraction where a possessive is required.",
       "skill_note": "An intervening phrase or a compound subject decides which pronoun is right."
     },
     {
@@ -10546,10 +10546,10 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "uses a plural possessive with a singular antecedent",
-        "uses the contraction of \"it is\" where a possessive is required",
+        "uses a contraction where a possessive is required",
+        "uses a form that cannot serve as the required possessive",
         "correct",
-        "lets the plural noun after \"of\" control the pronoun"
+        "uses a pronoun that does not agree with its antecedent"
       ],
       "error_tags": [
         "concept",
@@ -10557,7 +10557,7 @@
         "none",
         "concept"
       ],
-      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a plural possessive with a singular antecedent. Choice B uses the contraction of \"it is\" where a possessive is required. Choice D lets the plural noun after \"of\" control the pronoun.",
+      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a contraction where a possessive is required. Choice B uses a form that cannot serve as the required possessive. Choice D uses a pronoun that does not agree with its antecedent.",
       "skill_note": "Singular antecedents with \"each\" or \"every\" take singular pronouns even when a plural noun follows."
     },
     {
@@ -10578,10 +10578,10 @@
       ],
       "answer": "B",
       "choice_notes": [
-        "uses the contraction of \"it is\" where a possessive is required",
+        "uses a form that cannot serve as the required possessive",
         "correct",
-        "uses a plural possessive with a singular antecedent",
-        "lets the plural noun after \"of\" control the pronoun"
+        "uses a contraction where a possessive is required",
+        "uses a pronoun that does not agree with its antecedent"
       ],
       "error_tags": [
         "concept",
@@ -10589,7 +10589,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses the contraction of \"it is\" where a possessive is required. Choice C uses a plural possessive with a singular antecedent. Choice D lets the plural noun after \"of\" control the pronoun.",
+      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a form that cannot serve as the required possessive. Choice C uses a contraction where a possessive is required. Choice D uses a pronoun that does not agree with its antecedent.",
       "skill_note": "Singular antecedents with \"each\" or \"every\" take singular pronouns even when a plural noun follows."
     },
     {
@@ -10610,9 +10610,9 @@
       ],
       "answer": "D",
       "choice_notes": [
-        "uses the contraction of \"it is\" where a possessive is required",
-        "lets the plural noun after \"of\" control the pronoun",
-        "uses a plural possessive with a singular antecedent",
+        "uses a form that cannot serve as the required possessive",
+        "uses a pronoun that does not agree with its antecedent",
+        "uses a contraction where a possessive is required",
         "correct"
       ],
       "error_tags": [
@@ -10621,7 +10621,7 @@
         "concept",
         "none"
       ],
-      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses the contraction of \"it is\" where a possessive is required. Choice B lets the plural noun after \"of\" control the pronoun. Choice C uses a plural possessive with a singular antecedent.",
+      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a form that cannot serve as the required possessive. Choice B uses a pronoun that does not agree with its antecedent. Choice C uses a contraction where a possessive is required.",
       "skill_note": "Singular antecedents with \"each\" or \"every\" take singular pronouns even when a plural noun follows."
     },
     {
@@ -10642,10 +10642,10 @@
       ],
       "answer": "C",
       "choice_notes": [
+        "uses a form that cannot serve as the required possessive",
         "uses a contraction where a possessive is required",
-        "uses a plural possessive with a collective antecedent",
         "correct",
-        "uses a plural pronoun because the sentence later mentions individual members"
+        "uses a pronoun that does not agree with its antecedent"
       ],
       "error_tags": [
         "concept",
@@ -10653,7 +10653,7 @@
         "none",
         "concept"
       ],
-      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a contraction where a possessive is required. Choice B uses a plural possessive with a collective antecedent. Choice D uses a plural pronoun because the sentence later mentions individual members.",
+      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a form that cannot serve as the required possessive. Choice B uses a contraction where a possessive is required. Choice D uses a pronoun that does not agree with its antecedent.",
       "skill_note": "A collective antecedent acting as a unit takes a singular pronoun, even when the sentence goes on to mention members."
     },
     {
@@ -10674,10 +10674,10 @@
       ],
       "answer": "B",
       "choice_notes": [
-        "uses a plural possessive with a collective antecedent",
+        "uses a contraction where a possessive is required",
         "correct",
-        "uses a plural pronoun because the sentence later mentions individual members",
-        "uses a contraction where a possessive is required"
+        "uses a pronoun that does not agree with its antecedent",
+        "uses a form that cannot serve as the required possessive"
       ],
       "error_tags": [
         "concept",
@@ -10685,7 +10685,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a plural possessive with a collective antecedent. Choice C uses a plural pronoun because the sentence later mentions individual members. Choice D uses a contraction where a possessive is required.",
+      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a contraction where a possessive is required. Choice C uses a pronoun that does not agree with its antecedent. Choice D uses a form that cannot serve as the required possessive.",
       "skill_note": "A collective antecedent acting as a unit takes a singular pronoun, even when the sentence goes on to mention members."
     },
     {
@@ -10706,10 +10706,10 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "uses a plural possessive with a collective antecedent",
         "uses a contraction where a possessive is required",
+        "uses a form that cannot serve as the required possessive",
         "correct",
-        "uses a plural pronoun because the sentence later mentions individual members"
+        "uses a pronoun that does not agree with its antecedent"
       ],
       "error_tags": [
         "concept",
@@ -10717,7 +10717,7 @@
         "none",
         "concept"
       ],
-      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a plural possessive with a collective antecedent. Choice B uses a contraction where a possessive is required. Choice D uses a plural pronoun because the sentence later mentions individual members.",
+      "explanation": "A pronoun must agree in number with its antecedent; a collective or singular antecedent takes a singular pronoun. Choice A uses a contraction where a possessive is required. Choice B uses a form that cannot serve as the required possessive. Choice D uses a pronoun that does not agree with its antecedent.",
       "skill_note": "A collective antecedent acting as a unit takes a singular pronoun, even when the sentence goes on to mention members."
     },
     {
@@ -11115,7 +11115,7 @@
       "passage": "The award is the oldest in the county. The award went to the keeper ______ the town trusted more than any other.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        "himself",
+        "whose",
         "who",
         "which",
         "whom"
@@ -11179,7 +11179,7 @@
       "passage": "The survey was finished ahead of schedule. The survey was completed by the same team ______ the county hired in 2004.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        "themselves",
+        "whose",
         "whom",
         "which",
         "who"
@@ -11240,20 +11240,20 @@
       "rule": "In \"one of the plural noun who/that ...\", the relative pronoun refers to the plural noun, so the verb in the relative clause is plural.",
       "difficulty": "easy",
       "type": "mcq",
-      "passage": "The east wing is closed for restoration until June. One of the paintings that ______ in the east wing is being restored.",
+      "passage": "The gallery's upper floor is closed for restoration until June. One of the paintings that ______ in the east wing is being restored.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        "is hanging",
+        "has hung",
         "hang",
         "hangs",
-        "has hung"
+        "is hanging"
       ],
       "answer": "B",
       "choice_notes": [
-        "uses a progressive form that the sentence does not support",
+        "uses a singular perfect form with a plural antecedent",
         "correct",
         "makes the verb in the relative clause agree with \"one\" instead of with the plural noun",
-        "uses a singular perfect form with a plural antecedent"
+        "uses a progressive form that the sentence does not support"
       ],
       "error_tags": [
         "concept",
@@ -11261,7 +11261,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "In \"one of the plural noun who/that ...\", the relative pronoun refers to the plural noun, so the verb in the relative clause is plural. Choice A uses a progressive form that the sentence does not support. Choice C makes the verb in the relative clause agree with \"one\" instead of with the plural noun. Choice D uses a singular perfect form with a plural antecedent.",
+      "explanation": "In \"one of the plural noun who/that ...\", the relative pronoun refers to the plural noun, so the verb in the relative clause is plural. Choice A uses a singular perfect form with a plural antecedent. Choice C makes the verb in the relative clause agree with \"one\" instead of with the plural noun. Choice D uses a progressive form that the sentence does not support.",
       "skill_note": "The relative pronoun refers to the plural noun after \"one of\", so the verb inside the clause is plural."
     },
     {
@@ -11509,7 +11509,7 @@
         "correct",
         "uses a singular verb although the relative pronoun refers to a plural noun",
         "lets \"one\" control the verb inside the relative clause",
-        "uses a singular perfect form where a plural past is required"
+        "uses a singular form where a plural past is required"
       ],
       "error_tags": [
         "none",
@@ -11517,7 +11517,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "In \"one of the plural noun who/that ...\", the relative pronoun refers to the plural noun, so the verb in the relative clause is plural. Choice B uses a singular verb although the relative pronoun refers to a plural noun. Choice C lets \"one\" control the verb inside the relative clause. Choice D uses a singular perfect form where a plural past is required.",
+      "explanation": "In \"one of the plural noun who/that ...\", the relative pronoun refers to the plural noun, so the verb in the relative clause is plural. Choice B uses a singular verb although the relative pronoun refers to a plural noun. Choice C lets \"one\" control the verb inside the relative clause. Choice D uses a singular form where a plural past is required.",
       "skill_note": "A long relative clause can hide the plural noun that controls its verb."
     },
     {
@@ -11539,7 +11539,7 @@
       "answer": "C",
       "choice_notes": [
         "uses a singular verb although the relative pronoun refers to a plural noun",
-        "uses a singular perfect form where a plural past is required",
+        "uses a singular form where a plural past is required",
         "correct",
         "lets \"one\" control the verb inside the relative clause"
       ],
@@ -11549,7 +11549,7 @@
         "none",
         "concept"
       ],
-      "explanation": "In \"one of the plural noun who/that ...\", the relative pronoun refers to the plural noun, so the verb in the relative clause is plural. Choice A uses a singular verb although the relative pronoun refers to a plural noun. Choice B uses a singular perfect form where a plural past is required. Choice D lets \"one\" control the verb inside the relative clause.",
+      "explanation": "In \"one of the plural noun who/that ...\", the relative pronoun refers to the plural noun, so the verb in the relative clause is plural. Choice A uses a singular verb although the relative pronoun refers to a plural noun. Choice B uses a singular form where a plural past is required. Choice D lets \"one\" control the verb inside the relative clause.",
       "skill_note": "A long relative clause can hide the plural noun that controls its verb."
     },
     {
@@ -11570,7 +11570,7 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "uses a singular perfect form where a plural past is required",
+        "uses a singular form where a plural past is required",
         "lets \"one\" control the verb inside the relative clause",
         "correct",
         "uses a singular verb although the relative pronoun refers to a plural noun"
@@ -11581,7 +11581,7 @@
         "none",
         "concept"
       ],
-      "explanation": "In \"one of the plural noun who/that ...\", the relative pronoun refers to the plural noun, so the verb in the relative clause is plural. Choice A uses a singular perfect form where a plural past is required. Choice B lets \"one\" control the verb inside the relative clause. Choice D uses a singular verb although the relative pronoun refers to a plural noun.",
+      "explanation": "In \"one of the plural noun who/that ...\", the relative pronoun refers to the plural noun, so the verb in the relative clause is plural. Choice A uses a singular form where a plural past is required. Choice B lets \"one\" control the verb inside the relative clause. Choice D uses a singular verb although the relative pronoun refers to a plural noun.",
       "skill_note": "A long relative clause can hide the plural noun that controls its verb."
     },
     {
@@ -11688,6 +11688,38 @@
       "rule": "Verbs in a sentence, or in a closely linked pair of sentences, keep a consistent tense unless the meaning requires a shift.",
       "difficulty": "easy",
       "type": "mcq",
+      "passage": "The building opens to the public six days a week, except during January. The river rises each spring, and the fields ______.",
+      "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+      "choices": [
+        "flooding",
+        "flood",
+        "flooded",
+        "have flooded"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "uses a participle where a finite verb is required",
+        "correct",
+        "shifts to the past even though the sentence describes a recurring present",
+        "uses a perfect tense that the sentence does not call for"
+      ],
+      "error_tags": [
+        "concept",
+        "none",
+        "concept",
+        "concept"
+      ],
+      "explanation": "Verbs in a sentence, or in a closely linked pair of sentences, keep a consistent tense unless the meaning requires a shift. Choice A uses a participle where a finite verb is required. Choice C shifts to the past even though the sentence describes a recurring present. Choice D uses a perfect tense that the sentence does not call for.",
+      "skill_note": "A sentence describing a recurring present keeps every verb in the present."
+    },
+    {
+      "id": "RWC-0367",
+      "section": "rw",
+      "domain": "Standard English Conventions",
+      "skill": "Form: verb tense consistency",
+      "rule": "Verbs in a sentence, or in a closely linked pair of sentences, keep a consistent tense unless the meaning requires a shift.",
+      "difficulty": "easy",
+      "type": "mcq",
       "passage": "The building opens to the public six days a week. The museum opens at nine, and the guards ______ the doors at eight.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
@@ -11713,7 +11745,7 @@
       "skill_note": "A sentence describing a recurring present keeps every verb in the present."
     },
     {
-      "id": "RWC-0367",
+      "id": "RWC-0368",
       "section": "rw",
       "domain": "Standard English Conventions",
       "skill": "Form: verb tense consistency",
@@ -11742,38 +11774,6 @@
         "concept"
       ],
       "explanation": "Verbs in a sentence, or in a closely linked pair of sentences, keep a consistent tense unless the meaning requires a shift. Choice A uses a perfect tense that the sentence does not call for. Choice B uses a participle where a finite verb is required. Choice D shifts to the past even though the sentence describes a recurring present.",
-      "skill_note": "A sentence describing a recurring present keeps every verb in the present."
-    },
-    {
-      "id": "RWC-0368",
-      "section": "rw",
-      "domain": "Standard English Conventions",
-      "skill": "Form: verb tense consistency",
-      "rule": "Verbs in a sentence, or in a closely linked pair of sentences, keep a consistent tense unless the meaning requires a shift.",
-      "difficulty": "easy",
-      "type": "mcq",
-      "passage": "The valley has flooded every spring for as long as anyone remembers. The river rises each spring, and the fields ______.",
-      "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
-      "choices": [
-        "flooding",
-        "flood",
-        "have flooded",
-        "flooded"
-      ],
-      "answer": "B",
-      "choice_notes": [
-        "uses a participle where a finite verb is required",
-        "correct",
-        "uses a perfect tense that the sentence does not call for",
-        "shifts to the past even though the sentence describes a recurring present"
-      ],
-      "error_tags": [
-        "concept",
-        "none",
-        "concept",
-        "concept"
-      ],
-      "explanation": "Verbs in a sentence, or in a closely linked pair of sentences, keep a consistent tense unless the meaning requires a shift. Choice A uses a participle where a finite verb is required. Choice C uses a perfect tense that the sentence does not call for. Choice D shifts to the past even though the sentence describes a recurring present.",
       "skill_note": "A sentence describing a recurring present keeps every verb in the present."
     },
     {
@@ -11893,7 +11893,7 @@
         "shifts to the simple present in the middle of a perfect construction",
         "uses a participle where the shared auxiliary requires a past participle",
         "correct",
-        "shifts to the simple past although the sentence began in the present perfect"
+        "breaks the perfect construction by shifting to another tense"
       ],
       "error_tags": [
         "concept",
@@ -11901,7 +11901,7 @@
         "none",
         "concept"
       ],
-      "explanation": "Verbs in a sentence, or in a closely linked pair of sentences, keep a consistent tense unless the meaning requires a shift. Choice A shifts to the simple present in the middle of a perfect construction. Choice B uses a participle where the shared auxiliary requires a past participle. Choice D shifts to the simple past although the sentence began in the present perfect.",
+      "explanation": "Verbs in a sentence, or in a closely linked pair of sentences, keep a consistent tense unless the meaning requires a shift. Choice A shifts to the simple present in the middle of a perfect construction. Choice B uses a participle where the shared auxiliary requires a past participle. Choice D breaks the perfect construction by shifting to another tense.",
       "skill_note": "When one verb is a present perfect, the verb joined to it by \"and\" normally shares that auxiliary."
     },
     {
@@ -11925,7 +11925,7 @@
         "shifts to the simple present in the middle of a perfect construction",
         "correct",
         "uses a participle where the shared auxiliary requires a past participle",
-        "shifts to the simple past although the sentence began in the present perfect"
+        "breaks the perfect construction by shifting to another tense"
       ],
       "error_tags": [
         "concept",
@@ -11933,7 +11933,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "Verbs in a sentence, or in a closely linked pair of sentences, keep a consistent tense unless the meaning requires a shift. Choice A shifts to the simple present in the middle of a perfect construction. Choice C uses a participle where the shared auxiliary requires a past participle. Choice D shifts to the simple past although the sentence began in the present perfect.",
+      "explanation": "Verbs in a sentence, or in a closely linked pair of sentences, keep a consistent tense unless the meaning requires a shift. Choice A shifts to the simple present in the middle of a perfect construction. Choice C uses a participle where the shared auxiliary requires a past participle. Choice D breaks the perfect construction by shifting to another tense.",
       "skill_note": "When one verb is a present perfect, the verb joined to it by \"and\" normally shares that auxiliary."
     },
     {
@@ -11955,7 +11955,7 @@
       "answer": "A",
       "choice_notes": [
         "correct",
-        "shifts to the simple past although the sentence began in the present perfect",
+        "breaks the perfect construction by shifting to another tense",
         "uses a participle where the shared auxiliary requires a past participle",
         "shifts to the simple present in the middle of a perfect construction"
       ],
@@ -11965,7 +11965,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "Verbs in a sentence, or in a closely linked pair of sentences, keep a consistent tense unless the meaning requires a shift. Choice B shifts to the simple past although the sentence began in the present perfect. Choice C uses a participle where the shared auxiliary requires a past participle. Choice D shifts to the simple present in the middle of a perfect construction.",
+      "explanation": "Verbs in a sentence, or in a closely linked pair of sentences, keep a consistent tense unless the meaning requires a shift. Choice B breaks the perfect construction by shifting to another tense. Choice C uses a participle where the shared auxiliary requires a past participle. Choice D shifts to the simple present in the middle of a perfect construction.",
       "skill_note": "When one verb is a present perfect, the verb joined to it by \"and\" normally shares that auxiliary."
     },
     {
@@ -12264,38 +12264,6 @@
       "rule": "The perfect tenses place an action before a stated time: had for a point in the past, has for the present, will have for a point in the future.",
       "difficulty": "hard",
       "type": "mcq",
-      "passage": "The bridge is scheduled to be repainted in 2031. By next June, the bridge ______ for a century.",
-      "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
-      "choices": [
-        "will have stood",
-        "stood",
-        "has stood",
-        "will stand"
-      ],
-      "answer": "A",
-      "choice_notes": [
-        "correct",
-        "uses the simple past with a future deadline",
-        "uses the present perfect with a future deadline",
-        "uses the simple future, which does not express completion before the deadline"
-      ],
-      "error_tags": [
-        "none",
-        "concept",
-        "concept",
-        "concept"
-      ],
-      "explanation": "The perfect tenses place an action before a stated time: had for a point in the past, has for the present, will have for a point in the future. Choice B uses the simple past with a future deadline. Choice C uses the present perfect with a future deadline. Choice D uses the simple future, which does not express completion before the deadline.",
-      "skill_note": "A future deadline takes the future perfect, not the simple future."
-    },
-    {
-      "id": "RWC-0385",
-      "section": "rw",
-      "domain": "Standard English Conventions",
-      "skill": "Form: perfect tenses",
-      "rule": "The perfect tenses place an action before a stated time: had for a point in the past, has for the present, will have for a point in the future.",
-      "difficulty": "hard",
-      "type": "mcq",
       "passage": "The ferry returns to service in June. By the time the ferry returns, the crew ______ the deck twice.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
@@ -12321,7 +12289,7 @@
       "skill_note": "A future deadline takes the future perfect, not the simple future."
     },
     {
-      "id": "RWC-0386",
+      "id": "RWC-0385",
       "section": "rw",
       "domain": "Standard English Conventions",
       "skill": "Form: perfect tenses",
@@ -12350,6 +12318,38 @@
         "concept"
       ],
       "explanation": "The perfect tenses place an action before a stated time: had for a point in the past, has for the present, will have for a point in the future. Choice B uses the present perfect with a future deadline. Choice C uses the simple past with a future deadline. Choice D uses the simple future, which does not express completion before the deadline.",
+      "skill_note": "A future deadline takes the future perfect, not the simple future."
+    },
+    {
+      "id": "RWC-0386",
+      "section": "rw",
+      "domain": "Standard English Conventions",
+      "skill": "Form: perfect tenses",
+      "rule": "The perfect tenses place an action before a stated time: had for a point in the past, has for the present, will have for a point in the future.",
+      "difficulty": "hard",
+      "type": "mcq",
+      "passage": "The refit is scheduled to finish in June, barring further delays. By next June, the bridge ______ for a century.",
+      "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+      "choices": [
+        "has stood",
+        "will have stood",
+        "stood",
+        "will stand"
+      ],
+      "answer": "B",
+      "choice_notes": [
+        "uses the present perfect with a future deadline",
+        "correct",
+        "uses the simple past with a future deadline",
+        "uses the simple future, which does not express completion before the deadline"
+      ],
+      "error_tags": [
+        "concept",
+        "none",
+        "concept",
+        "concept"
+      ],
+      "explanation": "The perfect tenses place an action before a stated time: had for a point in the past, has for the present, will have for a point in the future. Choice A uses the present perfect with a future deadline. Choice C uses the simple past with a future deadline. Choice D uses the simple future, which does not express completion before the deadline.",
       "skill_note": "A future deadline takes the future perfect, not the simple future."
     },
     {
@@ -12589,7 +12589,7 @@
       "choices": [
         "was",
         "be",
-        "were",
+        "will be",
         "is"
       ],
       "answer": "B",
@@ -12616,28 +12616,28 @@
       "rule": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb.",
       "difficulty": "medium",
       "type": "mcq",
-      "passage": "The painting had been reframed twice before before the museum bought it. The curator asked that the painting ______ returned to its original frame.",
+      "passage": "The painting had been reframed twice by earlier owners. The curator asked that the painting ______ returned to its original frame.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        "is",
         "was",
         "will be",
-        "be"
+        "be",
+        "is"
       ],
-      "answer": "D",
+      "answer": "C",
       "choice_notes": [
-        "uses the indicative present after a demand",
         "uses the past indicative after a demand",
         "uses the future after a demand",
-        "correct"
+        "correct",
+        "uses the indicative present after a demand"
       ],
       "error_tags": [
         "concept",
         "concept",
-        "concept",
-        "none"
+        "none",
+        "concept"
       ],
-      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses the indicative present after a demand. Choice B uses the past indicative after a demand. Choice C uses the future after a demand.",
+      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses the past indicative after a demand. Choice B uses the future after a demand. Choice D uses the indicative present after a demand.",
       "skill_note": "A request or demand after \"that\" takes the base form, whatever the subject."
     },
     {
@@ -12658,10 +12658,10 @@
       ],
       "answer": "B",
       "choice_notes": [
-        "uses a progressive form after a demand",
+        "uses the future after a demand",
         "correct",
-        "adds the third-person -s to a verb in the subjunctive",
-        "uses the past tense after a demand"
+        "uses the indicative present after a demand",
+        "uses the past indicative after a demand"
       ],
       "error_tags": [
         "concept",
@@ -12669,7 +12669,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses a progressive form after a demand. Choice C adds the third-person -s to a verb in the subjunctive. Choice D uses the past tense after a demand.",
+      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses the future after a demand. Choice C uses the indicative present after a demand. Choice D uses the past indicative after a demand.",
       "skill_note": "The base form after \"that\" has no -s even when the subject is singular."
     },
     {
@@ -12690,10 +12690,10 @@
       ],
       "answer": "B",
       "choice_notes": [
-        "uses the past tense after a demand",
+        "uses the past indicative after a demand",
         "correct",
-        "uses a progressive form after a demand",
-        "adds the third-person -s to a verb in the subjunctive"
+        "uses the future after a demand",
+        "uses the indicative present after a demand"
       ],
       "error_tags": [
         "concept",
@@ -12701,7 +12701,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses the past tense after a demand. Choice C uses a progressive form after a demand. Choice D adds the third-person -s to a verb in the subjunctive.",
+      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses the past indicative after a demand. Choice C uses the future after a demand. Choice D uses the indicative present after a demand.",
       "skill_note": "The base form after \"that\" has no -s even when the subject is singular."
     },
     {
@@ -12717,15 +12717,15 @@
       "choices": [
         "wore",
         "wear",
-        "is wearing",
+        "will wear",
         "wears"
       ],
       "answer": "B",
       "choice_notes": [
-        "uses the past tense after a demand",
+        "uses the past indicative after a demand",
         "correct",
-        "uses a progressive form after a demand",
-        "adds the third-person -s to a verb in the subjunctive"
+        "uses the future after a demand",
+        "uses the indicative present after a demand"
       ],
       "error_tags": [
         "concept",
@@ -12733,7 +12733,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses the past tense after a demand. Choice C uses a progressive form after a demand. Choice D adds the third-person -s to a verb in the subjunctive.",
+      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses the past indicative after a demand. Choice C uses the future after a demand. Choice D uses the indicative present after a demand.",
       "skill_note": "The base form after \"that\" has no -s even when the subject is singular."
     },
     {
@@ -12744,28 +12744,28 @@
       "rule": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb.",
       "difficulty": "very_hard",
       "type": "mcq",
-      "passage": "The bridge is inspected every two years, most recently in March. Should the bridge ______ closed, traffic will be diverted.",
+      "passage": "The bridge is inspected every two years, most recently in March. Had the survey ______ earlier, the storm would not have mattered.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        "was",
-        "is",
-        "being",
-        "be"
+        "begin",
+        "begun",
+        "to begin",
+        "beginning"
       ],
-      "answer": "D",
+      "answer": "B",
       "choice_notes": [
-        "uses the indicative past after an inverted \"had\" opener",
-        "uses the base form after an inverted subjunctive opener",
-        "uses a participle where the inverted construction needs a past participle",
-        "correct"
+        "uses a base form where the inverted construction needs a past participle",
+        "correct",
+        "uses an infinitive where the inverted construction needs a past participle",
+        "uses a participle where the inverted construction needs a past participle"
       ],
       "error_tags": [
         "concept",
+        "none",
         "concept",
-        "concept",
-        "none"
+        "concept"
       ],
-      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses the indicative past after an inverted \"had\" opener. Choice B uses the base form after an inverted subjunctive opener. Choice C uses a participle where the inverted construction needs a past participle.",
+      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses a base form where the inverted construction needs a past participle. Choice C uses an infinitive where the inverted construction needs a past participle. Choice D uses a participle where the inverted construction needs a past participle.",
       "skill_note": "A subjunctive condition can drop \"if\" and invert: Were ..., Had ..., Should ...."
     },
     {
@@ -12779,17 +12779,17 @@
       "passage": "The ferry was designed for a deeper channel than the one it now uses. Had the harbor ______ deeper, the ferry could have docked.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        "being",
+        "to be",
         "been",
-        "was",
+        "being",
         "be"
       ],
       "answer": "B",
       "choice_notes": [
-        "uses a participle where the inverted construction needs a past participle",
+        "uses an infinitive where the inverted construction needs a past participle",
         "correct",
-        "uses the indicative past after an inverted \"had\" opener",
-        "uses the base form after an inverted subjunctive opener"
+        "uses a participle where the inverted construction needs a past participle",
+        "uses a base form where the inverted construction needs a past participle"
       ],
       "error_tags": [
         "concept",
@@ -12797,7 +12797,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses a participle where the inverted construction needs a past participle. Choice C uses the indicative past after an inverted \"had\" opener. Choice D uses the base form after an inverted subjunctive opener.",
+      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses an infinitive where the inverted construction needs a past participle. Choice C uses a participle where the inverted construction needs a past participle. Choice D uses a base form where the inverted construction needs a past participle.",
       "skill_note": "A subjunctive condition can drop \"if\" and invert: Were ..., Had ..., Should ...."
     },
     {
@@ -12819,9 +12819,9 @@
       "answer": "A",
       "choice_notes": [
         "correct",
-        "uses a participle where the inverted construction needs a past participle",
-        "uses the base form after an inverted subjunctive opener",
-        "uses the indicative past after an inverted \"had\" opener"
+        "uses an infinitive where the inverted construction needs a past participle",
+        "uses a base form where the inverted construction needs a past participle",
+        "uses a participle where the inverted construction needs a past participle"
       ],
       "error_tags": [
         "none",
@@ -12829,7 +12829,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice B uses a participle where the inverted construction needs a past participle. Choice C uses the base form after an inverted subjunctive opener. Choice D uses the indicative past after an inverted \"had\" opener.",
+      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice B uses an infinitive where the inverted construction needs a past participle. Choice C uses a base form where the inverted construction needs a past participle. Choice D uses a participle where the inverted construction needs a past participle.",
       "skill_note": "A subjunctive condition can drop \"if\" and invert: Were ..., Had ..., Should ...."
     },
     {
@@ -12853,7 +12853,7 @@
         "uses a participle where the base form is required",
         "correct",
         "uses the indicative present in a negative subjunctive demand",
-        "uses the past indicative in a negative subjunctive demand"
+        "uses a past or progressive form where the base form is required"
       ],
       "error_tags": [
         "concept",
@@ -12861,7 +12861,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses a participle where the base form is required. Choice C uses the indicative present in a negative subjunctive demand. Choice D uses the past indicative in a negative subjunctive demand.",
+      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses a participle where the base form is required. Choice C uses the indicative present in a negative subjunctive demand. Choice D uses a past or progressive form where the base form is required.",
       "skill_note": "A negative subjunctive demand puts \"not\" before the base form, not after an auxiliary."
     },
     {
@@ -12876,14 +12876,14 @@
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
         "reads",
-        "will read",
+        "was reading",
         "read",
-        "is reading"
+        "being read"
       ],
       "answer": "C",
       "choice_notes": [
         "uses the indicative present in a negative subjunctive demand",
-        "uses the past indicative in a negative subjunctive demand",
+        "uses a past or progressive form where the base form is required",
         "correct",
         "uses a participle where the base form is required"
       ],
@@ -12893,7 +12893,7 @@
         "none",
         "concept"
       ],
-      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses the indicative present in a negative subjunctive demand. Choice B uses the past indicative in a negative subjunctive demand. Choice D uses a participle where the base form is required.",
+      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses the indicative present in a negative subjunctive demand. Choice B uses a past or progressive form where the base form is required. Choice D uses a participle where the base form is required.",
       "skill_note": "A negative subjunctive demand puts \"not\" before the base form, not after an auxiliary."
     },
     {
@@ -12917,7 +12917,7 @@
         "uses a participle where the base form is required",
         "uses the indicative present in a negative subjunctive demand",
         "correct",
-        "uses the past indicative in a negative subjunctive demand"
+        "uses a past or progressive form where the base form is required"
       ],
       "error_tags": [
         "concept",
@@ -12925,11 +12925,43 @@
         "none",
         "concept"
       ],
-      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses a participle where the base form is required. Choice B uses the indicative present in a negative subjunctive demand. Choice D uses the past indicative in a negative subjunctive demand.",
+      "explanation": "A contrary-to-fact condition takes \"were\", and a demand or request after \"that\" takes the base form of the verb. Choice A uses a participle where the base form is required. Choice B uses the indicative present in a negative subjunctive demand. Choice D uses a past or progressive form where the base form is required.",
       "skill_note": "A negative subjunctive demand puts \"not\" before the base form, not after an auxiliary."
     },
     {
       "id": "RWC-0405",
+      "section": "rw",
+      "domain": "Standard English Conventions",
+      "skill": "Form: parallelism in a series",
+      "rule": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses.",
+      "difficulty": "easy",
+      "type": "mcq",
+      "passage": "Both reviewers praised the document for its clarity, its restraint, and its wit. The report was clear, concise, and ______.",
+      "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+      "choices": [
+        "to organize",
+        "organization",
+        "well organized",
+        "organizing"
+      ],
+      "answer": "C",
+      "choice_notes": [
+        "switches the item to an infinitive while the other items keep their original form",
+        "switches the item to a different part of speech from the other items",
+        "correct",
+        "switches the item to a gerund while the other items keep their original form"
+      ],
+      "error_tags": [
+        "concept",
+        "concept",
+        "none",
+        "concept"
+      ],
+      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice A switches the item to an infinitive while the other items keep their original form. Choice B switches the item to a different part of speech from the other items. Choice D switches the item to a gerund while the other items keep their original form.",
+      "skill_note": "The first item sets the pattern; every later item must match it."
+    },
+    {
+      "id": "RWC-0406",
       "section": "rw",
       "domain": "Standard English Conventions",
       "skill": "Form: parallelism in a series",
@@ -12948,7 +12980,7 @@
       "choice_notes": [
         "correct",
         "switches the item to a gerund while the other items keep their original form",
-        "switches the item to a noun where the other items are verbs or adjectives",
+        "switches the item to a different part of speech from the other items",
         "switches the item to an infinitive while the other items keep their original form"
       ],
       "error_tags": [
@@ -12957,39 +12989,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice B switches the item to a gerund while the other items keep their original form. Choice C switches the item to a noun where the other items are verbs or adjectives. Choice D switches the item to an infinitive while the other items keep their original form.",
-      "skill_note": "The first item sets the pattern; every later item must match it."
-    },
-    {
-      "id": "RWC-0406",
-      "section": "rw",
-      "domain": "Standard English Conventions",
-      "skill": "Form: parallelism in a series",
-      "rule": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses.",
-      "difficulty": "easy",
-      "type": "mcq",
-      "passage": "The report was praised by both reviewers for its clarity and restraint. The report was clear, concise, and ______.",
-      "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
-      "choices": [
-        "organizing",
-        "to organize",
-        "organization",
-        "well organized"
-      ],
-      "answer": "D",
-      "choice_notes": [
-        "switches the item to a gerund while the other items keep their original form",
-        "switches the item to an infinitive while the other items keep their original form",
-        "switches the item to a noun where the other items are verbs or adjectives",
-        "correct"
-      ],
-      "error_tags": [
-        "concept",
-        "concept",
-        "concept",
-        "none"
-      ],
-      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice A switches the item to a gerund while the other items keep their original form. Choice B switches the item to an infinitive while the other items keep their original form. Choice C switches the item to a noun where the other items are verbs or adjectives.",
+      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice B switches the item to a gerund while the other items keep their original form. Choice C switches the item to a different part of speech from the other items. Choice D switches the item to an infinitive while the other items keep their original form.",
       "skill_note": "The first item sets the pattern; every later item must match it."
     },
     {
@@ -13011,7 +13011,7 @@
       "answer": "C",
       "choice_notes": [
         "switches the item to an infinitive while the other items keep their original form",
-        "switches the item to a noun where the other items are verbs or adjectives",
+        "switches the item to a different part of speech from the other items",
         "correct",
         "switches the item to a gerund while the other items keep their original form"
       ],
@@ -13021,7 +13021,7 @@
         "none",
         "concept"
       ],
-      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice A switches the item to an infinitive while the other items keep their original form. Choice B switches the item to a noun where the other items are verbs or adjectives. Choice D switches the item to a gerund while the other items keep their original form.",
+      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice A switches the item to an infinitive while the other items keep their original form. Choice B switches the item to a different part of speech from the other items. Choice D switches the item to a gerund while the other items keep their original form.",
       "skill_note": "The first item sets the pattern; every later item must match it."
     },
     {
@@ -13138,10 +13138,10 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "switches to a bare verb while the other items are gerunds",
-        "switches to an infinitive while the other items are gerunds",
+        "switches the item to a different grammatical form from the one the series establishes",
+        "switches the item to an infinitive, breaking the series pattern",
         "correct",
-        "switches to a noun phrase while the other items are gerunds"
+        "switches the item to a form that does not match the other items"
       ],
       "error_tags": [
         "concept",
@@ -13149,7 +13149,7 @@
         "none",
         "concept"
       ],
-      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice A switches to a bare verb while the other items are gerunds. Choice B switches to an infinitive while the other items are gerunds. Choice D switches to a noun phrase while the other items are gerunds.",
+      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice A switches the item to a different grammatical form from the one the series establishes. Choice B switches the item to an infinitive, breaking the series pattern. Choice D switches the item to a form that does not match the other items.",
       "skill_note": "Long items make it easy to lose the pattern; check the form of each item against the first."
     },
     {
@@ -13171,9 +13171,9 @@
       "answer": "A",
       "choice_notes": [
         "correct",
-        "switches to an infinitive while the other items are gerunds",
-        "switches to a noun phrase while the other items are gerunds",
-        "switches to a bare verb while the other items are gerunds"
+        "switches the item to an infinitive, breaking the series pattern",
+        "switches the item to a form that does not match the other items",
+        "switches the item to a different grammatical form from the one the series establishes"
       ],
       "error_tags": [
         "none",
@@ -13181,7 +13181,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice B switches to an infinitive while the other items are gerunds. Choice C switches to a noun phrase while the other items are gerunds. Choice D switches to a bare verb while the other items are gerunds.",
+      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice B switches the item to an infinitive, breaking the series pattern. Choice C switches the item to a form that does not match the other items. Choice D switches the item to a different grammatical form from the one the series establishes.",
       "skill_note": "Long items make it easy to lose the pattern; check the form of each item against the first."
     },
     {
@@ -13202,9 +13202,9 @@
       ],
       "answer": "D",
       "choice_notes": [
-        "switches to an infinitive while the other items are gerunds",
-        "switches to a bare verb while the other items are gerunds",
-        "switches to a noun phrase while the other items are gerunds",
+        "switches the item to an infinitive, breaking the series pattern",
+        "switches the item to a different grammatical form from the one the series establishes",
+        "switches the item to a form that does not match the other items",
         "correct"
       ],
       "error_tags": [
@@ -13213,7 +13213,7 @@
         "concept",
         "none"
       ],
-      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice A switches to an infinitive while the other items are gerunds. Choice B switches to a bare verb while the other items are gerunds. Choice C switches to a noun phrase while the other items are gerunds.",
+      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice A switches the item to an infinitive, breaking the series pattern. Choice B switches the item to a different grammatical form from the one the series establishes. Choice C switches the item to a form that does not match the other items.",
       "skill_note": "Long items make it easy to lose the pattern; check the form of each item against the first."
     },
     {
@@ -13325,15 +13325,15 @@
       "choices": [
         "is unglamorous",
         "to be unglamorous",
-        "unglamorous",
-        "being unglamorous"
+        "it is unglamorous",
+        "the unglamorous kind"
       ],
       "answer": "A",
       "choice_notes": [
         "correct",
-        "switches the last item to an infinitive",
-        "switches the last item to an independent clause",
-        "drops the repeated element and substitutes a noun"
+        "replaces the clause with an infinitive",
+        "replaces the clause with an independent clause",
+        "replaces the clause with a noun phrase"
       ],
       "error_tags": [
         "none",
@@ -13341,7 +13341,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice B switches the last item to an infinitive. Choice C switches the last item to an independent clause. Choice D drops the repeated element and substitutes a noun.",
+      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice B replaces the clause with an infinitive. Choice C replaces the clause with an independent clause. Choice D replaces the clause with a noun phrase.",
       "skill_note": "Repeated prepositions and repeated relative clauses must stay identical in form across all items."
     },
     {
@@ -13355,16 +13355,16 @@
       "passage": "The job was advertised in three states. The job requires that the applicant read charts, that the applicant keep a log, and that the applicant ______ alone for weeks.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
-        "working",
-        "works",
         "to work",
+        "a worker",
+        "it works",
         "work"
       ],
       "answer": "D",
       "choice_notes": [
-        "switches the last item to an infinitive",
-        "drops the repeated element and substitutes a noun",
-        "switches the last item to an independent clause",
+        "replaces the clause with an infinitive",
+        "replaces the clause with a noun phrase",
+        "replaces the clause with an independent clause",
         "correct"
       ],
       "error_tags": [
@@ -13373,7 +13373,7 @@
         "concept",
         "none"
       ],
-      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice A switches the last item to an infinitive. Choice B drops the repeated element and substitutes a noun. Choice C switches the last item to an independent clause.",
+      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice A replaces the clause with an infinitive. Choice B replaces the clause with a noun phrase. Choice C replaces the clause with an independent clause.",
       "skill_note": "Repeated prepositions and repeated relative clauses must stay identical in form across all items."
     },
     {
@@ -13394,9 +13394,9 @@
       ],
       "answer": "D",
       "choice_notes": [
-        "switches the last item to an independent clause",
-        "drops the repeated element and substitutes a noun",
-        "switches the last item to an infinitive",
+        "replaces the clause with an independent clause",
+        "replaces the clause with a noun phrase",
+        "replaces the clause with an infinitive",
         "correct"
       ],
       "error_tags": [
@@ -13405,7 +13405,7 @@
         "concept",
         "none"
       ],
-      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice A switches the last item to an independent clause. Choice B drops the repeated element and substitutes a noun. Choice C switches the last item to an infinitive.",
+      "explanation": "Items joined in a series must share the same grammatical form, whether they are verbs, nouns, or whole clauses. Choice A replaces the clause with an independent clause. Choice B replaces the clause with a noun phrase. Choice C replaces the clause with an infinitive.",
       "skill_note": "Repeated prepositions and repeated relative clauses must stay identical in form across all items."
     },
     {
@@ -13427,9 +13427,9 @@
       "answer": "A",
       "choice_notes": [
         "correct",
-        "uses a noun after \"not only\" where \"but also\" joins a verb",
-        "uses a base form after \"not only\" where \"but also\" joins a past-tense verb",
-        "uses a gerund after \"not only\" where \"but also\" joins a past-tense verb"
+        "switches to an infinitive, which does not match the structure on the other side of the pair",
+        "switches to a form that does not match the structure on the other side of the pair",
+        "switches to a gerund, which does not match the structure on the other side of the pair"
       ],
       "error_tags": [
         "none",
@@ -13437,7 +13437,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice B uses a noun after \"not only\" where \"but also\" joins a verb. Choice C uses a base form after \"not only\" where \"but also\" joins a past-tense verb. Choice D uses a gerund after \"not only\" where \"but also\" joins a past-tense verb.",
+      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice B switches to an infinitive, which does not match the structure on the other side of the pair. Choice C switches to a form that does not match the structure on the other side of the pair. Choice D switches to a gerund, which does not match the structure on the other side of the pair.",
       "skill_note": "\"Not only\" must be followed by the same kind of structure as \"but also\"."
     },
     {
@@ -13451,16 +13451,16 @@
       "passage": "The fresco was cleaned over eighteen months by a specialist team. The restoration not only ______ but also doubled attendance.",
       "stem": "Which choice completes the text so that it conforms to the conventions of Standard English?",
       "choices": [
+        "to preserve the fresco",
         "preservation of the fresco",
-        "preserve the fresco",
         "preserving the fresco",
         "preserved the fresco"
       ],
       "answer": "D",
       "choice_notes": [
-        "uses a noun after \"not only\" where \"but also\" joins a verb",
-        "uses a base form after \"not only\" where \"but also\" joins a past-tense verb",
-        "uses a gerund after \"not only\" where \"but also\" joins a past-tense verb",
+        "switches to an infinitive, which does not match the structure on the other side of the pair",
+        "switches to a form that does not match the structure on the other side of the pair",
+        "switches to a gerund, which does not match the structure on the other side of the pair",
         "correct"
       ],
       "error_tags": [
@@ -13469,7 +13469,7 @@
         "concept",
         "none"
       ],
-      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice A uses a noun after \"not only\" where \"but also\" joins a verb. Choice B uses a base form after \"not only\" where \"but also\" joins a past-tense verb. Choice C uses a gerund after \"not only\" where \"but also\" joins a past-tense verb.",
+      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice A switches to an infinitive, which does not match the structure on the other side of the pair. Choice B switches to a form that does not match the structure on the other side of the pair. Choice C switches to a gerund, which does not match the structure on the other side of the pair.",
       "skill_note": "\"Not only\" must be followed by the same kind of structure as \"but also\"."
     },
     {
@@ -13491,9 +13491,9 @@
       "answer": "A",
       "choice_notes": [
         "correct",
-        "uses a noun after \"not only\" where \"but also\" joins a verb",
-        "uses a base form after \"not only\" where \"but also\" joins a past-tense verb",
-        "uses a gerund after \"not only\" where \"but also\" joins a past-tense verb"
+        "switches to an infinitive, which does not match the structure on the other side of the pair",
+        "switches to a form that does not match the structure on the other side of the pair",
+        "switches to a gerund, which does not match the structure on the other side of the pair"
       ],
       "error_tags": [
         "none",
@@ -13501,7 +13501,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice B uses a noun after \"not only\" where \"but also\" joins a verb. Choice C uses a base form after \"not only\" where \"but also\" joins a past-tense verb. Choice D uses a gerund after \"not only\" where \"but also\" joins a past-tense verb.",
+      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice B switches to an infinitive, which does not match the structure on the other side of the pair. Choice C switches to a form that does not match the structure on the other side of the pair. Choice D switches to a gerund, which does not match the structure on the other side of the pair.",
       "skill_note": "\"Not only\" must be followed by the same kind of structure as \"but also\"."
     },
     {
@@ -13522,10 +13522,10 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "uses an infinitive after \"but also\" where \"not only\" joins a finite verb",
-        "uses a participle after \"but also\" where \"not only\" joins a finite verb",
+        "switches to an infinitive, which does not match the structure on the other side of the pair",
+        "switches to a gerund, which does not match the structure on the other side of the pair",
         "correct",
-        "uses a noun phrase after \"but also\" where \"not only\" joins a verb"
+        "switches to a form that does not match the structure on the other side of the pair"
       ],
       "error_tags": [
         "concept",
@@ -13533,7 +13533,7 @@
         "none",
         "concept"
       ],
-      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice A uses an infinitive after \"but also\" where \"not only\" joins a finite verb. Choice B uses a participle after \"but also\" where \"not only\" joins a finite verb. Choice D uses a noun phrase after \"but also\" where \"not only\" joins a verb.",
+      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice A switches to an infinitive, which does not match the structure on the other side of the pair. Choice B switches to a gerund, which does not match the structure on the other side of the pair. Choice D switches to a form that does not match the structure on the other side of the pair.",
       "skill_note": "Both halves of \"not only ... but also\" must be built the same way."
     },
     {
@@ -13554,10 +13554,10 @@
       ],
       "answer": "B",
       "choice_notes": [
-        "uses a noun phrase after \"but also\" where \"not only\" joins a verb",
+        "switches to a form that does not match the structure on the other side of the pair",
         "correct",
-        "uses an infinitive after \"but also\" where \"not only\" joins a finite verb",
-        "uses a participle after \"but also\" where \"not only\" joins a finite verb"
+        "switches to an infinitive, which does not match the structure on the other side of the pair",
+        "switches to a gerund, which does not match the structure on the other side of the pair"
       ],
       "error_tags": [
         "concept",
@@ -13565,7 +13565,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice A uses a noun phrase after \"but also\" where \"not only\" joins a verb. Choice C uses an infinitive after \"but also\" where \"not only\" joins a finite verb. Choice D uses a participle after \"but also\" where \"not only\" joins a finite verb.",
+      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice A switches to a form that does not match the structure on the other side of the pair. Choice C switches to an infinitive, which does not match the structure on the other side of the pair. Choice D switches to a gerund, which does not match the structure on the other side of the pair.",
       "skill_note": "Both halves of \"not only ... but also\" must be built the same way."
     },
     {
@@ -13586,9 +13586,9 @@
       ],
       "answer": "D",
       "choice_notes": [
-        "uses an infinitive after \"but also\" where \"not only\" joins a finite verb",
-        "uses a noun phrase after \"but also\" where \"not only\" joins a verb",
-        "uses a participle after \"but also\" where \"not only\" joins a finite verb",
+        "switches to an infinitive, which does not match the structure on the other side of the pair",
+        "switches to a form that does not match the structure on the other side of the pair",
+        "switches to a gerund, which does not match the structure on the other side of the pair",
         "correct"
       ],
       "error_tags": [
@@ -13597,7 +13597,7 @@
         "concept",
         "none"
       ],
-      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice A uses an infinitive after \"but also\" where \"not only\" joins a finite verb. Choice B uses a noun phrase after \"but also\" where \"not only\" joins a verb. Choice C uses a participle after \"but also\" where \"not only\" joins a finite verb.",
+      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice A switches to an infinitive, which does not match the structure on the other side of the pair. Choice B switches to a form that does not match the structure on the other side of the pair. Choice C switches to a gerund, which does not match the structure on the other side of the pair.",
       "skill_note": "Both halves of \"not only ... but also\" must be built the same way."
     },
     {
@@ -13618,9 +13618,9 @@
       ],
       "answer": "D",
       "choice_notes": [
-        "uses an infinitive after \"but also\" where \"not only\" joins a finite verb",
-        "uses a gerund after \"but also\" where \"not only\" joins a finite verb",
-        "uses a noun after \"but also\" where \"not only\" joins a verb phrase",
+        "switches to an infinitive, which does not match the structure on the other side of the pair",
+        "switches to a gerund, which does not match the structure on the other side of the pair",
+        "switches to a form that does not match the structure on the other side of the pair",
         "correct"
       ],
       "error_tags": [
@@ -13629,7 +13629,7 @@
         "concept",
         "none"
       ],
-      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice A uses an infinitive after \"but also\" where \"not only\" joins a finite verb. Choice B uses a gerund after \"but also\" where \"not only\" joins a finite verb. Choice C uses a noun after \"but also\" where \"not only\" joins a verb phrase.",
+      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice A switches to an infinitive, which does not match the structure on the other side of the pair. Choice B switches to a gerund, which does not match the structure on the other side of the pair. Choice C switches to a form that does not match the structure on the other side of the pair.",
       "skill_note": "The element after \"but also\" must match the element after \"not only\", not the whole sentence."
     },
     {
@@ -13651,9 +13651,9 @@
       "answer": "A",
       "choice_notes": [
         "correct",
-        "uses a noun after \"but also\" where \"not only\" joins a verb phrase",
-        "uses a gerund after \"but also\" where \"not only\" joins a finite verb",
-        "uses an infinitive after \"but also\" where \"not only\" joins a finite verb"
+        "switches to a form that does not match the structure on the other side of the pair",
+        "switches to a gerund, which does not match the structure on the other side of the pair",
+        "switches to an infinitive, which does not match the structure on the other side of the pair"
       ],
       "error_tags": [
         "none",
@@ -13661,7 +13661,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice B uses a noun after \"but also\" where \"not only\" joins a verb phrase. Choice C uses a gerund after \"but also\" where \"not only\" joins a finite verb. Choice D uses an infinitive after \"but also\" where \"not only\" joins a finite verb.",
+      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice B switches to a form that does not match the structure on the other side of the pair. Choice C switches to a gerund, which does not match the structure on the other side of the pair. Choice D switches to an infinitive, which does not match the structure on the other side of the pair.",
       "skill_note": "The element after \"but also\" must match the element after \"not only\", not the whole sentence."
     },
     {
@@ -13682,10 +13682,10 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "uses a noun after \"but also\" where \"not only\" joins a verb phrase",
-        "uses an infinitive after \"but also\" where \"not only\" joins a finite verb",
+        "switches to a form that does not match the structure on the other side of the pair",
+        "switches to an infinitive, which does not match the structure on the other side of the pair",
         "correct",
-        "uses a gerund after \"but also\" where \"not only\" joins a finite verb"
+        "switches to a gerund, which does not match the structure on the other side of the pair"
       ],
       "error_tags": [
         "concept",
@@ -13693,7 +13693,7 @@
         "none",
         "concept"
       ],
-      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice A uses a noun after \"but also\" where \"not only\" joins a verb phrase. Choice B uses an infinitive after \"but also\" where \"not only\" joins a finite verb. Choice D uses a gerund after \"but also\" where \"not only\" joins a finite verb.",
+      "explanation": "Correlative conjunctions such as not only ... but also and neither ... nor must join parallel grammatical structures. Choice A switches to a form that does not match the structure on the other side of the pair. Choice B switches to an infinitive, which does not match the structure on the other side of the pair. Choice D switches to a gerund, which does not match the structure on the other side of the pair.",
       "skill_note": "The element after \"but also\" must match the element after \"not only\", not the whole sentence."
     },
     {
@@ -13973,7 +13973,7 @@
         "supplies a subject that the participle cannot describe",
         "correct",
         "uses an expletive construction so the modifier has nothing to attach to",
-        "turns the subject into an abstraction that cannot be written in pencil"
+        "supplies a subject that the participle cannot describe"
       ],
       "error_tags": [
         "concept",
@@ -13981,7 +13981,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "An introductory modifier must describe the subject of the main clause that follows it, and a modifier must sit next to the word it modifies. Choice A supplies a subject that the participle cannot describe. Choice C uses an expletive construction so the modifier has nothing to attach to. Choice D turns the subject into an abstraction that cannot be written in pencil.",
+      "explanation": "An introductory modifier must describe the subject of the main clause that follows it, and a modifier must sit next to the word it modifies. Choice A supplies a subject that the participle cannot describe. Choice C uses an expletive construction so the modifier has nothing to attach to. Choice D supplies a subject that the participle cannot describe.",
       "skill_note": "A past-participle opener describes the subject that follows, not the person who found it."
     },
     {
@@ -14002,7 +14002,7 @@
       ],
       "answer": "D",
       "choice_notes": [
-        "turns the subject into an abstraction that cannot be written in pencil",
+        "supplies a subject that the participle cannot describe",
         "supplies a subject that the participle cannot describe",
         "uses an expletive construction so the modifier has nothing to attach to",
         "correct"
@@ -14013,7 +14013,7 @@
         "concept",
         "none"
       ],
-      "explanation": "An introductory modifier must describe the subject of the main clause that follows it, and a modifier must sit next to the word it modifies. Choice A turns the subject into an abstraction that cannot be written in pencil. Choice B supplies a subject that the participle cannot describe. Choice C uses an expletive construction so the modifier has nothing to attach to.",
+      "explanation": "An introductory modifier must describe the subject of the main clause that follows it, and a modifier must sit next to the word it modifies. Choice A supplies a subject that the participle cannot describe. Choice B supplies a subject that the participle cannot describe. Choice C uses an expletive construction so the modifier has nothing to attach to.",
       "skill_note": "A past-participle opener describes the subject that follows, not the person who found it."
     },
     {
@@ -14036,7 +14036,7 @@
       "choice_notes": [
         "uses an expletive construction so the modifier has nothing to attach to",
         "supplies a subject that the participle cannot describe",
-        "turns the subject into an abstraction that cannot be written in pencil",
+        "supplies a subject that the participle cannot describe",
         "correct"
       ],
       "error_tags": [
@@ -14045,7 +14045,7 @@
         "concept",
         "none"
       ],
-      "explanation": "An introductory modifier must describe the subject of the main clause that follows it, and a modifier must sit next to the word it modifies. Choice A uses an expletive construction so the modifier has nothing to attach to. Choice B supplies a subject that the participle cannot describe. Choice C turns the subject into an abstraction that cannot be written in pencil.",
+      "explanation": "An introductory modifier must describe the subject of the main clause that follows it, and a modifier must sit next to the word it modifies. Choice A uses an expletive construction so the modifier has nothing to attach to. Choice B supplies a subject that the participle cannot describe. Choice C supplies a subject that the participle cannot describe.",
       "skill_note": "A past-participle opener describes the subject that follows, not the person who found it."
     },
     {
@@ -14066,7 +14066,7 @@
       ],
       "answer": "B",
       "choice_notes": [
-        "uses \"so\" even though the first \"as\" already fixed the comparison",
+        "substitutes a word that cannot complete an as ... as comparison",
         "correct",
         "uses \"like\" to introduce a full clause",
         "uses \"than\", which belongs to a comparison of inequality"
@@ -14077,7 +14077,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"so\" even though the first \"as\" already fixed the comparison. Choice C uses \"like\" to introduce a full clause. Choice D uses \"than\", which belongs to a comparison of inequality.",
+      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A substitutes a word that cannot complete an as ... as comparison. Choice C uses \"like\" to introduce a full clause. Choice D uses \"than\", which belongs to a comparison of inequality.",
       "skill_note": "An equal comparison uses \"as\" on both sides; \"than\" signals an inequality."
     },
     {
@@ -14100,7 +14100,7 @@
       "choice_notes": [
         "uses \"like\" to introduce a full clause",
         "uses \"than\", which belongs to a comparison of inequality",
-        "uses \"so\" even though the first \"as\" already fixed the comparison",
+        "substitutes a word that cannot complete an as ... as comparison",
         "correct"
       ],
       "error_tags": [
@@ -14109,7 +14109,7 @@
         "concept",
         "none"
       ],
-      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"like\" to introduce a full clause. Choice B uses \"than\", which belongs to a comparison of inequality. Choice C uses \"so\" even though the first \"as\" already fixed the comparison.",
+      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"like\" to introduce a full clause. Choice B uses \"than\", which belongs to a comparison of inequality. Choice C substitutes a word that cannot complete an as ... as comparison.",
       "skill_note": "An equal comparison uses \"as\" on both sides; \"than\" signals an inequality."
     },
     {
@@ -14132,7 +14132,7 @@
       "choice_notes": [
         "uses \"than\", which belongs to a comparison of inequality",
         "uses \"like\" to introduce a full clause",
-        "uses \"so\" even though the first \"as\" already fixed the comparison",
+        "substitutes a word that cannot complete an as ... as comparison",
         "correct"
       ],
       "error_tags": [
@@ -14141,7 +14141,7 @@
         "concept",
         "none"
       ],
-      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"than\", which belongs to a comparison of inequality. Choice B uses \"like\" to introduce a full clause. Choice C uses \"so\" even though the first \"as\" already fixed the comparison.",
+      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"than\", which belongs to a comparison of inequality. Choice B uses \"like\" to introduce a full clause. Choice C substitutes a word that cannot complete an as ... as comparison.",
       "skill_note": "An equal comparison uses \"as\" on both sides; \"than\" signals an inequality."
     },
     {
@@ -14162,7 +14162,7 @@
       ],
       "answer": "D",
       "choice_notes": [
-        "uses \"that\" where the second half of the comparison belongs",
+        "substitutes a word that cannot complete the comparison",
         "uses \"than\" after \"as\" has already opened the comparison",
         "uses \"like\" where a conjunction introducing a clause is required",
         "correct"
@@ -14173,7 +14173,7 @@
         "concept",
         "none"
       ],
-      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"that\" where the second half of the comparison belongs. Choice B uses \"than\" after \"as\" has already opened the comparison. Choice C uses \"like\" where a conjunction introducing a clause is required.",
+      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A substitutes a word that cannot complete the comparison. Choice B uses \"than\" after \"as\" has already opened the comparison. Choice C uses \"like\" where a conjunction introducing a clause is required.",
       "skill_note": "The second \"as\" introduces the thing compared, even when a whole clause follows."
     },
     {
@@ -14195,7 +14195,7 @@
       "answer": "D",
       "choice_notes": [
         "uses \"than\" after \"as\" has already opened the comparison",
-        "uses \"that\" where the second half of the comparison belongs",
+        "substitutes a word that cannot complete the comparison",
         "uses \"like\" where a conjunction introducing a clause is required",
         "correct"
       ],
@@ -14205,7 +14205,7 @@
         "concept",
         "none"
       ],
-      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"than\" after \"as\" has already opened the comparison. Choice B uses \"that\" where the second half of the comparison belongs. Choice C uses \"like\" where a conjunction introducing a clause is required.",
+      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"than\" after \"as\" has already opened the comparison. Choice B substitutes a word that cannot complete the comparison. Choice C uses \"like\" where a conjunction introducing a clause is required.",
       "skill_note": "The second \"as\" introduces the thing compared, even when a whole clause follows."
     },
     {
@@ -14229,7 +14229,7 @@
         "uses \"like\" where a conjunction introducing a clause is required",
         "uses \"than\" after \"as\" has already opened the comparison",
         "correct",
-        "uses \"that\" where the second half of the comparison belongs"
+        "substitutes a word that cannot complete the comparison"
       ],
       "error_tags": [
         "concept",
@@ -14237,7 +14237,7 @@
         "none",
         "concept"
       ],
-      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"like\" where a conjunction introducing a clause is required. Choice B uses \"than\" after \"as\" has already opened the comparison. Choice D uses \"that\" where the second half of the comparison belongs.",
+      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"like\" where a conjunction introducing a clause is required. Choice B uses \"than\" after \"as\" has already opened the comparison. Choice D substitutes a word that cannot complete the comparison.",
       "skill_note": "The second \"as\" introduces the thing compared, even when a whole clause follows."
     },
     {
@@ -14260,7 +14260,7 @@
       "choice_notes": [
         "uses \"than\" even though the sentence opens with \"as many\"",
         "correct",
-        "uses \"that\" where the second \"as\" belongs",
+        "substitutes a word that cannot complete the comparison",
         "uses \"like\" to introduce the compared clause"
       ],
       "error_tags": [
@@ -14269,7 +14269,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"than\" even though the sentence opens with \"as many\". Choice C uses \"that\" where the second \"as\" belongs. Choice D uses \"like\" to introduce the compared clause.",
+      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"than\" even though the sentence opens with \"as many\". Choice C substitutes a word that cannot complete the comparison. Choice D uses \"like\" to introduce the compared clause.",
       "skill_note": "Multipliers such as \"twice\" or \"half\" sit outside the as ... as frame and do not change it."
     },
     {
@@ -14291,7 +14291,7 @@
       "answer": "D",
       "choice_notes": [
         "uses \"like\" to introduce the compared clause",
-        "uses \"that\" where the second \"as\" belongs",
+        "substitutes a word that cannot complete the comparison",
         "uses \"than\" even though the sentence opens with \"as many\"",
         "correct"
       ],
@@ -14301,7 +14301,7 @@
         "concept",
         "none"
       ],
-      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"like\" to introduce the compared clause. Choice B uses \"that\" where the second \"as\" belongs. Choice C uses \"than\" even though the sentence opens with \"as many\".",
+      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"like\" to introduce the compared clause. Choice B substitutes a word that cannot complete the comparison. Choice C uses \"than\" even though the sentence opens with \"as many\".",
       "skill_note": "Multipliers such as \"twice\" or \"half\" sit outside the as ... as frame and do not change it."
     },
     {
@@ -14324,7 +14324,7 @@
       "choice_notes": [
         "uses \"than\" even though the sentence opens with \"as many\"",
         "uses \"like\" to introduce the compared clause",
-        "uses \"that\" where the second \"as\" belongs",
+        "substitutes a word that cannot complete the comparison",
         "correct"
       ],
       "error_tags": [
@@ -14333,7 +14333,7 @@
         "concept",
         "none"
       ],
-      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"than\" even though the sentence opens with \"as many\". Choice B uses \"like\" to introduce the compared clause. Choice C uses \"that\" where the second \"as\" belongs.",
+      "explanation": "An equal comparison is built with as ... as; \"than\" belongs to a comparison of inequality. Choice A uses \"than\" even though the sentence opens with \"as many\". Choice B uses \"like\" to introduce the compared clause. Choice C substitutes a word that cannot complete the comparison.",
       "skill_note": "Multipliers such as \"twice\" or \"half\" sit outside the as ... as frame and do not change it."
     },
     {
@@ -14451,7 +14451,7 @@
       "answer": "D",
       "choice_notes": [
         "uses the comparative adjective \"lesser\" where a quantifier is needed",
-        "uses a base form with no comparative ending",
+        "uses a form that cannot carry the comparison",
         "uses the quantifier that belongs with an uncountable noun",
         "correct"
       ],
@@ -14461,7 +14461,7 @@
         "concept",
         "none"
       ],
-      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses the comparative adjective \"lesser\" where a quantifier is needed. Choice B uses a base form with no comparative ending. Choice C uses the quantifier that belongs with an uncountable noun.",
+      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses the comparative adjective \"lesser\" where a quantifier is needed. Choice B uses a form that cannot carry the comparison. Choice C uses the quantifier that belongs with an uncountable noun.",
       "skill_note": "Count nouns take \"fewer\"; mass nouns take \"less\"."
     },
     {
@@ -14483,7 +14483,7 @@
       "answer": "C",
       "choice_notes": [
         "uses the comparative adjective \"lesser\" where a quantifier is needed",
-        "uses a base form with no comparative ending",
+        "uses a form that cannot carry the comparison",
         "correct",
         "uses the quantifier that belongs with an uncountable noun"
       ],
@@ -14493,7 +14493,7 @@
         "none",
         "concept"
       ],
-      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses the comparative adjective \"lesser\" where a quantifier is needed. Choice B uses a base form with no comparative ending. Choice D uses the quantifier that belongs with an uncountable noun.",
+      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses the comparative adjective \"lesser\" where a quantifier is needed. Choice B uses a form that cannot carry the comparison. Choice D uses the quantifier that belongs with an uncountable noun.",
       "skill_note": "Count nouns take \"fewer\"; mass nouns take \"less\"."
     },
     {
@@ -14514,7 +14514,7 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "uses a base form with no comparative ending",
+        "uses a form that cannot carry the comparison",
         "uses the quantifier that belongs with an uncountable noun",
         "correct",
         "uses the comparative adjective \"lesser\" where a quantifier is needed"
@@ -14525,7 +14525,7 @@
         "none",
         "concept"
       ],
-      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses a base form with no comparative ending. Choice B uses the quantifier that belongs with an uncountable noun. Choice D uses the comparative adjective \"lesser\" where a quantifier is needed.",
+      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses a form that cannot carry the comparison. Choice B uses the quantifier that belongs with an uncountable noun. Choice D uses the comparative adjective \"lesser\" where a quantifier is needed.",
       "skill_note": "Count nouns take \"fewer\"; mass nouns take \"less\"."
     },
     {
@@ -14546,9 +14546,9 @@
       ],
       "answer": "D",
       "choice_notes": [
-        "uses the quantifier that belongs with a countable noun",
+        "uses the wrong quantifier for the noun",
         "uses \"lesser\", which means lower in importance, not smaller in amount",
-        "uses a base form with no comparative ending",
+        "uses a form that cannot carry the comparison",
         "correct"
       ],
       "error_tags": [
@@ -14557,7 +14557,7 @@
         "concept",
         "none"
       ],
-      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses the quantifier that belongs with a countable noun. Choice B uses \"lesser\", which means lower in importance, not smaller in amount. Choice C uses a base form with no comparative ending.",
+      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses the wrong quantifier for the noun. Choice B uses \"lesser\", which means lower in importance, not smaller in amount. Choice C uses a form that cannot carry the comparison.",
       "skill_note": "Visitors and miles are counted; sugar is measured."
     },
     {
@@ -14580,8 +14580,8 @@
       "choice_notes": [
         "uses \"lesser\", which means lower in importance, not smaller in amount",
         "correct",
-        "uses a base form with no comparative ending",
-        "uses the quantifier that belongs with a countable noun"
+        "uses a form that cannot carry the comparison",
+        "uses the wrong quantifier for the noun"
       ],
       "error_tags": [
         "concept",
@@ -14589,7 +14589,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses \"lesser\", which means lower in importance, not smaller in amount. Choice C uses a base form with no comparative ending. Choice D uses the quantifier that belongs with a countable noun.",
+      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses \"lesser\", which means lower in importance, not smaller in amount. Choice C uses a form that cannot carry the comparison. Choice D uses the wrong quantifier for the noun.",
       "skill_note": "Visitors and miles are counted; sugar is measured."
     },
     {
@@ -14611,9 +14611,9 @@
       "answer": "C",
       "choice_notes": [
         "uses \"lesser\", which means lower in importance, not smaller in amount",
-        "uses the quantifier that belongs with a countable noun",
+        "uses the wrong quantifier for the noun",
         "correct",
-        "uses a base form with no comparative ending"
+        "uses a form that cannot carry the comparison"
       ],
       "error_tags": [
         "concept",
@@ -14621,7 +14621,7 @@
         "none",
         "concept"
       ],
-      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses \"lesser\", which means lower in importance, not smaller in amount. Choice B uses the quantifier that belongs with a countable noun. Choice D uses a base form with no comparative ending.",
+      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses \"lesser\", which means lower in importance, not smaller in amount. Choice B uses the wrong quantifier for the noun. Choice D uses a form that cannot carry the comparison.",
       "skill_note": "Visitors and miles are counted; sugar is measured."
     },
     {
@@ -14644,8 +14644,8 @@
       "choice_notes": [
         "correct",
         "uses \"lesser\" where a plain quantifier is required",
-        "uses \"less\" with a plural count noun",
-        "uses a base form with no comparative ending"
+        "uses the wrong quantifier for the noun",
+        "uses a form that cannot carry the comparison"
       ],
       "error_tags": [
         "none",
@@ -14653,7 +14653,7 @@
         "concept",
         "concept"
       ],
-      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice B uses \"lesser\" where a plain quantifier is required. Choice C uses \"less\" with a plural count noun. Choice D uses a base form with no comparative ending.",
+      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice B uses \"lesser\" where a plain quantifier is required. Choice C uses the wrong quantifier for the noun. Choice D uses a form that cannot carry the comparison.",
       "skill_note": "Time and money are amounts, but trips and dollars are countable in context; read the noun, not the habit."
     },
     {
@@ -14674,8 +14674,8 @@
       ],
       "answer": "D",
       "choice_notes": [
-        "uses \"less\" with a plural count noun",
-        "uses a base form with no comparative ending",
+        "uses the wrong quantifier for the noun",
+        "uses a form that cannot carry the comparison",
         "uses \"lesser\" where a plain quantifier is required",
         "correct"
       ],
@@ -14685,7 +14685,7 @@
         "concept",
         "none"
       ],
-      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses \"less\" with a plural count noun. Choice B uses a base form with no comparative ending. Choice C uses \"lesser\" where a plain quantifier is required.",
+      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses the wrong quantifier for the noun. Choice B uses a form that cannot carry the comparison. Choice C uses \"lesser\" where a plain quantifier is required.",
       "skill_note": "Time and money are amounts, but trips and dollars are countable in context; read the noun, not the habit."
     },
     {
@@ -14706,8 +14706,8 @@
       ],
       "answer": "C",
       "choice_notes": [
-        "uses \"less\" with a plural count noun",
-        "uses a base form with no comparative ending",
+        "uses the wrong quantifier for the noun",
+        "uses a form that cannot carry the comparison",
         "correct",
         "uses \"lesser\" where a plain quantifier is required"
       ],
@@ -14717,55 +14717,8 @@
         "none",
         "concept"
       ],
-      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses \"less\" with a plural count noun. Choice B uses a base form with no comparative ending. Choice D uses \"lesser\" where a plain quantifier is required.",
+      "explanation": "Fewer counts individual items; less measures an amount that cannot be counted. Choice A uses the wrong quantifier for the noun. Choice B uses a form that cannot carry the comparison. Choice D uses \"lesser\" where a plain quantifier is required.",
       "skill_note": "Time and money are amounts, but trips and dollars are countable in context; read the noun, not the habit."
     }
-  ],
-  "meta": {
-    "generator": "rw-conventions",
-    "domain": "Standard English Conventions",
-    "count": 460,
-    "byDifficulty": {
-      "easy": 138,
-      "medium": 161,
-      "hard": 92,
-      "very_hard": 46,
-      "extreme": 23
-    },
-    "bySkill": {
-      "Boundaries: semicolons": 20,
-      "Boundaries: comma splices and periods": 20,
-      "Boundaries: colons": 20,
-      "Boundaries: dashes": 22,
-      "Boundaries: nonessential appositives": 20,
-      "Boundaries: essential elements": 20,
-      "Boundaries: introductory elements": 14,
-      "Boundaries: series": 14,
-      "Boundaries: subject-verb punctuation": 14,
-      "Boundaries: singular possession": 13,
-      "Boundaries: plural possession": 13,
-      "Boundaries: names ending in s": 13,
-      "Boundaries: contractions": 13,
-      "Boundaries: its and it's": 13,
-      "Boundaries: whose and who's": 12,
-      "Boundaries: quotation marks": 11,
-      "Boundaries: hyphens and dashes": 20,
-      "Form: subject-verb agreement with intervening phrases": 15,
-      "Form: inverted subject-verb agreement": 12,
-      "Form: collective nouns": 12,
-      "Form: indefinite pronouns": 12,
-      "Form: pronoun-antecedent agreement": 12,
-      "Form: pronoun case": 15,
-      "Form: one of the ... agreement": 15,
-      "Form: verb tense consistency": 12,
-      "Form: perfect tenses": 12,
-      "Form: subjunctive mood": 15,
-      "Form: parallelism in a series": 15,
-      "Form: parallel correlatives": 11,
-      "Form: dangling and misplaced modifiers": 9,
-      "Form: comparisons with as ... as": 12,
-      "Form: fewer and less": 9
-    },
-    "seed": "mulberry32/fnv1a"
-  }
+  ]
 }

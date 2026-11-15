@@ -401,8 +401,10 @@ function assemble(r, g, L, body, wantSpr) {
       v = null;
     } else {
       [v, note, tag] = tup;
+      if (typeof v === 'number' && !Number.isFinite(v)) continue;
       t = formatLike(body.text, v);
     }
+    if (typeof v === 'number' && !Number.isFinite(v)) continue;
     if (t == null) t = num(v);
     t = choiceTex(t);
     const k = keyOf(v, t);
@@ -479,7 +481,6 @@ function gRatioParts(r, L) {
   const per = r.int(2, 6 + 2 * L);
   const total = (a + b) * per;
   const ans = a * per;
-  const capA = ctx.a.charAt(0).toUpperCase() + ctx.a.slice(1);
   const stem = `${ctx.intro} The two ingredients are combined in the ratio $${a}:${b}$. A batch contains ${total} ${ctx.unit} of the mixture. How many ${ctx.unit} of ${ctx.a} are in the batch?`;
   return {
     num: ans,
@@ -497,7 +498,7 @@ function gRatioParts(r, L) {
     check: `verified $${a}\\times${per}+${b}\\times${per}=${total}$ equals the stated batch size`,
   };
 }
-reg({ fn: gRatioParts, domain: DATA_DOMAIN, skill: 'Ratios and rates', count: 11, spr: true });
+reg({ fn: gRatioParts, domain: DATA_DOMAIN, skill: 'Ratios and rates', count: 11, spr: true, cap: 2 });
 
 /* ---- unit conversion via dimensional analysis ---- */
 function gUnitConvert(r, L) {
@@ -608,7 +609,7 @@ function gUnitConvert(r, L) {
   check = `checked $${g}\\times4=${g * 4}$ quarts and $${g * 4}\\times2=${ans}$ pints`;
   return { num: ans, text: num(ans), spr: num(ans), alts, stem, expl, desmos, note, check };
 }
-reg({ fn: gUnitConvert, domain: DATA_DOMAIN, skill: 'Unit conversion', count: 11, spr: true });
+reg({ fn: gUnitConvert, domain: DATA_DOMAIN, skill: 'Unit conversion', count: 11, spr: true, cap: 2 });
 
 /* ---- unit rate ---- */
 function gUnitRate(r, L) {
@@ -677,7 +678,7 @@ function gUnitRate(r, L) {
     check: `divided back: $${ans}\\div${hours}=${perHour}$`,
   };
 }
-reg({ fn: gUnitRate, domain: DATA_DOMAIN, skill: 'Unit rate', count: 10, spr: true });
+reg({ fn: gUnitRate, domain: DATA_DOMAIN, skill: 'Unit rate', count: 10, spr: true, cap: 2 });
 
 /* ---- percent of a number ---- */
 function gPercentOf(r, L) {
@@ -722,7 +723,7 @@ function gPercentOf(r, L) {
     check: `multiplied back: $${base}\\times${num(p / 100)}=${num(part)}$`,
   };
 }
-reg({ fn: gPercentOf, domain: DATA_DOMAIN, skill: 'Percent of a number', count: 10, spr: true });
+reg({ fn: gPercentOf, domain: DATA_DOMAIN, skill: 'Percent of a number', count: 10, spr: true, cap: 2 });
 
 /* ---- percent increase / decrease ---- */
 function gPercentChange(r, L) {
@@ -770,7 +771,7 @@ function gPercentChange(r, L) {
     check: `multiplied back: $${old}\\times(1${up ? '+' : '-'}${num(p / 100)})=${num(neu)}$`,
   };
 }
-reg({ fn: gPercentChange, domain: DATA_DOMAIN, skill: 'Percent increase and decrease', count: 10, spr: true });
+reg({ fn: gPercentChange, domain: DATA_DOMAIN, skill: 'Percent increase and decrease', count: 10, spr: true, cap: 2 });
 
 /* ---- percent change chains ---- */
 function gPercentChain(r, L) {
@@ -824,7 +825,7 @@ function gPercentOriginal(r, L) {
     check: `multiplied back: $${orig}\\times${num(up ? 1 + p / 100 : 1 - p / 100)}=${num(neu)}$`,
   };
 }
-reg({ fn: gPercentOriginal, domain: DATA_DOMAIN, skill: 'Finding the original amount', count: 10, spr: true });
+reg({ fn: gPercentOriginal, domain: DATA_DOMAIN, skill: 'Finding the original amount', count: 10, spr: true, cap: 2 });
 
 /* ---- percent more / less than ---- */
 function gPercentMoreLess(r, L) {
@@ -873,15 +874,16 @@ function gPercentMoreLess(r, L) {
   const p = r.pick([25, 50, 100, 150, 400]);
   const ans = Math.round(((100 * p) / (100 + p)) * 1e6) / 1e6;
   const stem = `The number $y$ is ${pctTex(p)} more than the number $x$. The number $x$ is what percent less than $y$?`;
+  const alts = [
+    [p, 'assumed the two percent comparisons are the same', 'concept'],
+    [Math.round(((100 * p) / (100 + p)) * 2 * 1e6) / 1e6, 'doubled the percent', 'arithmetic'],
+    [100 - p, 'subtracted the percent from $100$', 'quantity'],
+  ];
   return {
     num: ans,
     text: num(ans),
     spr: num(ans),
-    alts: [
-      [p, 'assumed the two percent comparisons are the same', 'concept'],
-      [Math.round(((100 * p) / (100 - p)) * 1e6) / 1e6, 'used the wrong base for the comparison', 'setup'],
-      [100 - p, 'subtracted the percent from $100$', 'quantity'],
-    ],
+    alts,
     stem,
     expl: `Take $x=100$ and $y=100+p$. Then $x$ is $p$ below $y$, which as a percent of $y$ is $\\frac{p}{100+p}\\times100=${num(ans)}$ percent.`,
     desmos: `${p}/(100+${p})*100`,
@@ -991,7 +993,7 @@ function gMeanMedianMode(r, L) {
     check: `recomputed sorted=${sorted.join(',')} sum=${sum} mean=${num(mean)} median=${median} range=${range}`,
   };
 }
-reg({ fn: gMeanMedianMode, domain: DATA_DOMAIN, skill: 'Mean, median, mode, and range', count: 11, spr: true });
+reg({ fn: gMeanMedianMode, domain: DATA_DOMAIN, skill: 'Mean, median, mode, and range', count: 11, spr: true, cap: 2 });
 
 /* ---- effect of an outlier ---- */
 function gOutlierEffect(r, L) {
@@ -1022,7 +1024,7 @@ function gOutlierEffect(r, L) {
     check: `recomputed the new mean from the reconstructed sum and subtracted the given mean`,
   };
 }
-reg({ fn: gOutlierEffect, domain: DATA_DOMAIN, skill: 'Effect of an outlier', count: 9, spr: true });
+reg({ fn: gOutlierEffect, domain: DATA_DOMAIN, skill: 'Effect of an outlier', count: 9, spr: true, cap: 3 });
 
 /* ---- comparing standard deviations ---- */
 function gCompareSD(r, L) {
@@ -1062,11 +1064,11 @@ function gCompareSD(r, L) {
     onlyText: true,
   };
 }
-reg({ fn: gCompareSD, domain: DATA_DOMAIN, skill: 'Comparing standard deviations', count: 10, spr: false });
+reg({ fn: gCompareSD, domain: DATA_DOMAIN, skill: 'Comparing standard deviations', count: 10, spr: false, cap: 2 });
 
 /* ---- weighted average ---- */
 function gWeightedAvg(r, L) {
-  let n1 = r.int(6, 12 + 2 * L);
+  const n1 = r.int(6, 12 + 2 * L);
   let n2 = r.int(4, 12 + 2 * L);
   const a1 = r.int(60, 78);
   const a2 = r.int(80, 95);
@@ -1095,7 +1097,7 @@ function gWeightedAvg(r, L) {
     check: `multiplied back: $${num(ans)}\\times${n1 + n2}=${total}$ total points`,
   };
 }
-reg({ fn: gWeightedAvg, domain: DATA_DOMAIN, skill: 'Weighted average', count: 10, spr: true });
+reg({ fn: gWeightedAvg, domain: DATA_DOMAIN, skill: 'Weighted average', count: 10, spr: true, cap: 3 });
 
 /* ---- two-way tables: conditional probability (complete table) ---- */
 const TWOWAY_CTX = [
@@ -1154,7 +1156,7 @@ function gTwoWayConditional(r, L) {
     check: `table sums to ${T}; denominator taken from the ${checkDen} group and numerator from the matching cell`,
   };
 }
-reg({ fn: gTwoWayConditional, domain: DATA_DOMAIN, skill: 'Two-way tables and conditional probability', count: 11, spr: true });
+reg({ fn: gTwoWayConditional, domain: DATA_DOMAIN, skill: 'Two-way tables and conditional probability', count: 11, spr: true, cap: 3 });
 
 /* ---- two-way tables with a missing cell ---- */
 function gTwoWayPartial(r, L) {
@@ -1195,7 +1197,7 @@ function gTwoWayPartial(r, L) {
     check: `rebuilt the full table: rows ${a}+${b}=${a + b}, ${cc}+${d}=${cc + d}; columns ${a}+${cc}=${a + cc}, ${b}+${d}=${b + d}; grand total ${T}`,
   };
 }
-reg({ fn: gTwoWayPartial, domain: DATA_DOMAIN, skill: 'Two-way tables with partial information', count: 10, spr: true });
+reg({ fn: gTwoWayPartial, domain: DATA_DOMAIN, skill: 'Two-way tables with partial information', count: 10, spr: true, cap: 3 });
 
 /* ---- simple probability ---- */
 function gSimpleProb(r, L) {
@@ -1259,7 +1261,7 @@ function gSimpleProb(r, L) {
     check: `checked denominator $${T}\\times${T - 1}=${T * (T - 1)}$ and numerator $${red}\\times${red - 1}=${red * (red - 1)}$`,
   };
 }
-reg({ fn: gSimpleProb, domain: DATA_DOMAIN, skill: 'Simple probability', count: 10, spr: true });
+reg({ fn: gSimpleProb, domain: DATA_DOMAIN, skill: 'Simple probability', count: 10, spr: true, cap: 2 });
 
 /* ---- random sample validity ---- */
 function gRandomSample(r, L) {
@@ -1291,7 +1293,7 @@ function gRandomSample(r, L) {
     onlyText: true,
   };
 }
-reg({ fn: gRandomSample, domain: DATA_DOMAIN, skill: 'Random sample validity', count: 9, spr: false });
+reg({ fn: gRandomSample, domain: DATA_DOMAIN, skill: 'Random sample validity', count: 9, spr: false, cap: 2 });
 
 /* ---- margin of error ---- */
 function gMarginOfError(r, L) {
@@ -1355,7 +1357,7 @@ function gMarginOfError(r, L) {
     check: `checked the interval $[${p - m},${p + m}]$ has width ${num(ans)}`,
   };
 }
-reg({ fn: gMarginOfError, domain: DATA_DOMAIN, skill: 'Margin of error', count: 10, spr: true });
+reg({ fn: gMarginOfError, domain: DATA_DOMAIN, skill: 'Margin of error', count: 10, spr: true, cap: 2 });
 
 /* ---- inference from samples ---- */
 function gInferenceSample(r, L) {
@@ -1403,7 +1405,7 @@ function gInferenceSample(r, L) {
     check: `divided back: $${num(ans)}\\div${N}=${mean}$ pounds per box`,
   };
 }
-reg({ fn: gInferenceSample, domain: DATA_DOMAIN, skill: 'Inference from samples', count: 10, spr: true });
+reg({ fn: gInferenceSample, domain: DATA_DOMAIN, skill: 'Inference from samples', count: 10, spr: true, cap: 2 });
 
 /* ---- scatterplot: slope in context ---- */
 const SCATTER_CTX = [
@@ -1443,7 +1445,7 @@ function gScatterSlope(r, L) {
     check: `evaluated the model at $x=${k}$ and at $x=0$: difference $=${num(ans)}$`,
   };
 }
-reg({ fn: gScatterSlope, domain: DATA_DOMAIN, skill: 'Scatterplots and lines of best fit (slope)', count: 10, spr: true });
+reg({ fn: gScatterSlope, domain: DATA_DOMAIN, skill: 'Scatterplots and lines of best fit (slope)', count: 10, spr: true, cap: 3 });
 
 /* ---- scatterplot: intercept in context ---- */
 function gScatterIntercept(r, L) {
@@ -1471,7 +1473,7 @@ function gScatterIntercept(r, L) {
     check: `reconstructed $${num(slope)}\\times${x1}+${num(ans)}=${num(y1)}$ and $${num(slope)}\\times${x2}+${num(ans)}=${num(y2)}$`,
   };
 }
-reg({ fn: gScatterIntercept, domain: DATA_DOMAIN, skill: 'Scatterplots and lines of best fit (intercept)', count: 9, spr: true });
+reg({ fn: gScatterIntercept, domain: DATA_DOMAIN, skill: 'Scatterplots and lines of best fit (intercept)', count: 9, spr: true, cap: 3 });
 
 /* ---- predicted value from a line of best fit ---- */
 function gScatterPredict(r, L) {
@@ -1497,7 +1499,7 @@ function gScatterPredict(r, L) {
     check: `evaluated in two steps: $${num(slope)}\\times${x}=${num(Math.round(slope * x * 1e6) / 1e6)}$ then added ${num(base)}`,
   };
 }
-reg({ fn: gScatterPredict, domain: DATA_DOMAIN, skill: 'Predicted value from a line of best fit', count: 10, spr: true });
+reg({ fn: gScatterPredict, domain: DATA_DOMAIN, skill: 'Predicted value from a line of best fit', count: 10, spr: true, cap: 2 });
 
 /* ---- density ---- */
 function gDensity(r, L) {
@@ -1540,7 +1542,7 @@ function gDensity(r, L) {
     check: `multiplied back: $${v}\\times${num(d)}=${num(m)}$ grams`,
   };
 }
-reg({ fn: gDensity, domain: DATA_DOMAIN, skill: 'Density', count: 10, spr: true });
+reg({ fn: gDensity, domain: DATA_DOMAIN, skill: 'Density', count: 10, spr: true, cap: 2 });
 
 /* ---- rate / work ---- */
 const WORK_PAIRS = [[6, 12], [4, 12], [5, 20], [10, 15], [8, 24], [9, 18], [20, 30], [15, 10], [12, 6], [3, 6], [2, 6], [12, 24], [30, 20], [18, 9]];
@@ -1565,7 +1567,7 @@ function gRateWork(r, L) {
     check: `checked combined rate $\\frac{${a + b}}{${a * b}}$ times $${num(t)}$ equals $1$ job`,
   };
 }
-reg({ fn: gRateWork, domain: DATA_DOMAIN, skill: 'Rate and work problems', count: 10, spr: true });
+reg({ fn: gRateWork, domain: DATA_DOMAIN, skill: 'Rate and work problems', count: 10, spr: true, cap: 3 });
 
 /* ---- distance-rate-time with two travellers ---- */
 function gDrtTwo(r, L) {
@@ -1610,7 +1612,7 @@ function gDrtTwo(r, L) {
     check: `checked the freight train travels $${r1}\\times${2 * t}$ miles while the express travels $${r2 * t}$, a gap of ${lead} at the start`,
   };
 }
-reg({ fn: gDrtTwo, domain: DATA_DOMAIN, skill: 'Distance, rate, and time with two travellers', count: 10, spr: true });
+reg({ fn: gDrtTwo, domain: DATA_DOMAIN, skill: 'Distance, rate, and time with two travellers', count: 10, spr: true, cap: 3 });
 
 /* ---- mixture / concentration ---- */
 function gMixture(r, L) {
@@ -1639,7 +1641,7 @@ function gMixture(r, L) {
     check: `checked acid total $${num(Math.round(solute * 1e6) / 1e6)}$ L and new volume $${V}+${w}=${total}$ L`,
   };
 }
-reg({ fn: gMixture, domain: DATA_DOMAIN, skill: 'Mixture and concentration', count: 10, spr: true });
+reg({ fn: gMixture, domain: DATA_DOMAIN, skill: 'Mixture and concentration', count: 10, spr: true, cap: 3 });
 
 /* ================================================================== *
  * 7. GEOMETRY AND TRIGONOMETRY
@@ -1689,7 +1691,7 @@ function gParallelAngles(r, L) {
   }
   return null;
 }
-reg({ fn: gParallelAngles, domain: GEO_DOMAIN, skill: 'Angles and parallel lines', count: 9, spr: true });
+reg({ fn: gParallelAngles, domain: GEO_DOMAIN, skill: 'Angles and parallel lines', count: 9, spr: true, cap: 2 });
 
 /* ---- triangle angle sum ---- */
 function gTriangleSum(r, L) {
@@ -1765,7 +1767,7 @@ function gTriangleSum(r, L) {
   }
   return null;
 }
-reg({ fn: gTriangleSum, domain: GEO_DOMAIN, skill: 'Triangle angle sum', count: 9, spr: true });
+reg({ fn: gTriangleSum, domain: GEO_DOMAIN, skill: 'Triangle angle sum', count: 9, spr: true, cap: 3 });
 
 /* ---- isosceles triangles ---- */
 function gIsosceles(r, L) {
@@ -1830,7 +1832,7 @@ function gIsosceles(r, L) {
     check: `checked $${v}+${base}+${base}=180$ with vertex $=${t}\\times${base}$`,
   };
 }
-reg({ fn: gIsosceles, domain: GEO_DOMAIN, skill: 'Isosceles triangles', count: 9, spr: true });
+reg({ fn: gIsosceles, domain: GEO_DOMAIN, skill: 'Isosceles triangles', count: 9, spr: true, cap: 2 });
 
 /* ---- exterior angle ---- */
 function gExteriorAngle(r, L) {
@@ -1875,7 +1877,7 @@ function gExteriorAngle(r, L) {
     check: `checked $${r1}+${other}=${ext}$ and interior angle $${180 - ext}$`,
   };
 }
-reg({ fn: gExteriorAngle, domain: GEO_DOMAIN, skill: 'Exterior angle of a triangle', count: 8, spr: true });
+reg({ fn: gExteriorAngle, domain: GEO_DOMAIN, skill: 'Exterior angle of a triangle', count: 8, spr: true, cap: 2 });
 
 /* ---- similar triangles: proportional sides ---- */
 const TRIPLES = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29], [9, 40, 41], [6, 8, 10], [12, 16, 20], [10, 24, 26], [15, 20, 25], [5, 12, 13], [8, 15, 17]];
@@ -1901,7 +1903,7 @@ function gSimilarSides(r, L) {
     check: `checked all three sides scale by the same factor: $${tri[0]}\\to${num(sides[0])}$, $${tri[1]}\\to${num(sides[1])}$, $${tri[2]}\\to${num(sides[2])}$`,
   };
 }
-reg({ fn: gSimilarSides, domain: GEO_DOMAIN, skill: 'Similar triangles and proportional sides', count: 9, spr: true });
+reg({ fn: gSimilarSides, domain: GEO_DOMAIN, skill: 'Similar triangles and proportional sides', count: 9, spr: true, cap: 3 });
 
 /* ---- similar triangles: word problems ---- */
 function gSimilarWord(r, L) {
@@ -1971,7 +1973,7 @@ function gSimilarWord(r, L) {
     check: `checked the sides are $${tri[0] * k}$, $${tri[1] * k}$, $${tri[2] * k}$ and sum to ${per}`,
   };
 }
-reg({ fn: gSimilarWord, domain: GEO_DOMAIN, skill: 'Similar-triangle word problems', count: 9, spr: true });
+reg({ fn: gSimilarWord, domain: GEO_DOMAIN, skill: 'Similar-triangle word problems', count: 9, spr: true, cap: 3 });
 
 /* ---- Pythagorean theorem ---- */
 function gPythagoras(r, L) {
@@ -1980,7 +1982,7 @@ function gPythagoras(r, L) {
   const a = tri[0] * k;
   const b = tri[1] * k;
   const c = tri[2] * k;
-  if (L >= 3 && r.chance(0.4)) {
+  if (L === 4 || (L === 3 && r.chance(0.5))) {
     const per = a + b + c;
     return {
       num: per,
@@ -2034,12 +2036,12 @@ function gPythagoras(r, L) {
     check: `checked $${a}^2+${b}^2=${c * c}$ and $${b}<${c}$`,
   };
 }
-reg({ fn: gPythagoras, domain: GEO_DOMAIN, skill: 'Pythagorean theorem', count: 10, spr: true });
+reg({ fn: gPythagoras, domain: GEO_DOMAIN, skill: 'Pythagorean theorem', count: 10, spr: true, cap: 4 });
 
 /* ---- 45-45-90 ---- */
 function gTri45(r, L) {
   const k = r.int(3, 9 + 3 * L);
-  if (L >= 3 && r.chance(0.35)) {
+  if (L === 4 || (L === 3 && r.chance(0.5))) {
     // two-step: hypotenuse -> area of the triangle
     const even = k % 2 === 0 ? k : k + 1;
     const area = (even * even) / 2;
@@ -2101,7 +2103,7 @@ reg({ fn: gTri45, domain: GEO_DOMAIN, skill: '45-45-90 triangles', count: 9, spr
 /* ---- 30-60-90 ---- */
 function gTri3060(r, L) {
   const s = r.int(2, 7 + 2 * L);
-  const kind = r.int(0, L >= 3 ? 3 : 2);
+  const kind = L === 4 ? 3 : r.int(0, L >= 3 ? 3 : 2);
   const longTex = s === 1 ? '\\sqrt{3}' : `${s}\\sqrt{3}`;
   if (kind === 0) {
     const stem = `In a $30^\\circ$-$60^\\circ$-$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length ${s}. What is the length of the hypotenuse?`;
@@ -2212,7 +2214,7 @@ function gTrigRatios(r, L) {
     check: `checked $${opp}^2+${adj}^2=${c}^2$ and the ratio $${numr}/${den}$`,
   };
 }
-reg({ fn: gTrigRatios, domain: GEO_DOMAIN, skill: 'Sine, cosine, and tangent as ratios', count: 9, spr: true });
+reg({ fn: gTrigRatios, domain: GEO_DOMAIN, skill: 'Sine, cosine, and tangent as ratios', count: 9, spr: true, cap: 3 });
 
 /* ---- cofunction identity ---- */
 function gCofunction(r, L) {
@@ -2284,7 +2286,7 @@ function gRadians(r, L) {
     check: `converted back: $${radTex}\\times\\frac{180}{\\pi}=${deg}^\\circ$`,
   };
 }
-reg({ fn: gRadians, domain: GEO_DOMAIN, skill: 'Radians and degrees', count: 9, spr: true });
+reg({ fn: gRadians, domain: GEO_DOMAIN, skill: 'Radians and degrees', count: 9, spr: true, cap: 2 });
 
 /* ---- arc length ---- */
 function gArcLength(r, L) {
@@ -2307,7 +2309,7 @@ function gArcLength(r, L) {
     check: `checked as $\\frac{${theta}}{360}\\times2\\pi\\times${rad}$, coefficient $\\frac{${rad * theta}}{180}$`,
   };
 }
-reg({ fn: gArcLength, domain: GEO_DOMAIN, skill: 'Arc length', count: 9, spr: false });
+reg({ fn: gArcLength, domain: GEO_DOMAIN, skill: 'Arc length', count: 9, spr: false, cap: 2 });
 
 /* ---- sector area ---- */
 function gSectorArea(r, L) {
@@ -2330,7 +2332,7 @@ function gSectorArea(r, L) {
     check: `checked as $\\frac{${theta}}{360}\\times\\pi\\times${rad * rad}$, coefficient $\\frac{${rad * rad * theta}}{360}$`,
   };
 }
-reg({ fn: gSectorArea, domain: GEO_DOMAIN, skill: 'Sector area', count: 9, spr: false });
+reg({ fn: gSectorArea, domain: GEO_DOMAIN, skill: 'Sector area', count: 9, spr: false, cap: 2 });
 
 /* ---- circle equation: centre and radius ---- */
 function sqBinom(v, c) {
@@ -2379,7 +2381,7 @@ function gCircleEq(r, L) {
     check: `read $(h,k)$ directly from the two binomials: $(${h},${k})$`,
   };
 }
-reg({ fn: gCircleEq, domain: GEO_DOMAIN, skill: 'Circle equations: centre and radius', count: 10, spr: true });
+reg({ fn: gCircleEq, domain: GEO_DOMAIN, skill: 'Circle equations: centre and radius', count: 10, spr: true, cap: 2 });
 
 /* ---- circle equation: completing the square ---- */
 function gCircleComplete(r, L) {
@@ -2424,7 +2426,7 @@ function gCircleComplete(r, L) {
     check: `checked the completed form $(x-${h})^2+(y-${k})^2$ expands to the given coefficients $${D}$ and $${E}$`,
   };
 }
-reg({ fn: gCircleComplete, domain: GEO_DOMAIN, skill: 'Circle equations: completing the square', count: 10, spr: true });
+reg({ fn: gCircleComplete, domain: GEO_DOMAIN, skill: 'Circle equations: completing the square', count: 10, spr: true, cap: 3 });
 
 /* ---- tangent perpendicular to radius ---- */
 function gTangentRadius(r, L) {
@@ -2466,7 +2468,7 @@ function gTangentRadius(r, L) {
     check: `checked $${rad}^2+${tan}^2=${dist * dist}$ and $${rad}<${dist}$`,
   };
 }
-reg({ fn: gTangentRadius, domain: GEO_DOMAIN, skill: 'Tangent perpendicular to radius', count: 8, spr: true });
+reg({ fn: gTangentRadius, domain: GEO_DOMAIN, skill: 'Tangent perpendicular to radius', count: 8, spr: true, cap: 3 });
 
 /* ---- composite areas ---- */
 function gCompositeArea(r, L) {
@@ -2535,7 +2537,7 @@ function gCompositeArea(r, L) {
     check: `checked the circle area $\\pi\\times${w / 2}^2=${piCoef}$ plus rectangle ${base}`,
   };
 }
-reg({ fn: gCompositeArea, domain: GEO_DOMAIN, skill: 'Composite areas', count: 8, spr: false });
+reg({ fn: gCompositeArea, domain: GEO_DOMAIN, skill: 'Composite areas', count: 8, spr: false, cap: 3 });
 
 /* ---- volume of prisms and cylinders ---- */
 function gVolumePrism(r, L) {
@@ -2578,7 +2580,7 @@ function gVolumePrism(r, L) {
     check: `checked base area $\\pi\\times${rad * rad}$ times height ${h} gives coefficient $${rad * rad * h}$`,
   };
 }
-reg({ fn: gVolumePrism, domain: GEO_DOMAIN, skill: 'Volume of prisms and cylinders', count: 10, spr: true });
+reg({ fn: gVolumePrism, domain: GEO_DOMAIN, skill: 'Volume of prisms and cylinders', count: 10, spr: true, cap: 1 });
 
 /* ---- volume of pyramids and cones ---- */
 function gVolumePyramid(r, L) {
@@ -2621,7 +2623,7 @@ function gVolumePyramid(r, L) {
     check: `checked $3\\times${ansTex}=${piFrac(rad * rad * h, 1)}$`,
   };
 }
-reg({ fn: gVolumePyramid, domain: GEO_DOMAIN, skill: 'Volume of pyramids and cones', count: 8, spr: false });
+reg({ fn: gVolumePyramid, domain: GEO_DOMAIN, skill: 'Volume of pyramids and cones', count: 8, spr: false, cap: 2 });
 
 /* ---- volume of a sphere ---- */
 function gVolumeSphere(r, L) {
@@ -2643,7 +2645,7 @@ function gVolumeSphere(r, L) {
     check: `checked $\\frac{4}{3}\\times${rad * rad * rad}=${(4 * rad * rad * rad) / 3}$ so the coefficient is $\\frac{${4 * rad * rad * rad}}{3}$`,
   };
 }
-reg({ fn: gVolumeSphere, domain: GEO_DOMAIN, skill: 'Volume of a sphere', count: 8, spr: false });
+reg({ fn: gVolumeSphere, domain: GEO_DOMAIN, skill: 'Volume of a sphere', count: 8, spr: false, cap: 2 });
 
 /* ---- surface area ---- */
 function gSurfaceArea(r, L) {
@@ -2683,7 +2685,7 @@ function gSurfaceArea(r, L) {
     check: `checked $2\\times${rad}\\times(${rad}+${h})=${2 * rad * (rad + h)}$ so the coefficient is $${2 * rad * (rad + h)}$`,
   };
 }
-reg({ fn: gSurfaceArea, domain: GEO_DOMAIN, skill: 'Surface area of spheres and cylinders', count: 8, spr: false });
+reg({ fn: gSurfaceArea, domain: GEO_DOMAIN, skill: 'Surface area of spheres and cylinders', count: 8, spr: false, cap: 2 });
 
 /* ---- density and volume ---- */
 function gDensityVolume(r, L) {
@@ -2708,7 +2710,7 @@ function gDensityVolume(r, L) {
     check: `checked $${num(ans)}\\times1000=${num(massG)}$ grams and $${num(massG)}\\div${vol}=${num(dens)}$`,
   };
 }
-reg({ fn: gDensityVolume, domain: GEO_DOMAIN, skill: 'Density and volume', count: 8, spr: true });
+reg({ fn: gDensityVolume, domain: GEO_DOMAIN, skill: 'Density and volume', count: 8, spr: true, cap: 2 });
 
 /* ---- coordinate geometry ---- */
 function gCoordGeom(r, L) {
@@ -2772,7 +2774,7 @@ function gCoordGeom(r, L) {
     check: `checked rise $${y2 - y1}$ over run $${x2 - x1}$ reduces to $${frac(y2 - y1, x2 - x1)}$`,
   };
 }
-reg({ fn: gCoordGeom, domain: GEO_DOMAIN, skill: 'Coordinate geometry: distance, midpoint, and slope', count: 10, spr: true });
+reg({ fn: gCoordGeom, domain: GEO_DOMAIN, skill: 'Coordinate geometry: distance, midpoint, and slope', count: 10, spr: true, cap: 3 });
 
 /* ---- parallel and perpendicular slopes ---- */
 const RATIONAL_SLOPES = [[2, 1], [3, 1], [4, 1], [5, 1], [-2, 1], [-3, 1], [1, 2], [-1, 2], [3, 2], [-2, 3], [5, 2], [-3, 4]];
@@ -2782,7 +2784,7 @@ function gPerpParallel(r, L) {
   const m = p / q;
   const b = r.int(-6, 8);
   const mText = frac(p, q);
-  const lineEq = `$y=${mText}x${b >= 0 ? '+' : '-'}${Math.abs(b)}$`;
+  const lineEq = b === 0 ? `$y=${mText}x$` : `$y=${mText}x${b > 0 ? '+' : '-'}${Math.abs(b)}$`;
   const kind = r.int(0, 2);
   if (kind === 0) {
     const perpText = frac(-q, p);
@@ -2842,7 +2844,7 @@ function gPerpParallel(r, L) {
     check: `checked the point with the perpendicular slope: $${num(Math.round(slope * 100) / 100)}\\times${x1}+${num(intercept)}=${y1}$`,
   };
 }
-reg({ fn: gPerpParallel, domain: GEO_DOMAIN, skill: 'Parallel and perpendicular slopes', count: 9, spr: true });
+reg({ fn: gPerpParallel, domain: GEO_DOMAIN, skill: 'Parallel and perpendicular slopes', count: 9, spr: true, cap: 3 });
 
 /* ---- dilations: area k^2, volume k^3 ---- */
 function gDilationScale(r, L) {
@@ -2906,7 +2908,7 @@ function gDilationScale(r, L) {
     check: `checked $${A}\\times${k}^2=${newA}$`,
   };
 }
-reg({ fn: gDilationScale, domain: GEO_DOMAIN, skill: 'Dilations: area and volume scaling', count: 8, spr: true });
+reg({ fn: gDilationScale, domain: GEO_DOMAIN, skill: 'Dilations: area and volume scaling', count: 8, spr: true, cap: 2 });
 
 /* ================================================================== *
  * 8. Plan: counts, tiers, item types
@@ -2925,7 +2927,7 @@ function tierTargets(n) {
 }
 
 function buildPlan() {
-  const gens = REG.map((g) => ({ ...g, n: g.count }));
+  const gens = REG.map((g) => ({ ...g, n: g.count, cap: g.cap == null ? 4 : g.cap }));
   const pad = (domain, target) => {
     const pool = gens.filter((g) => g.domain === domain);
     let total = pool.reduce((a, g) => a + g.n, 0);
@@ -2939,30 +2941,59 @@ function buildPlan() {
   };
   const dataTotal = pad(DATA_DOMAIN, 250);
   const geoTotal = pad(GEO_DOMAIN, 220);
+  // Generators with a low ceiling allocate first and soak up the easy and
+  // medium slots, leaving the top tiers for the generators that can carry them.
+  gens.sort((a, b) => a.cap - b.cap);
   const N = gens.reduce((a, g) => a + g.n, 0);
   const targets = tierTargets(N);
-  const remaining = targets.slice();
-  const blocks = [];
-  for (const g of gens) {
-    const per = [0, 0, 0, 0, 0];
-    for (let k = 0; k < g.n; k++) {
+  const remainingRow = gens.map((g) => g.n);
+  const matrix = gens.map(() => [0, 0, 0, 0, 0]);
+
+  // Fill tier by tier, hardest first: each tier is spread across every
+  // generator that can host it, in proportion to how much of that generator's
+  // quota is still unplaced. Low-ceiling generators then take the easy slots.
+  for (let t = 4; t >= 0; t--) {
+    let cap = targets[t];
+    while (cap > 0) {
       let best = -1;
       let bestScore = -1;
-      for (let t = 0; t < 5; t++) {
-        if (remaining[t] <= 0 || targets[t] === 0) continue;
-        const score = remaining[t] / targets[t];
+      for (let i = 0; i < gens.length; i++) {
+        if (remainingRow[i] <= 0 || gens[i].cap < t) continue;
+        const score = remainingRow[i] / gens[i].n;
         if (score > bestScore) {
           bestScore = score;
-          best = t;
+          best = i;
         }
       }
-      if (best < 0) throw new Error('tier allocation exhausted');
-      per[best]++;
-      remaining[best]--;
+      if (best < 0) break;
+      matrix[best][t]++;
+      remainingRow[best]--;
+      cap--;
     }
-    for (let t = 0; t < 5; t++) if (per[t] > 0) blocks.push({ g, tier: t, n: per[t] });
+    if (cap > 0) {
+      // no generator with headroom for this tier: push the rest down one tier
+      targets[t] -= cap;
+      if (t > 0) targets[t - 1] += cap;
+    }
   }
-  return { blocks, N, dataTotal, geoTotal, targets };
+  // anything still unplaced goes to the lowest tier with room
+  for (let i = 0; i < gens.length; i++) {
+    while (remainingRow[i] > 0) {
+      let t = 0;
+      while (t < 5 && targets[t] <= 0) t++;
+      if (t === 5) break;
+      targets[t]--;
+      matrix[i][t]++;
+      remainingRow[i]--;
+    }
+  }
+
+  const blocks = [];
+  for (let i = 0; i < gens.length; i++) {
+    for (let t = 0; t < 5; t++) if (matrix[i][t] > 0) blocks.push({ g: gens[i], tier: t, n: matrix[i][t] });
+  }
+  const leftover = remainingRow.reduce((a, b) => a + b, 0);
+  return { blocks, N, dataTotal, geoTotal, targets, leftover };
 }
 
 /* ================================================================== *
