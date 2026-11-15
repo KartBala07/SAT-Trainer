@@ -1,0 +1,27 @@
+# Render Blueprint — deploy this repo as a web service.
+#
+#   1. render.com → New → Blueprint → pick this repo → Apply
+#   2. paste GOOGLE_CLIENT_ID when prompted
+#   3. copy the service URL into js/config.js as apiBase (and add the site origin
+#      to SAT_ALLOWED_ORIGINS if you serve the front end from GitHub Pages)
+#
+# Free plan sleeps after ~15 minutes idle; the first request afterwards takes a
+# few seconds to wake it.
+
+services:
+  - type: web
+    name: sat-trainer
+    runtime: node
+    plan: free
+    healthCheckPath: /healthz
+    buildCommand: "echo 'no build step — data/ is committed'"
+    startCommand: "node server.mjs"
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: HOST
+        value: 0.0.0.0
+      - key: SAT_ALLOWED_ORIGINS
+        value: https://kartbala07.github.io
+      - key: GOOGLE_CLIENT_ID
+        sync: false

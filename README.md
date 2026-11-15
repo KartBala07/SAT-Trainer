@@ -128,7 +128,48 @@ Until step 3 is done, the panel says sign-in isn't configured and guest mode car
 
 ### Hosting the backend
 
-GitHub Pages only serves files, so the API has to live somewhere that runs Node: Render, Fly.io, Railway, a VPS, or just your laptop. Run `node server.mjs`, set `PORT`, `GOOGLE_CLIENT_ID` and `SAT_ALLOWED_ORIGINS`, and point `apiBase` at it. The database is a single file, so back it up by copying `data/accounts.db`.
+GitHub Pages only serves files, so the API has to live somewhere that runs Node. Everything needed is committed:
+
+**Fly.io (recommended — free allowance includes a disk that survives restarts)**
+
+```
+fly launch --no-deploy          # uses fly.toml, creates the sat_data volume
+fly secrets set GOOGLE_CLIENT_ID=xxxx.apps.googleusercontent.com
+fly deploy
+```
+
+**Render** — `render.yaml` is a Blueprint: render.com → New → Blueprint → pick this repo → Apply → paste the client ID. Note the free plan has **no persistent disk**, so accounts reset on redeploy; add a disk (or use Fly) if that matters.
+
+**Docker, anywhere**
+
+```
+docker build -t sat-trainer .
+docker run -p 8080:8080 -v satdata:/data \
+  -e GOOGLE_CLIENT_ID=xxxx.apps.googleusercontent.com \
+  -e SAT_ALLOWED_ORIGINS=https://kartbala07.github.io sat-trainer
+```
+
+| Env | Default | Meaning |
+|---|---|---|
+| `PORT` | 8899 | port to listen on |
+| `HOST` | 127.0.0.1 | set `0.0.0.0` in any container |
+| `GOOGLE_CLIENT_ID` | — | enables sign-in |
+| `SAT_ALLOWED_ORIGINS` | loopback only | comma-separated CORS allowlist |
+| `SAT_STORE` | auto | `sqlite` or `json` |
+| `SAT_DATA_DIR` | `./data` | where the account store lives |
+| `SAT_DEV_AUTH` | off | dev sign-in — never in production |
+
+Health check: `GET /healthz`.
+
+### Pointing the live site at it
+
+Either set `apiBase` in `js/config.js` and redeploy Pages, or pin it once at runtime — no rebuild needed:
+
+```
+https://kartbala07.github.io/SAT-Trainer/?api=https://your-backend.fly.dev
+```
+
+That URL is remembered in the browser; `?api=off` clears it. Guest mode is unaffected either way: if the backend is asleep or unreachable, the app falls back to local storage after a 3.5-second probe.
 
 ### How the auth works
 

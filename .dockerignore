@@ -1,0 +1,10 @@
+.git
+.gitignore
+node_modules
+generated
+generators
+question-packs
+*.md
+*.log
+data/accounts.db
+data/store.json

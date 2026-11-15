@@ -4,4 +4,5 @@ node_modules/
 data/accounts.db
 data/accounts.db-wal
 data/accounts.db-shm
+data/store.json
 config.local.json

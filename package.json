@@ -1,0 +1,14 @@
+{
+  "name": "sat-trainer",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Full-length Digital SAT practice — Reading & Writing + Math, 60 adaptive forms, guest mode and optional Google-synced accounts.",
+  "scripts": {
+    "start": "node server.mjs",
+    "build": "node build-bank.mjs"
+  },
+  "engines": {
+    "node": ">=22.5"
+  }
+}

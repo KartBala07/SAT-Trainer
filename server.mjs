@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 /* ============================================================
    SAT Trainer — backend
-   Zero dependencies: node:http, node:sqlite, node:crypto.
+   Zero dependencies: node:http, node:crypto, and either node:sqlite or a JSON
+   file (see lib/store.mjs).
 
    Serves the static app and adds:
-     GET  /api/health            -> server + auth configuration status
-     GET  /api/config            -> public client config (client id, dev flag)
-     POST /api/auth/google       -> verify a Google ID token, open a session
-     POST /api/auth/dev          -> dev-only session (SAT_DEV_AUTH=1)
-     GET  /api/me                -> current user
-     POST /api/auth/logout       -> close the session
-     GET  /api/progress          -> saved attempts for the signed-in user
-     PUT  /api/progress          -> merge attempts (union), returns merged set
+     GET  /healthz  /api/health   -> server + auth configuration status
+     GET  /api/config             -> public client config (client id, dev flag)
+     POST /api/auth/google        -> verify a Google ID token, open a session
+     POST /api/auth/dev           -> dev-only session (SAT_DEV_AUTH=1)
+     GET  /api/me                 -> current user
+     POST /api/auth/logout        -> close the session
+     GET  /api/progress           -> saved attempts for the signed-in user
+     PUT  /api/progress           -> merge attempts (union), returns merged set
 
-   Auth is a bearer token (returned in JSON) and also set as an HttpOnly
-   cookie for same-origin use. Guest mode needs none of this: the app works
-   entirely offline against localStorage when the API is unreachable.
+   Env: PORT, HOST, GOOGLE_CLIENT_ID, SAT_ALLOWED_ORIGINS, SAT_DEV_AUTH,
+        SAT_STORE (sqlite|json), SAT_DATA_DIR
    ============================================================ */
 
 import { createServer } from 'node:http';
@@ -24,11 +24,12 @@ import { createReadStream } from 'node:fs';
 import { join, extname, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomBytes, verify as cryptoVerify, createPublicKey } from 'node:crypto';
-import { DatabaseSync } from 'node:sqlite';
+import { openStore } from './lib/store.mjs';
 
 const ROOT = fileURLToPath(new URL('.', import.meta.url));
-const DATA = join(ROOT, 'data');
+const DATA = process.env.SAT_DATA_DIR || join(ROOT, 'data');
 const PORT = Number(process.env.PORT || 8899);
+const HOST = process.env.HOST || process.env.SAT_HOST || '127.0.0.1';
 const DEV_AUTH = process.env.SAT_DEV_AUTH === '1';
 const SESSION_DAYS = 30;
 
@@ -42,7 +43,6 @@ try {
 if (process.env.SAT_ALLOWED_ORIGINS) {
   cfg.allowedOrigins = process.env.SAT_ALLOWED_ORIGINS.split(',').map((s) => s.trim()).filter(Boolean);
 }
-// same-machine development origins are always allowed
 const LOOPBACK = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/;
 
 function originAllowed(origin) {
@@ -51,57 +51,9 @@ function originAllowed(origin) {
   return (cfg.allowedOrigins || []).includes(origin);
 }
 
-/* ---------------- database ---------------- */
+/* ---------------- storage ---------------- */
 await mkdir(DATA, { recursive: true });
-const db = new DatabaseSync(join(DATA, 'accounts.db'));
-db.exec(`
-  PRAGMA journal_mode = WAL;
-  CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY,
-    sub TEXT UNIQUE NOT NULL,
-    email TEXT,
-    name TEXT,
-    picture TEXT,
-    created_at INTEGER NOT NULL,
-    last_seen INTEGER NOT NULL
-  );
-  CREATE TABLE IF NOT EXISTS sessions (
-    token TEXT PRIMARY KEY,
-    user_id INTEGER NOT NULL,
-    created_at INTEGER NOT NULL,
-    expires_at INTEGER NOT NULL
-  );
-  CREATE TABLE IF NOT EXISTS attempts (
-    user_id INTEGER NOT NULL,
-    aid TEXT NOT NULL,
-    at INTEGER NOT NULL,
-    mode TEXT,
-    total INTEGER,
-    rw INTEGER,
-    math INTEGER,
-    payload TEXT NOT NULL,
-    PRIMARY KEY (user_id, aid)
-  );
-  CREATE INDEX IF NOT EXISTS attempts_user_at ON attempts(user_id, at DESC);
-`);
-
-const q = {
-  upsertUser: db.prepare(`
-    INSERT INTO users (sub,email,name,picture,created_at,last_seen) VALUES (?,?,?,?,?,?)
-    ON CONFLICT(sub) DO UPDATE SET email=excluded.email, name=excluded.name,
-      picture=excluded.picture, last_seen=excluded.last_seen RETURNING *`),
-  userById: db.prepare('SELECT * FROM users WHERE id=?'),
-  newSession: db.prepare('INSERT INTO sessions (token,user_id,created_at,expires_at) VALUES (?,?,?,?)'),
-  session: db.prepare('SELECT * FROM sessions WHERE token=? AND expires_at>?'),
-  delSession: db.prepare('DELETE FROM sessions WHERE token=?'),
-  purgeSessions: db.prepare('DELETE FROM sessions WHERE expires_at<?'),
-  attempts: db.prepare('SELECT payload FROM attempts WHERE user_id=? ORDER BY at DESC LIMIT 500'),
-  upsertAttempt: db.prepare(`
-    INSERT INTO attempts (user_id,aid,at,mode,total,rw,math,payload) VALUES (?,?,?,?,?,?,?,?)
-    ON CONFLICT(user_id,aid) DO UPDATE SET payload=excluded.payload, at=excluded.at,
-      mode=excluded.mode, total=excluded.total, rw=excluded.rw, math=excluded.math`),
-  countUsers: db.prepare('SELECT COUNT(*) AS n FROM users'),
-};
+const store = await openStore(DATA);
 
 /* ---------------- google id token verification ---------------- */
 let jwksCache = { at: 0, keys: [] };
@@ -193,14 +145,17 @@ function tokenFrom(req) {
 function currentUser(req) {
   const token = tokenFrom(req);
   if (!token) return null;
-  const row = q.session.get(token, Date.now());
+  const row = store.session(token);
   if (!row) return null;
-  const user = q.userById.get(row.user_id);
+  const user = store.userById(row.user_id);
   return user ? { user, token } : null;
 }
 
 function setSessionCookie(res, req, token, maxAgeSec) {
-  const crossSite = req.headers.origin && !LOOPBACK.test(req.headers.origin);
+  const origin = req.headers.origin || '';
+  const proto = String(req.headers['x-forwarded-proto'] || '').split(',')[0].trim();
+  const https = proto === 'https' || origin.startsWith('https://');
+  const crossSite = Boolean(origin) && !LOOPBACK.test(origin);
   const attrs = [
     `sat_session=${token}`,
     'Path=/',
@@ -208,17 +163,16 @@ function setSessionCookie(res, req, token, maxAgeSec) {
     `Max-Age=${maxAgeSec}`,
     `SameSite=${crossSite ? 'None' : 'Lax'}`,
   ];
-  if (crossSite || (req.headers['x-forwarded-proto'] || '').includes('https')) attrs.push('Secure');
+  if (https || crossSite) attrs.push('Secure');
   res.setHeader('Set-Cookie', attrs.join('; '));
 }
 
 function openSession(req, res, profile) {
-  const now = Date.now();
-  const user = q.upsertUser.get(profile.sub, profile.email, profile.name, profile.picture, now, now);
+  const user = store.upsertUser(profile.sub, profile.email, profile.name, profile.picture);
   const token = randomBytes(32).toString('hex');
-  const expires = now + SESSION_DAYS * 86400_000;
-  q.newSession.run(token, user.id, now, expires);
-  q.purgeSessions.run(now);
+  const now = Date.now();
+  store.newSession(token, user.id, now, now + SESSION_DAYS * 86400_000);
+  store.purgeSessions();
   setSessionCookie(res, req, token, SESSION_DAYS * 86400);
   return {
     token,
@@ -254,8 +208,8 @@ const MIME = {
   '.ico': 'image/x-icon',
 };
 
-// Only these files under data/ are public. accounts.db, WAL files and anything
-// else there must never be served.
+// Only these files under data/ are public. The account store, WAL files and
+// anything else there must never be served.
 const PUBLIC_DATA = new Set(['manifest.json', 'math.json', 'rw.json']);
 
 async function serveStatic(req, res, path) {
@@ -295,11 +249,12 @@ const server = createServer(async (req, res) => {
   }
 
   try {
-    /* ---- public config ---- */
-    if (path === '/api/health') {
+    /* ---- health / config ---- */
+    if (path === '/api/health' || path === '/healthz') {
       return json(res, 200, {
         ok: true,
-        accounts: q.countUsers.get().n,
+        store: store.kind,
+        accounts: store.countUsers(),
         authConfigured: Boolean(cfg.googleClientId) || DEV_AUTH,
         devAuth: DEV_AUTH,
       });
@@ -308,8 +263,8 @@ const server = createServer(async (req, res) => {
       return json(res, 200, {
         googleClientId: cfg.googleClientId || '',
         devAuth: DEV_AUTH,
-        // only advertise the dev endpoint when it is actually enabled
         authConfigured: Boolean(cfg.googleClientId) || DEV_AUTH,
+        store: store.kind,
       });
     }
 
@@ -344,13 +299,13 @@ const server = createServer(async (req, res) => {
       if (!cur) return json(res, 401, { error: 'not signed in' });
       return json(res, 200, {
         user: { id: cur.user.id, email: cur.user.email, name: cur.user.name, picture: cur.user.picture },
-        attempts: q.attempts.all(cur.user.id).length,
+        attempts: store.attempts(cur.user.id).length,
       });
     }
 
     if (path === '/api/auth/logout' && req.method === 'POST') {
       const token = tokenFrom(req);
-      if (token) q.delSession.run(token);
+      if (token) store.delSession(token);
       setSessionCookie(res, req, '', 0);
       return json(res, 200, { ok: true });
     }
@@ -361,14 +316,7 @@ const server = createServer(async (req, res) => {
       if (!cur) return json(res, 401, { error: 'not signed in' });
 
       if (req.method === 'GET') {
-        const attempts = q.attempts.all(cur.user.id).map((r) => {
-          try {
-            return JSON.parse(r.payload);
-          } catch {
-            return null;
-          }
-        }).filter(Boolean);
-        return json(res, 200, { attempts });
+        return json(res, 200, { attempts: store.attempts(cur.user.id) });
       }
 
       if (req.method === 'PUT' || req.method === 'POST') {
@@ -378,11 +326,10 @@ const server = createServer(async (req, res) => {
         for (const a of incoming.slice(0, 500)) {
           const n = normaliseAttempt(a);
           if (!n) continue;
-          q.upsertAttempt.run(cur.user.id, n.aid, n.at, n.mode, n.total, n.rw, n.math, n.payload);
+          store.upsertAttempt(cur.user.id, n);
           saved++;
         }
-        const merged = q.attempts.all(cur.user.id).map((r) => JSON.parse(r.payload));
-        return json(res, 200, { saved, attempts: merged });
+        return json(res, 200, { saved, attempts: store.attempts(cur.user.id) });
       }
       return json(res, 405, { error: 'method not allowed' });
     }
@@ -395,11 +342,20 @@ const server = createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, '127.0.0.1', async () => {
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`\n  Port ${PORT} is already in use.`);
+    console.error(`  Stop the other process, or start with a different PORT.\n`);
+    process.exit(1);
+  }
+  throw err;
+});
+
+server.listen(PORT, HOST, async () => {
   console.log(`\n  SAT Trainer`);
-  console.log(`  http://127.0.0.1:${PORT}\n`);
+  console.log(`  http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}\n`);
   try {
-    const man = JSON.parse(await readFile(join(DATA, 'manifest.json'), 'utf8'));
+    const man = JSON.parse(await readFile(join(ROOT, 'data', 'manifest.json'), 'utf8'));
     console.log(`  bank: ${man.total} questions`);
     for (const [k, s] of Object.entries(man.sections)) {
       console.log(`    ${k.padEnd(5)} ${String(s.count).padStart(5)}  ${JSON.stringify(s.byDiff)}`);
@@ -407,7 +363,8 @@ server.listen(PORT, '127.0.0.1', async () => {
   } catch {
     console.log('  ! data/manifest.json missing — run: node build-bank.mjs');
   }
-  console.log(`\n  accounts: ${q.countUsers.get().n} · google sign-in: ${cfg.googleClientId ? 'configured' : 'NOT configured'}`);
+  console.log(`\n  store: ${store.kind} · accounts: ${store.countUsers()} · google sign-in: ${cfg.googleClientId ? 'configured' : 'NOT configured'}`);
+  if (cfg.allowedOrigins.length) console.log(`  cors origins: ${cfg.allowedOrigins.join(', ')}`);
   if (DEV_AUTH) console.log('  ⚠  SAT_DEV_AUTH=1 — anyone can sign in as anyone. Never use this in production.');
   console.log('');
 });

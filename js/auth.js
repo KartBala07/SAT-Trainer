@@ -5,7 +5,27 @@
 (function (global) {
   'use strict';
   const cfg = Object.assign({ apiBase: '', googleClientId: '' }, global.SAT_CONFIG || {});
-  const apiRoot = String(cfg.apiBase || '').replace(/\/+$/, '');
+
+  /* Pin a backend at runtime so the static build can be pointed at a hosted API
+     without a rebuild:  index.html?api=https://sat-trainer.onrender.com
+     ?api=off clears it again. */
+  const apiOverride = (() => {
+    try {
+      const qs = new URLSearchParams(location.search).get('api');
+      if (qs === 'off' || qs === 'reset') {
+        localStorage.removeItem('sat.api');
+        return '';
+      }
+      if (qs) {
+        localStorage.setItem('sat.api', qs.trim());
+        return qs.trim();
+      }
+      return localStorage.getItem('sat.api') || '';
+    } catch {
+      return '';
+    }
+  })();
+  const apiRoot = String(cfg.apiBase || apiOverride || '').replace(/\/+$/, '');
   const api = (p) => `${apiRoot}${p}`;
 
   const state = {
