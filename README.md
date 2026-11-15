@@ -1,94 +1,101 @@
-# SAT Math Trainer
+# SAT Trainer
 
-A local Digital-SAT math trainer built for one job: getting the math section to ~750 in two weeks.
+Full-length Digital SAT practice, in the real format, scored on the real scale.
 
-```
-node server.mjs        # then open http://127.0.0.1:8899
-```
-or just double-click **Start SAT Trainer.command**.
-
-Zero dependencies. Node only. Everything is stored on this Mac.
+**Live:** <https://kartbala07.github.io/SAT-Trainer/>
+**Local:** double-click `Start SAT Trainer.command`, or `node server.mjs` → <http://127.0.0.1:8899>
 
 ---
 
-## What's in it
+## What this is
 
-**113 questions**, all written to the Digital SAT's exact formats — 4-choice MCQ plus student-produced-response grid-ins — spanning five difficulty tiers:
+A four-module Digital SAT simulation — Reading & Writing module 1 and 2, then Math module 1 and 2 — with adaptive routing inside each section, one break where the real test has one, and a total score on the 400–1600 scale.
 
-| Tier | Count | What it means |
+| | Reading & Writing | Math |
 |---|---|---|
-| Easy | 24 | first third of module 1 |
-| Medium | 30 | the bulk of module 1 |
-| Hard | 27 | back half of module 1, most of module 2 |
-| Very Hard | 18 | end of the hard module 2 |
-| Extreme | 14 | the 2–3 questions that separate 700 from 780 |
+| Modules | 2 × 27 questions | 2 × 22 questions |
+| Time per module | 32 min | 35 min |
+| Scored | 200–800 | 200–800 |
+| Adaptive routing | ≥16/27 in module 1 → hard module 2 | ≥12/22 → hard module 2 |
 
-Domains are weighted like the real test: Algebra 8/module, Advanced Math 7, Problem-Solving & Data Analysis 4, Geometry & Trigonometry 3.
+98 questions, 134 minutes, 60 reproducible forms. Form #1 always deals the same test; every form number is a different draw from the bank.
 
-Every answer key was verified numerically. Every wrong choice is annotated with the specific error that produces it (sign flip, wrong base for a percent, diameter-instead-of-radius, solved for x instead of the expression, …).
+## The question bank
 
-**Questions are original.** College Board's real test items are copyrighted and can't be copied into an app, so these are written to the same formats, traps, and difficulty curve. Your final dress rehearsal should be an official released form: <https://satsuite.collegeboard.org/practice/practice-tests>.
+**2,200+ questions**, all original, generated parametrically and verified by construction — the generator computes the answer, then substitutes it back into the problem and drops the item if it doesn't check. Nothing is hand-keyed.
 
-## Modes
+| | Coverage |
+|---|---|
+| **Math** | Algebra · Advanced Math · Problem-Solving & Data Analysis · Geometry & Trigonometry |
+| **Reading & Writing** | Information & Ideas · Craft & Structure · Expression of Ideas · Standard English Conventions |
 
-- **Full Math Section — adaptive.** Module 1 (22 q, 35 min) sets your level. Score ≥12/22 and you get the *hard* module 2 (22 q, 35 min, mostly Hard/Very Hard/Extreme); below that, the standard module 2. Exactly how Bluebook routes you.
-- **Quick 10** — 10 questions climbing easy→extreme, 15 minutes. Fastest honest read on where you stand.
-- **Difficulty ladder** — 12 questions, one per tier, untimed. Finds the exact tier where you break.
-- **Domain drill** — 12 questions in one domain, climbing in difficulty.
-- **Weak-spot review** — the questions you missed on your last attempt, in order.
+Five difficulty tiers — Easy, Medium, Hard, Very Hard, Extreme — with module profiles that mirror the real test: module 1 is medium-heavy with a couple of hard items, the standard module 2 is easier, and the hard module 2 is dominated by Hard / Very Hard / Extreme.
 
-## The calculator
+Every wrong answer carries the **specific error** that produces it (`sign`, `concept`, `setup`, `quantity`, `unit`, `misread`, `arithmetic`), plus a one-line note like *"used the diameter as the radius"*. That tagging is what makes the post-test diagnosis specific instead of generic.
 
-A real **Desmos** graphing calculator is embedded in the right panel (Desmos's own API, not a screenshot). It docks beside the question instead of covering it — the question column reflows. Every solution has a `Desmos:` line with the exact expression to graph, and **Graph it** drops it straight into the calculator.
+## Reading & Writing
 
-`Reference` opens the formula sheet the real test gives you. `Scientific` tab is a plain keypad calculator.
+Each question gets its own passage, exactly like the real section: one short block for most questions, side-by-side Text 1 / Text 2 for cross-text connections. Tested words are underlined in context, blanks are drawn as blanks, and a grammar question's explanation names the rule it applied.
 
-Keyboard: `A`–`D` pick an answer · `←`/`→` navigate · `F` flag · `Tab` calculator · `R` reference sheet · `Esc` close.
+| Domain | What it covers |
+|---|---|
+| Information & Ideas | main idea, detail, inference, command of evidence, quantitative evidence |
+| Craft & Structure | words in context, text structure and purpose, cross-text connections |
+| Expression of Ideas | transitions (contrast / cause / addition / concession / example), rhetorical synthesis |
+| Standard English Conventions | semicolons, colons, dashes, commas, apostrophes, subject-verb agreement, pronouns, tense, parallelism, modifiers |
 
-## Scoring
+## Desmos
 
-Raw correct (out of 44) → 200–800 math score using a conversion table interpolated from released digital forms, with a small adjustment for which module 2 you got (harder items are worth more, as in the real adaptive model). Percentile is an approximate national math percentile.
+A real Desmos graphing calculator (their API, not a screenshot) docks on the right and **reflows the question instead of covering it**. Press `Tab`, or the Calculator button.
 
-Accuracy is roughly **±30 points**. Short modes (Quick 10, drills) are proportionally projected onto the 44-question scale and labelled as such.
+Every solution carries the exact expression that solves it, and **Graph it** drops it straight into the calculator — including multi-line systems. The **Desmos tricks & timing** page has the twelve moves worth memorising (graph the system, slider the parameter, regression for a line of best fit, statistics without arithmetic) plus the per-question pacing plan for both sections.
 
-Set your real Reading & Writing score with the `✎` next to "with RW at …" on the home screen — that's what turns a math score into a projected total.
-
-## The analysis
+## The diagnosis
 
 After every attempt:
 
-- **Score ring** + percentile + projected total
-- **By content domain** — accuracy, average time, where the points are
-- **By difficulty** — the cumulative-accuracy curve, i.e. the tier you're solid through and the tier you break down at
-- **Why you lost points** — every miss tagged with the error that produced it, split into *execution* errors (sign, arithmetic, misread: points you already own) vs *knowledge* gaps
-- **Pace** — average seconds/question vs the 95-second target, how many you burned by rushing, how many you solved slowly
-- **Question-by-question review** — expand any miss for the worked solution, what your specific wrong answer implies, and the Desmos move
-- **A 14-day plan** built from that attempt: weakest domain first, with the exact skills you missed and a full retest on day 7 and day 12
+- **Score ring** — 400–1600 for a full test, 200–800 for a single section
+- **Per-section panels** — raw score, module-2 path, accuracy by content domain, average seconds per question
+- **Difficulty curve** — cumulative accuracy by tier, so you see the level you're *solid through* and the level where you break down (a single lucky hard question can't inflate it)
+- **Why you lost points** — every miss tagged, split into *execution* errors you already own vs *knowledge* gaps you don't
+- **Pace** — average vs the real per-question budget, how many you burned rushing, how many you solved too slowly
+- **Question-by-question review** — the passage, the stem, your answer, the correct one, the worked solution, and what your specific wrong answer implies
+- **A 14-day plan** built from that attempt, starting with your weakest domain by name, with full retests on day 7 and day 12
 
-Attempts accumulate in **Score history** with a bar chart of every score on the 200–800 scale, so "am I actually improving" has an answer.
+Attempts accumulate in **Score history** (stored in the browser) with a bar chart on the 400–1600 scale, so "am I actually improving" has an answer.
 
-## Files
+## Scoring accuracy
+
+Raw → scaled uses a conversion table interpolated from released digital forms, with a small adjustment for which module 2 you earned. Treat section scores as ±30 points. The percentile shown is an approximate national percentile.
+
+## Repo layout
 
 ```
-server.mjs                 zero-dep HTTP server + /api/bank /api/history /api/settings
-public/index.html          shell
-public/styles.css          design system (light + dark)
-public/js/engine.js        pool building, adaptive modules, scoring, analysis, plan
-public/js/mathrender.js    KaTeX + pipe-table renderer
-public/js/views.js         home + test views
-public/js/results.js       results + history views
-public/js/app.js           state, timer, calculator, routing
-question-packs/*.json      the bank (drop another pack here, restart, it joins the pool)
-public/vendor/katex*       vendored math typesetting (works offline)
-data/history.json          attempts
-data/settings.json         your RW score
+index.html               shell
+styles.css styles2.css   design system (light + dark)
+js/engine.js             module construction, adaptive routing, scoring, analysis, plan
+js/views.js              home, test, passage rendering
+js/tips.js               Desmos + timing playbook
+js/results.js            results, history
+js/app.js                state, timer, calculator, routing
+js/mathrender.js         KaTeX + pipe-table renderer
+data/{manifest,math,rw}.json   the materialised bank (what the site loads)
+question-packs/*.json    hand-authored questions
+generators/*.mjs         parametric generators (source of the bulk)
+build-bank.mjs           generators -> data/*.json, validates + de-duplicates
+server.mjs               zero-dependency static server for local use
+vendor/                  KaTeX (works offline)
 ```
 
-To add questions, drop a JSON file in `question-packs/` with the shape used by the existing packs, then restart the server. `curl http://127.0.0.1:8899/api/reload` reloads without a restart.
+Regenerate the bank after editing generators or packs:
 
-## How to actually use the two weeks
+```
+node build-bank.mjs
+```
 
-1. Take the **full test** cold today. Do not study first. The score is the baseline, not a judgment.
-2. Read **Why you lost points** before you read the review list. If execution errors outnumber knowledge gaps, your fastest points are free — that's a 30–60 point jump with zero new content.
-3. Do the **14-day plan** the results page gives you. Day 7 and day 12 are full retests; compare domain accuracy, not just the score.
-4. The night before: reference sheet, five easy questions, close the laptop.
+It reports per-source counts, difficulty spread, and every item it dropped or repaired. Adding a pack is just dropping a JSON file in `question-packs/` with the same shape and re-running the build.
+
+## Two things worth knowing
+
+1. **These questions are original.** College Board's real items are copyrighted, so these are written to the same formats, traps and difficulty curve. For your final dress rehearsal, use an official released form: <https://satsuite.collegeboard.org/practice/practice-tests>.
+2. **The app works without the server.** It's a static site — open it from GitHub Pages, or locally through `server.mjs`. Progress lives in your browser's local storage, so clearing site data clears your history.

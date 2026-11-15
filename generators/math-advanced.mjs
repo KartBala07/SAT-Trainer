@@ -21,8 +21,14 @@ function need(cond, msg) {
 }
 
 let rnd = mulberry32(1);
-const ri = (a, b) => a + Math.floor(rnd() * (b - a + 1));
-const pick = (arr) => arr[Math.floor(rnd() * arr.length)];
+const ri = (a, b) => {
+  if (!Number.isFinite(a) || !Number.isFinite(b)) throw new BuildError('bad integer bounds');
+  return a + Math.floor(rnd() * (b - a + 1));
+};
+const pick = (arr) => {
+  if (!Array.isArray(arr) || arr.length === 0) throw new BuildError('empty pick');
+  return arr[Math.floor(rnd() * arr.length)];
+};
 const chance = (p) => rnd() < p;
 function shuffle(arr) {
   const a = arr.slice();
@@ -161,6 +167,8 @@ function makeItem(spec, difficulty, type, id) {
   base.desmos = spec.desmos;
   base.skill_note = spec.skill_note;
   base.check = spec.check;
+  const probe = JSON.stringify(base);
+  if (/NaN|Infinity|undefined/.test(probe)) return null;
   return base;
 }
 
@@ -277,9 +285,9 @@ function fQuadFormula(d, type) {
       wrong: [
         { text: `$x=${fr(u, a)}$ and $x=${r}$`, note: 'dropped the negative signs after applying the formula', tag: 'sign' },
         { text: `$x=${fr(-u, 1)}$ and $x=${r2}$`, note: 'did not divide by the leading coefficient', tag: 'algebra' },
-        { text: `$x=${fr(u, a)}$ and $x=${-r}`, note: 'sign error inside the formula', tag: 'sign' },
+        { text: `$x=${fr(u, a)}$ and $x=${-r}$`, note: 'sign error inside the formula', tag: 'sign' },
       ],
-      explanation: `Here $a=${A}$, $b=${B}$, $c=${C}$, so the discriminant is $${B}^2-4(${A})(${C})=${B * B - 4 * A * C}$. The formula gives $x=\\frac{-${B}\\pm\\sqrt{${B * B - 4 * A * C}}}{2(${A})}$, which simplifies to $x=${r1}$ and $x=${r2}$.`,
+      explanation: `Here $a=${A}$, $b=${B}$, $c=${C}$, so the discriminant is $(${B})^2-4(${A})(${C})=${B * B - 4 * A * C}$. The formula gives $x=\\frac{${-B}\\pm\\sqrt{${B * B - 4 * A * C}}}{2(${A})}$, which simplifies to $x=${r1}$ and $x=${r2}$.`,
       desmos: `y=${poly(A, B, C)}`,
       skill_note: 'Keep the leading coefficient in the denominator of the formula; each root of $(ax+u)(x+r)$ is $-u/a$ or $-r$.',
       check: `substituted both reported roots into ${poly(A, B, C)} (0 each) and confirmed the discriminant ${B * B - 4 * A * C} is a perfect square.`,
@@ -352,7 +360,10 @@ function fVertexForm(d, type) {
   const a = pick([-5, -4, -3, -2, 2, 3, 4, 5]);
   const h = nz([4, 5, 7, 8, 9][d]);
   const k = nz([5, 6, 8, 9, 12][d]);
-  need(a * (h - h) ** 2 + k === k, 'vertex');
+  const Bv = -2 * a * h;
+  const Cv = a * h * h + k;
+  need(Bv === -2 * a * h && Cv - a * h * h === k, 'vertex expansion');
+  need(-Bv / (2 * a) === h, 'vertex x');
   const skill = 'Vertex form of a quadratic';
   const expr = `y=${a}(x${h >= 0 ? '-' : '+'}${Math.abs(h)})^2${k >= 0 ? '+' : '-'}${Math.abs(k)}`;
   const vx = `${a > 0 ? 'minimum' : 'maximum'}`;
@@ -463,7 +474,7 @@ function fAxis(d, type) {
       { text: `$x=${-axis}$`, note: 'flipped the sign of the axis', tag: 'sign' },
       { text: `$x=${r + s}$`, note: 'used the sum of the roots instead of the midpoint', tag: 'algebra' },
     ],
-    explanation: `The roots are $x=${r}$ and $x=${s}$, so the axis of symmetry is halfway between them: $x=\\frac{${r}+${s}}{2}=${axis}$. The formula $-\\frac{b}{2a}$ gives the same value.`,
+    explanation: `The roots are $x=${r}$ and $x=${s}$, so the axis of symmetry is halfway between them: $x=\\frac{${r}+(${s})}{2}=${axis}$. The formula $-\\frac{b}{2a}$ gives the same value.`,
     desmos,
     skill_note: 'An axis of symmetry is a vertical line, so it must be written x = constant.',
     check: `checked f(${axis}+t)=f(${axis}-t) numerically for t=1 and t=2, and matched -b/(2a).`,
@@ -637,7 +648,7 @@ function fSumProduct(d, type) {
       explanation: `$r+s=${sum}$ and $rs=${prod}$, so $r^2+s^2=(r+s)^2-2rs=${sum * sum}-2(${prod})=${v}$. Using the identity is faster than solving for each root separately.`,
       desmos,
       skill_note: 'r^2+s^2 is (r+s)^2 - 2rs, not (r+s)^2.',
-      check: `computed ${r}^2+${s}^2 directly (=${v}) and via Vieta; both agree.`,
+      check: `computed (${r})^2+(${s})^2 directly (=${v}) and via Vieta; both agree.`,
     };
   }
   if (mode === 'recip') {
@@ -709,8 +720,8 @@ function fArea(d, type) {
       correct: `$${w}$ ft by $${L}$ ft`,
       wrong: [
         { text: `$${w}$ ft by $${w + k + 1}$ ft`, note: 'mis-set the length difference', tag: 'setup' },
-        { text: `$${w - 1}$ ft by $${L + 1}$ ft`, note: 'kept the same area but shifted both sides', tag: 'arithmetic' },
-        { text: `$${w + 1}$ ft by $${L - 1}$ ft`, note: 'shifted both sides the wrong way', tag: 'arithmetic' },
+        { text: `$${w - 1}$ ft by $${L + 1}$ ft`, note: 'shifted both sides by one foot', tag: 'arithmetic' },
+        { text: `$${w + 1}$ ft by $${L - 1}$ ft`, note: 'shifted both sides in the wrong direction', tag: 'arithmetic' },
       ],
       explanation: `Solve $w(w+${k})=${A}$, i.e. $w^2+${k}w-${A}=0$, which factors as ${fac(w)}${fac(-L)}. The positive root is $w=${w}$, so the length is $${L}$.`,
       desmos: `y=x^2+${k}x-${A}`,
@@ -723,6 +734,7 @@ function fArea(d, type) {
     const P = 4 * m;
     const maxA = m * m;
     need((P / 4) * (P / 4) === maxA, 'maxA');
+    need((m - 1) * (P / 2 - (m - 1)) < maxA && (m + 1) * (P / 2 - (m + 1)) < maxA, 'area max');
     if (type === 'spr') {
       return {
         skill,
@@ -878,10 +890,11 @@ function fProjectile(d, type) {
 // 12. Revenue and maximum profit
 function fRevenue(d, type) {
   const b = pick([2, 4, 5]);
-  const m = ri([5, 8, 10, 12][d], [15, 18, 20, 25, 30][d]);
+  const m = ri([5, 8, 10, 12, 15][d], [15, 18, 20, 25, 30][d]);
   const a = 2 * b * m;
   const maxR = b * m * m;
   need(a * m - b * m * m === maxR, 'rev');
+  need((m - 1) * (a - b * (m - 1)) < maxR && (m + 1) * (a - b * (m + 1)) < maxR, 'rev max');
   const skill = 'Revenue and maximum profit';
   const desmos = `y=x(${a}-${b}x)`;
   if (type === 'spr') {
@@ -918,7 +931,7 @@ function fRevenue(d, type) {
       correct: `\\$${m}`,
       wrong: [
         { text: `\\$${a / b}`, note: 'used the quantity-intercept price', tag: 'concept' },
-        { text: `\\$${2 * m}`, note: 'used the other end of the quantity range', tag: 'setup' },
+        { text: `\\$${m + b}`, note: 'moved one step above the best price', tag: 'setup' },
         { text: `\\$${m - 2}`, note: 'moved one step away from the vertex', tag: 'arithmetic' },
       ],
       explanation: `$R(p)=-${b}p^2+${a}p$ peaks at $p=\\frac{${a}}{2(${b})}=${m}$, so the best price is $\\$${m}$.`,
@@ -963,7 +976,7 @@ function fLineParabola(d, type) {
         correct: String(c),
         wrong: [],
         spr: [String(c)],
-        explanation: `Set the expressions equal: $${poly(1, b - m, c - k)}=0$. Tangency requires a zero discriminant, so $(${b - m})^2-4(c-(${k}))=0$ and $c=${k}+${t * t}=${c}$.`,
+        explanation: `Set the expressions equal: $${poly(1, b - m, c - k)}=0$. Tangency requires a zero discriminant, so $(${b - m})^2-4(c${constC(-k)})=0$ and $c=${k}+${t * t}=${c}$.`,
         desmos: `y=${poly(1, b, c)}; y=${lineExpr(m, k)}`,
         skill_note: 'Tangency means the combined quadratic has discriminant zero.',
         check: `substituted c=${c}: discriminant ${D}, and the quadratic is (x${-t >= 0 ? '-' : '+'}${Math.abs(t)})^2.`,
@@ -978,7 +991,7 @@ function fLineParabola(d, type) {
         { text: String(k - t * t), note: 'subtracted the squared offset instead of adding', tag: 'sign' },
         { text: String(c + 1), note: 'off by one from an arithmetic slip', tag: 'arithmetic' },
       ],
-      explanation: `Equating gives $${poly(1, b - m, c - k)}=0$. Setting the discriminant to zero: $(${b - m})^2=4(c-(${k}))$, so $c=${k}+${t * t}=${c}$.`,
+      explanation: `Equating gives $${poly(1, b - m, c - k)}=0$. Setting the discriminant to zero: $(${b - m})^2=4(c${constC(-k)})$, so $c=${k}+${t * t}=${c}$.`,
       desmos: `y=${poly(1, b, c)}; y=${lineExpr(m, k)}`,
       skill_note: 'Tangency is a discriminant condition, not a visual guess.',
       check: `discriminant of the difference is exactly 0 and the double root is x=${t}.`,
@@ -1140,10 +1153,20 @@ function fRemainder(d, type) {
   const a = nz(4);
   const b = nz(5);
   const base = k * k * k + a * k * k + b * k;
+  // synthetic division of x^3 + a x^2 + b x + c by (x - k)
+  const syn = (cc) => {
+    // synthetic division: coefficients 1, a, b, cc divided by (x - k)
+    let acc = 1;
+    acc = a + k * acc;
+    acc = b + k * acc;
+    return cc + k * acc;
+  };
+  need(syn(0) === base, 'synthetic base');
   if (type === 'spr') {
     const c = nz([8, 10, 12, 15, 20][d]);
     const R = base + c;
     if (Math.abs(R) > 250) return null;
+    need(syn(c) === R, 'synthetic remainder');
     const skill = 'Polynomial remainder theorem';
     return {
       skill,
@@ -1160,7 +1183,9 @@ function fRemainder(d, type) {
   const c = nz(9);
   const R = base + c;
   if (Math.abs(R) > 200) return null;
-  const wrongR = base - c;
+  const wrongR = -(k * k * k) + a * k * k - b * k + c;
+  need(syn(c) === R, 'synthetic remainder');
+  need(wrongR !== R, 'distinct remainder');
   const skill = 'Polynomial remainder theorem';
   return {
     skill,
@@ -1209,7 +1234,7 @@ function fFactorTheorem(d, type) {
   const correct = `$x${shown[0] >= 0 ? '-' : '+'}${Math.abs(shown[0])}$`;
   // distractor constants must NOT be roots (x - m is a factor exactly when m is a zero)
   const nonRoots = [];
-  for (let v = -6; v <= 6; v++) if (!roots.includes(v)) nonRoots.push(v);
+  for (let v = -6; v <= 6; v++) if (v !== 0 && !roots.includes(v)) nonRoots.push(v);
   const decoys = shuffle(nonRoots).slice(0, 3);
   const wrongs = decoys.map((v) => `$x${v >= 0 ? '-' : '+'}${Math.abs(v)}$`);
   return {
@@ -1239,17 +1264,20 @@ function fRationalSimplify(d, type) {
   const N = -a * a;
   need((a - a) * (a + a) === 0 && a * a + B * a + C === 0, 'denRoot');
   need(bb * bb + B * bb + C === 0, 'denRoot2');
+  const orig = (x) => (x * x + N) / (x * x + B * x + C);
+  const simp = (x) => (x + a) / (x - bb);
+  need(Math.abs(orig(0) - simp(0)) < 1e-9 && Math.abs(orig(1) - simp(1)) < 1e-9, 'equiv rational');
   const skill = 'Rational expression simplification';
   const desmos = `y=(${poly(1, 0, N)})/(${poly(1, B, C)})`;
   if (type === 'spr') {
     const sum = a + bb;
     return {
       skill,
-      stem: `The expression $\\frac{${poly(1, 0, N)}}{${poly(1, B, C)}}$ is undefined at two values of $x$. What is the sum of those two values?`,
+      stem: `The expression $\\frac{${poly(1, 0, N)}}{${poly(1, B, C)}}$ is not defined at two values of $x$. What is the sum of those two values?`,
       correct: String(sum),
       wrong: [],
       spr: [String(sum)],
-      explanation: `The denominator factors as ${fac(a)}${fac(bb)}, so it is zero at $x=${a}$ and $x=${bb}$. Their sum is $${sum}$. (The numerator also vanishes at $x=${a}$, but the expression is still undefined there.)`,
+      explanation: `The denominator factors as ${fac(a)}${fac(bb)}, so it is zero at $x=${a}$ and $x=${bb}$. Their sum is $${sum}$. (The numerator also vanishes at $x=${a}$, but the expression is still not defined there.)`,
       desmos,
       skill_note: 'Canceling a common factor removes the value from the simplified expression but not from the domain.',
       check: `evaluated the denominator at x=${a} and x=${bb} (both 0); sum ${sum}.`,
@@ -1324,9 +1352,9 @@ function fRationalEquation(d, type) {
       { text: `$x=${p + 1}$`, note: 'made an arithmetic slip after cross-multiplying', tag: 'arithmetic' },
     ],
     explanation: `Multiplying by $x-${p}$ gives $x${constC(c)}(x-${p})=${p}$, so $(1${constC(c)})x=${p}(1${constC(c)})$ and $x=${p}$. But $x=${p}$ makes the denominator zero, so it is extraneous and the equation has no solution.`,
-    desmos: `y=x/(x-${p})+${c}`,
+    desmos: `y=x/(x-${p})${constC(c)}`,
     skill_note: 'A rational equation can collapse to the excluded value, which means no solution — not x equals that value.',
-    check: `solved the cleared equation (x=${p}) and confirmed the original is undefined there; no other candidate exists.`,
+    check: `solved the cleared equation (x=${p}) and confirmed the original is not defined there; no other candidate exists.`,
   };
 }
 
@@ -1336,8 +1364,8 @@ function fRadical(d, type) {
   const e = v - 1 - 2 * ri(1, 3);
   const b = (v + e - 1) / 2;
   need(Number.isInteger(b), 'b');
-  if (b === 0) return null;
   const a = b * b - v * e;
+  if (b === 0 || a === 0 || Math.abs(a) > 40) return null;
   need(a === (v - b) * (v - b) - v, 'a identity');
   need(v + a >= 0 && (v - b) * (v - b) === v + a, 'radicand');
   need(e + a === (e - b) * (e - b) && e - b < 0, 'extraneous');
@@ -1350,7 +1378,7 @@ function fRadical(d, type) {
       correct: String(v),
       wrong: [],
       spr: [String(v)],
-      explanation: `Squaring gives $x${a >= 0 ? '+' : '-'}${Math.abs(a)}=x^2${-2 * b >= 0 ? '+' : '-'}${Math.abs(2 * b)}x+${b * b}$, which factors with $x=${v}$ and $x=${e}$. The value $x=${e}$ fails the original equation because the right side is negative, so the only solution is $x=${v}$.`,
+      explanation: `Squaring gives $${lin1(a)}=${poly(1, -2 * b, b * b)}$, which factors with $x=${v}$ and $x=${e}$. The value $x=${e}$ fails the original equation because the right side is negative, so the only solution is $x=${v}$.`,
       desmos,
       skill_note: 'Squaring can create extraneous roots; substitute every candidate into the original radical equation.',
       check: `substituted x=${v} (both sides ${v - b}) and x=${e} (left ${b - e}, right ${e - b}) into the original.`,
@@ -1365,7 +1393,7 @@ function fRadical(d, type) {
       { text: `$x=${v}$ and $x=${e}$`, note: 'reported both roots without checking', tag: 'concept' },
       { text: 'No solution', note: 'discarded the valid root as well', tag: 'misread' },
     ],
-    explanation: `Squaring produces $x^2${-2 * b - 1 >= 0 ? '+' : '-'}${Math.abs(2 * b + 1)}x${b * b - a >= 0 ? '+' : '-'}${Math.abs(b * b - a)}=0$, with roots $x=${v}$ and $x=${e}$. Testing shows $x=${e}$ makes the right side negative, so only $x=${v}$ solves the original equation.`,
+    explanation: `Squaring produces $${poly(1, -2 * b - 1, b * b - a)}=0$, with roots $x=${v}$ and $x=${e}$. Testing shows $x=${e}$ makes the right side negative, so only $x=${v}$ solves the original equation.`,
     desmos,
     skill_note: 'The square root is nonnegative, so any candidate making the other side negative is extraneous.',
     check: `checked both candidates in the original equation: x=${v} works, x=${e} does not.`,
@@ -1535,16 +1563,17 @@ function fModelParam(d, type) {
         check: `substituted b=${b}: ${N0}*${b}^${k}=${Nk}.`,
       };
     }
+    const Nk3 = N0 * Math.pow(3, k);
     return {
       skill,
-      stem: `The number of bacteria is modeled by $N(t)=N_0 b^t$. The culture starts with $N_0$ bacteria and triples every hour, reaching ${Nk} bacteria after ${k} hours. What is $N_0$?`,
+      stem: `The number of bacteria is modeled by $N(t)=N_0 b^t$. The culture starts with $N_0$ bacteria and triples every hour, reaching ${Nk3} bacteria after ${k} hours. What is $N_0$?`,
       correct: String(N0),
       wrong: [],
       spr: [String(N0)],
-      explanation: `$N_0\\cdot 3^{${k}}=${Nk}$, so $N_0=\\frac{${Nk}}{${Math.pow(3, k)}}=${N0}$. Dividing by the growth factor raised to the elapsed time undoes the growth.`,
+      explanation: `$N_0\\cdot 3^{${k}}=${Nk3}$, so $N_0=\\frac{${Nk3}}{${Math.pow(3, k)}}=${N0}$. Dividing by the growth factor raised to the elapsed time undoes the growth.`,
       desmos: `y=${N0}(3)^x`,
       skill_note: 'Work backward by dividing by the growth factor raised to the elapsed time.',
-      check: `${N0}*3^${k}=${N0 * Math.pow(3, k)}; matches ${Nk} only for N0=${N0}.`,
+      check: `${N0}*3^${k}=${Nk3}; matches the stated final count only for N0=${N0}.`,
     };
   }
   const variants = [
@@ -1556,7 +1585,7 @@ function fModelParam(d, type) {
         { text: String(b * k), note: 'divided by the time instead of taking the kth root', tag: 'concept' },
         { text: String(b + 1), note: 'added one to the growth factor', tag: 'arithmetic' },
       ],
-      explanation: `$b^{${k}}=\\frac{${Nk}}{${N0}}=${Math.pow(b, k)}$, so $b=${b}$.`,
+      explanation: `$b^{${k}}=\\frac{${Nk}}{${N0}}=${Math.pow(b, k)}$, so $b=${b}$. The base of an exponential model is positive, so the negative root is rejected.`,
     },
     {
       stem: `The number of bacteria in a culture doubles every hour. The model is $N(t)=N_0 b^t$. What is the value of $b$?`,
@@ -1696,7 +1725,7 @@ function fHalfLife(d, type) {
 function fFnNotation(d, type) {
   const a = pick([1, 2, 3, -1, -2]);
   const b = pick([-5, -4, -3, 3, 4, 5]);
-  const c = nz([6, 7, 8, 9, 10]);
+  const c = nz([6, 7, 8, 9, 10][d]);
   const k = pick([-3, -2, -1, 2, 3]);
   const val = a * k * k + b * k + c;
   need(a * k * k + b * k + c === val, 'fn');
@@ -1714,7 +1743,7 @@ function fFnNotation(d, type) {
       correct: String(val),
       wrong: [],
       spr: [String(val)],
-      explanation: `Substitute $x=${k}$: $f(${k})=${a}(${k})^2${b >= 0 ? '+' : '-'}${Math.abs(b)}(${k})${c >= 0 ? '+' : '-'}${Math.abs(c)}=${val}$.`,
+      explanation: `Substitute $x=${k}$: $f(${k})=${a}(${k})^2${b >= 0 ? '+' : '-'}${Math.abs(b)}(${k})${c >= 0 ? '+' : '-'}${Math.abs(c)}=${val}$. Square the input first, then apply the coefficient and the sign of the linear term.`,
       desmos,
       skill_note: 'A negative input makes both the squared term positive and the sign of bx flip.',
       check: `evaluated term by term: ${a}*${k * k}=${a * k * k}, ${b}*${k}=${b * k}, plus ${c} gives ${val}.`,
@@ -1725,7 +1754,7 @@ function fFnNotation(d, type) {
     stem: `The function $f$ is defined by $f(x)=${poly(a, b, c)}$. What is the value of $f(${k})$?`,
     correct: String(val),
     wrong: wrongs,
-    explanation: `$f(${k})=${a}(${k})^2${b >= 0 ? '+' : '-'}${Math.abs(b)}(${k})${c >= 0 ? '+' : '-'}${Math.abs(c)}=${val}$.`,
+    explanation: `$f(${k})=${a}(${k})^2${b >= 0 ? '+' : '-'}${Math.abs(b)}(${k})${c >= 0 ? '+' : '-'}${Math.abs(c)}=${val}$. Square the input first, then apply the coefficient and the sign of the linear term.`,
     desmos,
     skill_note: 'Substitute with parentheses around the negative input so the square stays positive.',
     check: `recomputed ${a}*${k}^2 + ${b}*${k} + ${c} = ${val}.`,
@@ -1742,7 +1771,7 @@ function fComposition(d, type) {
   const val = m * g + k;
   need(m * (p * p + c) + k === val, 'comp');
   const skill = 'Function composition';
-  const desmos = `y=${m}x+${k}; y=x^2${c >= 0 ? '+' : '-'}${Math.abs(c)}`;
+  const desmos = `y=${lineExpr(m, k)}; y=x^2${c >= 0 ? '+' : '-'}${Math.abs(c)}`;
   if (type === 'spr') {
     return {
       skill,
@@ -1805,7 +1834,7 @@ function fInverse(d, type) {
       wrong: [
         { text: `$${h}-\\frac{${a}}{x${kk >= 0 ? '-' : '+'}${Math.abs(kk)}}$`, note: 'subtracted the reciprocal term', tag: 'sign' },
         { text: `$${-h}+\\frac{${a}}{x${kk >= 0 ? '-' : '+'}${Math.abs(kk)}}$`, note: 'flipped the sign of the horizontal shift', tag: 'sign' },
-        { text: `$\\frac{x${kk >= 0 ? '-' : '+'}${Math.abs(kk)}}{${a}}+${h}$`, note: 'inverted the fraction instead of solving for x', tag: 'algebra' },
+        { text: `$\\frac{x${kk >= 0 ? '-' : '+'}${Math.abs(kk)}}{${a}}${constC(h)}$`, note: 'inverted the fraction instead of solving for x', tag: 'algebra' },
       ],
       explanation: `Write $y=\\frac{${a}}{x${h >= 0 ? '-' : '+'}${Math.abs(h)}}${kk >= 0 ? '+' : '-'}${Math.abs(kk)}$, so $y${kk >= 0 ? '-' : '+'}${Math.abs(kk)}=\\frac{${a}}{x${h >= 0 ? '-' : '+'}${Math.abs(h)}}$ and $x${h >= 0 ? '-' : '+'}${Math.abs(h)}=\\frac{${a}}{y${kk >= 0 ? '-' : '+'}${Math.abs(kk)}}$. Thus $f^{-1}(x)=${h}+\\frac{${a}}{x${kk >= 0 ? '-' : '+'}${Math.abs(kk)}}$.`,
       desmos: `y=${a}/(x${h >= 0 ? '-' : '+'}${Math.abs(h)})${kk >= 0 ? '+' : '-'}${Math.abs(kk)}`,
@@ -1991,7 +2020,7 @@ function fExpLinear(d, type) {
 
 // 31. Quadratic inequalities and parameter ranges
 function fParamRange(d, type) {
-  const m = ri([2, 3, 4, 5][d], [4, 5, 6, 7, 8][d]);
+  const m = ri([2, 3, 4, 5, 6][d], [4, 5, 6, 7, 8][d]);
   const c = m * m;
   const skill = 'Quadratic inequalities and parameter ranges';
   const desmos = `y=x^2+${2 * m}x+${c}`;

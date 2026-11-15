@@ -4,7 +4,7 @@ export const COE_1 = [
   { p: "A restoration team proposed that shading newly planted seedlings with a permeable cloth would raise first-year survival on a dry hillside by reducing evaporation from the soil surface. They planted 200 seedlings of the same species on the same slope, half under cloth and half in the open, and counted survivors after one dry season.",
     s: "Which finding, if true, would most directly support the team's proposal?",
     table: { c0: "Treatment", c1: "Surviving after one dry season", unit: "%", lead: "The results appear in the table.", rows: [["Open", 41], ["Shaded", 68]] },
-    k: "{l1} seedlings survived at {v1}{u}, against {v0}{u} for those left {l0}.",
+    k: "Shaded seedlings survived at {v1}{u}, against {v0}{u} among seedlings left unshaded.",
     w: ["Shaded seedlings grew 12 centimeters taller on average than open seedlings.",
         "The cloth cost about forty cents per square meter and lasted two seasons.",
         "Open seedlings were browsed by deer in three of the ten plots."],
@@ -44,7 +44,7 @@ export const COE_1 = [
     k: "In normal mice, the compound binds the kidney receptor at the same dose that lowers pressure, and a second compound that blocks the receptor without relaxing vessels has the same effect.",
     w: ["The compound is excreted unchanged in the urine within six hours.",
         "The compound lowered pressure in rats as well as mice.",
-        "Blood vessel tissue from treated mice showed no change in calcium signaling."],
+        "The compound has a half-life of about six hours in mice."],
     e: "Binding at the effective dose plus an independent receptor blocker reproducing the effect ties the pressure drop to that receptor specifically.",
     n: "A result in a second species shows generality, not mechanism.", lvl: 4 },
 
@@ -147,7 +147,7 @@ export const COE_1 = [
     k: "Students selected by lottery gained {v1} {u} against {v0} {u} for applicants not selected, a gap of {d} points.",
     w: ["Ninety percent of parents said they would enroll their child again.",
         "The program ran three afternoons a week for twenty weeks.",
-        "Selected students reported reading more books at home."],
+        "The program was paid for by a state literacy grant."],
     e: "A lottery comparison isolates the program from family motivation, and the gap is the direct measure the claim requires.",
     n: "Satisfaction and hours describe the program's delivery, not its effect.", lvl: 2 },
 
@@ -175,7 +175,7 @@ export const COE_1 = [
     k: "Losses were {v0}{u} on treated farms and {v1}{u} on untreated farms, a gap of {d} percentage points.",
     w: ["Treated seeds are coated at a rate of 0.5 milligrams per seed.",
         "Wild bee species differ in their foraging range.",
-        "Honeybee colonies on the same farms showed no loss."],
+        "Wild bee species nest in the same hedgerows on both farm types."],
     e: "Nearly identical losses with and without the treatment leave the pesticide unable to explain the decline.",
     n: "A dose rate describes exposure, not effect; the comparison is what matters.", lvl: 2 },
 
@@ -231,7 +231,7 @@ export const COE_1 = [
     k: "Counts above the dam rose from {v0} to {v1} after the ladder opened, while counts at the dam's base were unchanged.",
     w: ["The ladder cost 4.2 million dollars and took three years to build.",
         "Water temperature above the dam is two degrees cooler than below.",
-        "Juvenile salmon were observed in the reservoir for the first time."],
+        "The ladder's design was adapted from a similar structure in Norway."],
     e: "A twentyfold increase above the dam with no change below is what passage through the ladder would produce.",
     n: "Cost and temperature do not show that fish passed.", lvl: 2 },
 
@@ -256,7 +256,7 @@ export const COE_1 = [
   { p: "A cardiologist claims that a workplace stair-climbing program lowers blood pressure among sedentary office workers, citing a twelve-week trial in four buildings where employees had previously taken the lift.",
     s: "Which finding, if true, would most directly weaken the claim?",
     table: { c0: "Group", c1: "Mean fall in systolic pressure", unit: "mmHg", lead: "Offices were randomly assigned to the program or to a waiting list.", rows: [["Waiting list", 1], ["Program", 2]] },
-    k: "Pressure fell {v1} {u} in the program group against {v0} {u} on the waiting list, a difference smaller than the monitor's own error of 4 {u}.",
+    k: "Pressure fell {v1}{u} in the program group against {v0}{u} on the waiting list, a difference smaller than the monitor's own error of 4{u}.",
     w: ["Participants climbed an average of six flights a day.",
         "The program ran for twelve weeks during working hours.",
         "Participants reported feeling more energetic."],

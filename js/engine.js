@@ -421,18 +421,13 @@
     const overthinking = records.filter((r) => r.correct && r.ms / 1000 > pace * 1.7).length;
     const blanks = records.filter((r) => r.given == null || r.given === '').length;
 
+    // Per-tier accuracy, not cumulative: "solid through X" must mean you were
+    // actually above 60% at X, not that your average across everything was.
     let ceiling = null;
     let dropoff = null;
-    let cn = 0;
-    let cc = 0;
     for (const d of diffs) {
-      cn += d.n;
-      cc += d.correct;
-      if (cc / cn >= 0.6) {
-        if (!dropoff) ceiling = d.key;
-      } else if (!dropoff) {
-        dropoff = d.key;
-      }
+      if (d.acc >= 0.6) ceiling = d.key;
+      else if (!dropoff) dropoff = d.key;
     }
 
     const skillMap = new Map();

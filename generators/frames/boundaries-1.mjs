@@ -399,9 +399,9 @@ const appos = [
     id: 'APP-1',
     diff: 'easy',
     pres: [
-      'The 1897 expedition lasted nineteen months.',
-      'Only six of the original twelve members returned.',
-      'The society published the log in a limited edition.',
+      'The 1897 expedition lasted nineteen months and covered more than a thousand miles.',
+      'Only six of the original twelve members returned, and two of them never spoke of it.',
+      'The society published the log in a limited edition of four hundred copies.',
     ],
     triples: [
       [
@@ -503,9 +503,9 @@ const essential = [
     id: 'ESS-1',
     diff: 'easy',
     pres: [
-      'The archive is open on weekdays.',
-      'Access to the collection is controlled at the front desk.',
-      'The basement lab is closed for renovation until June.',
+      'The archive is open on weekdays and closes at four in the afternoon.',
+      'Access to the collection is controlled at the front desk, where badges are checked.',
+      'The basement lab is closed for renovation until June, when the new cases arrive.',
     ],
     triples: [
       ['Employees', 'who have completed the safety course', 'may use the archive after hours'],
@@ -518,9 +518,9 @@ const essential = [
     id: 'ESS-2',
     diff: 'medium',
     pres: [
-      'The report runs to two hundred pages.',
-      'The crossing closes twice a year for inspection.',
-      'The facility holds more than four thousand varieties.',
+      'The report runs to two hundred pages and has already been cited twice.',
+      'The crossing closes twice a year for inspection, once in spring and once in fall.',
+      'The facility holds more than four thousand varieties of seed and is expanding.',
     ],
     triples: [
       ['The report', 'that the committee commissioned in 2019', 'was finally released in June'],
@@ -533,9 +533,9 @@ const essential = [
     id: 'ESS-3',
     diff: 'hard',
     pres: [
-      'The county has changed a great deal since then.',
-      'The species was named in 1912.',
-      'The collection was moved to the east wing in 1998.',
+      'The county has changed a great deal since the bridge was widened in 1968.',
+      'The species was named in 1912 by a botanist who never saw it alive.',
+      'The collection was moved to the east wing in 1998 and has stayed there since.',
     ],
     triples: [
       ['The only bridge', 'that crosses the river within the county', 'was built in 1902'],
@@ -647,9 +647,9 @@ const series = [
     id: 'SER-2',
     diff: 'medium',
     pres: [
-      'The mill has been producing paper since 1811.',
-      'Every batch is tested before it leaves the building.',
-      'The recipe has not changed in a hundred years.',
+      'The mill has been producing paper since 1811, though the machines are much newer.',
+      'Every batch is tested before it leaves the building, and the results are logged.',
+      'The recipe has not changed in a hundred years, despite several attempts to modernize it.',
     ],
     triples: [
       ['The finished paper is', 'thin', 'strong, and nearly transparent'],
@@ -689,9 +689,9 @@ const sv = [
     id: 'SVP-1',
     diff: 'easy',
     pres: [
-      'The cliff path is closed from November to March.',
-      'The colony has been monitored since the 1970s.',
-      'A county crew repainted the railings last summer.',
+      'The cliff path is closed from November to March, when the nesting season begins.',
+      'The colony has been monitored since the 1970s by a rotating group of volunteers.',
+      'A county crew repainted the railings last summer and replaced two sections of boardwalk.',
     ],
     pairs: [
       ['The birds that nest on the cliff', 'return each April'],
@@ -704,9 +704,9 @@ const sv = [
     id: 'SVP-2',
     diff: 'medium',
     pres: [
-      'The pilot program ran for eighteen months.',
-      'The findings were published as an appendix.',
-      'The archive received the negatives in 2004.',
+      'The pilot program ran for eighteen months and cost slightly less than projected.',
+      'The findings were published as an appendix to the annual report in December.',
+      'The archive received the negatives in 2004 from the family of the photographer.',
     ],
     pairs: [
       ['The team studied', 'the effects of the dam on fish migration'],

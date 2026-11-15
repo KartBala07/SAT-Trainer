@@ -168,12 +168,12 @@ function pipeTable(head, rows) {
 
 function stripTex(s) {
   let t = String(s);
+  t = t.replace(/\\\$/g, ''); // escaped dollar (money) first
   t = t.replace(/\$/g, '');
   t = t.replace(/\\left|\\right/g, '');
   t = t.replace(/\\[,;:!]/g, '');
   t = t.replace(/\{,\}/g, '');
   t = t.replace(/\\%/g, '%');
-  t = t.replace(/\\\$/g, '');
   t = t.replace(/\\ /g, ' ');
   t = t.replace(/\^\\circ/g, '');
   t = t.replace(/\s+/g, '');
@@ -189,16 +189,19 @@ function stripTex(s) {
 export function parseVal(src) {
   const t = stripTex(src);
   if (!t) return NaN;
+  // plain grid-in fraction such as "187/5" or "3/2"
+  const slash = /^(-?\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/.exec(t);
+  if (slash) return Number(slash[1]) / Number(slash[2]);
   let i = 0;
 
-  function factor() {
+  function atom() {
     if (t[i] === '-') {
       i++;
-      return -factor();
+      return -atom();
     }
     if (t[i] === '+') {
       i++;
-      return factor();
+      return atom();
     }
     if (t.startsWith('\\frac', i)) {
       i += 5;
@@ -224,42 +227,50 @@ export function parseVal(src) {
   }
 
   function group() {
-    if (t[i] !== '{') return factor();
+    if (t[i] !== '{') return atom();
     i++; // {
     const v = expr();
     if (t[i] === '}') i++;
     return v;
   }
 
-  function expr() {
-    let v = factor();
+  // a run of factors multiplied implicitly: 3\pi, 2\sqrt{5}, \frac{1}{2}\sqrt{3}
+  function term() {
+    let v = atom();
     for (;;) {
-      // implicit multiplication: 3\pi, 2\sqrt{5}, \frac{1}{2}\sqrt{3}
-      if (i < t.length && (t[i] === '\\' || t[i] === '{' || /[0-9]/.test(t[i])) && !t.startsWith('\\frac', i) && !t.startsWith('\\sqrt', i) && !t.startsWith('\\pi', i)) {
-        // only implicit-multiply when the previous token was a factor and the
-        // next char begins a new factor such as a digit or a command
+      if (i >= t.length || t[i] === '}' || t[i] === '+' || t[i] === '-') break;
+      if (t[i] === '%') break;
+      if (t[i] === '\\' || t[i] === '{' || /[0-9]/.test(t[i])) {
         const save = i;
-        const f = factor();
-        if (Number.isNaN(f)) {
+        const f = atom();
+        if (Number.isNaN(f) || i <= save) {
           i = save;
           break;
         }
         v *= f;
         continue;
       }
+      break;
+    }
+    return v;
+  }
+
+  function expr() {
+    let v = term();
+    for (;;) {
       if (i >= t.length || t[i] === '}') break;
-      const op = t[i];
-      if (op === '+') {
+      const ch = t[i];
+      if (ch === '+') {
         i++;
-        v += factor();
+        v += term();
         continue;
       }
-      if (op === '-') {
+      if (ch === '-') {
         i++;
-        v -= factor();
+        v -= term();
         continue;
       }
-      if (op === '%') {
+      if (ch === '%') {
         i++;
         continue;
       }
@@ -284,8 +295,32 @@ const LETTER = 'ABCD';
 const EPS = 1e-7;
 
 function keyOf(v, text) {
-  if (v == null || Number.isNaN(v)) return 't:' + String(text).replace(/\s+/g, '');
-  return 'n:' + (Math.round(v * 1e6) / 1e6);
+  if (typeof v === 'number' && Number.isFinite(v)) return 'n:' + Math.round(v * 1e6) / 1e6;
+  if (text != null) {
+    const p = parseVal(text);
+    if (!Number.isNaN(p)) return 'n:' + Math.round(p * 1e6) / 1e6;
+    return 't:' + String(text).replace(/\s+/g, '');
+  }
+  return 't:' + String(v);
+}
+
+/** render a numeric distractor in the same style as the correct answer */
+function formatLike(correctText, v) {
+  const ct = String(correctText == null ? '' : correctText);
+  if (ct.startsWith('$\\$')) return moneyTex(v);
+  if (/^-?\\frac\{\d+\}\{\d+\}$/.test(ct)) {
+    if (Number.isInteger(v)) return String(v);
+    for (let d = 2; d <= 100; d++) {
+      const n = Math.round(v * d);
+      if (Math.abs(n / d - v) < 1e-9) return frac(n, d);
+    }
+    return num(v);
+  }
+  if (/^-?\d+(\.\d+)?$/.test(ct) && Number.isInteger(v)) return String(v);
+  const s = num(v);
+  // keep plausible-looking distractors short: no long repeating decimals
+  if (s.includes('.') && s.split('.')[1].length > 3) return String(Math.round(v * 100) / 100);
+  return s;
 }
 
 function plainNumber(text) {
@@ -320,14 +355,18 @@ function assemble(r, g, L, body, wantSpr) {
     const accepted = [spr];
     if (/^-?\d+\/\d+$/.test(spr)) {
       const [n, d] = spr.split('/').map(Number);
-      const v = n / d;
-      const dec = String(Math.round(v * 1e4) / 1e4);
-      if (dec !== spr && Number.isFinite(v)) accepted.push(dec);
+      let dd = Math.abs(d);
+      while (dd % 2 === 0) dd /= 2;
+      while (dd % 5 === 0) dd /= 5;
+      if (dd === 1) {
+        const dec = String(Number((n / d).toFixed(10)) / 1);
+        if (dec !== spr) accepted.push(dec);
+      }
     } else if (/^-?\d+(\.\d+)?$/.test(spr) && !Number.isInteger(Number(spr))) {
       const v = Number(spr);
-      for (const d of [2, 3, 4, 5, 8, 10, 16, 20, 25, 50]) {
+      for (const d of [2, 4, 5, 8, 10, 16, 20, 25, 50, 100]) {
         const n = Math.round(v * d);
-        if (Math.abs(n / d - v) < 1e-9) {
+        if (Math.abs(n / d - v) < 1e-12) {
           accepted.push(fracPlain(n, d));
           break;
         }
@@ -339,11 +378,27 @@ function assemble(r, g, L, body, wantSpr) {
   const correct = body.num;
   const chosen = [{ v: correct, t: body.text, note: 'correct', tag: 'none' }];
   const seen = new Set([keyOf(correct, body.text)]);
-  for (const [v, t, note, tag] of body.alts) {
+  const texts = new Set([body.text]);
+  for (const tup of body.alts) {
+    let v;
+    let t;
+    let note;
+    let tag;
+    if (tup.length >= 4) {
+      [v, t, note, tag] = tup;
+    } else if (typeof tup[0] === 'string') {
+      [t, note, tag] = tup;
+      v = null;
+    } else {
+      [v, note, tag] = tup;
+      t = formatLike(body.text, v);
+    }
+    if (t == null) t = num(v);
     const k = keyOf(v, t);
-    if (seen.has(k)) continue;
-    if (v != null && correct != null && Math.abs(v - correct) <= EPS) continue;
+    if (seen.has(k) || texts.has(t)) continue;
+    if (typeof v === 'number' && typeof correct === 'number' && Math.abs(v - correct) <= EPS) continue;
     seen.add(k);
+    texts.add(t);
     chosen.push({ v, t, note, tag });
     if (chosen.length === 4) break;
   }
@@ -409,9 +464,11 @@ function gRatioParts(r, L) {
   const a = r.int(2, 4 + L);
   let b = r.int(2, 5 + L);
   if (b === a) b = a + 1;
+  while (gcd(a, b) !== 1) b = b + 1;
   const per = r.int(2, 6 + 2 * L);
   const total = (a + b) * per;
   const ans = a * per;
+  const capA = ctx.a.charAt(0).toUpperCase() + ctx.a.slice(1);
   const stem = `${ctx.intro} The two ingredients are combined in the ratio $${a}:${b}$. A batch contains ${total} ${ctx.unit} of the mixture. How many ${ctx.unit} of ${ctx.a} are in the batch?`;
   return {
     num: ans,
@@ -423,7 +480,7 @@ function gRatioParts(r, L) {
       [(a + 1) * per, 'used one extra part of the ratio for the ingredient asked about', 'setup'],
     ],
     stem,
-    expl: `The ratio has $${a}+${b}=${a + b}$ equal parts, so one part is $${total}\\div${a + b}=${per}$ ${ctx.unit}. ${ctx.a} makes up $${a}$ of those parts, so the batch contains $${a}\\times${per}=${ans}$ ${ctx.unit}.`,
+    expl: `The ratio has $${a}+${b}=${a + b}$ equal parts, so one part is $${total}\\div${a + b}=${per}$ ${ctx.unit}. ${capA} makes up $${a}$ of those parts, so the batch contains $${a}\\times${per}=${ans}$ ${ctx.unit}.`,
     desmos: `${total}/(${a}+${b})*${a}`,
     note: 'The trap is treating the ratio numbers as amounts instead of as counts of equal parts.',
     check: `verified $${a}\\times${per}+${b}\\times${per}=${total}$ equals the stated batch size`,
@@ -465,7 +522,7 @@ function gUnitConvert(r, L) {
       [p * h, 'multiplied by the hours but never converted minutes to hours', 'unit'],
       [p * 100 * h, 'used 100 minutes in an hour', 'unit'],
     ];
-    expl = `Each hour has $60$ minutes, so the printer produces $${p}\\times60=${p * 60}$ pages per hour. In ${h} hours that is $${p * 60}\\times${h}=${ans}$ pages.`;
+    expl = `Each hour has $60$ minutes, so the printer produces $${p}\\times60=${p * 60}$ pages per hour. In ${h} hours that is $${p * 60}\\times${h}=${ans}$ pages. Two factors are at work: minutes per hour and the number of hours.`,
     desmos = `${p}*60*${h}`;
     note = 'Two separate factors: minutes-to-hours and the number of hours.';
     check = `recomputed rate per hour (${p}*60=${p * 60}) then multiplied by ${h}`;
@@ -483,7 +540,7 @@ function gUnitConvert(r, L) {
       [Math.round((cm / 12) * 100) / 100, 'divided by $12$ as if converting centimeters to feet', 'unit'],
       [Math.round((cm / 25.4) * 100) / 100, 'used $25.4$ centimeters per inch', 'unit'],
     ];
-    expl = `Divide by the number of centimeters in one inch: $${num(cm)}\\div2.54=${ans}$ inches.${''}`;
+    expl = `Divide by the number of centimeters in one inch: $${num(cm)}\\div2.54=${ans}$ inches. Inches are the longer unit, so the count in inches is smaller than the count in centimeters.`,
     desmos = `${num(cm)}/2.54`;
     note = 'Centimeters are the smaller unit, so the count in inches must be smaller.';
     check = `multiplied back: $${ans}\\times2.54=${num(cm)}$ cm`;
@@ -500,7 +557,7 @@ function gUnitConvert(r, L) {
       [Math.round(m * 22 * 1e6) / 1e6, 'used $22$ pounds per kilogram', 'unit'],
       [m + 2.2, 'added the conversion factor instead of multiplying', 'concept'],
     ];
-    expl = `Each kilogram is $2.2$ pounds, so multiply: $${m}\\times2.2=${num(ans)}$ pounds.`;
+    expl = `Each kilogram is $2.2$ pounds, so multiply: $${m}\\times2.2=${num(ans)}$ pounds. Pounds are the smaller unit, so the number of pounds is larger than the number of kilograms.`,
     desmos = `${m}*2.2`;
     note = 'Pounds are the smaller unit, so the number of pounds must be larger than the number of kilograms.';
     check = `divided back: $${num(ans)}\\div2.2=${m}$ kg`;
@@ -561,7 +618,7 @@ function gUnitRate(r, L) {
         [Math.round(((total * q)) * 100) / 100, 'multiplied price by quantity', 'setup'],
       ],
       stem,
-      expl: `Divide the total cost by the number of batteries: $${num(total)}\\div${q}=${num(ans)}$ dollars, so each battery costs ${moneyTex(ans)}.`,
+      expl: `Divide the total cost by the number of batteries: $${num(total)}\\div${q}=${num(ans)}$ dollars, so each battery costs ${moneyTex(ans)}. Dividing by the count is what turns a total into a per-item rate.`,
       desmos: `${num(total)}/${q}`,
       note: 'A unit rate always puts the quantity of interest in the denominator.',
       check: `multiplied back: $${num(ans)}\\times${q}=${num(total)}$`,
@@ -583,7 +640,7 @@ function gUnitRate(r, L) {
         [Math.round(miles * gal * 1e6) / 1e6, 'multiplied distance by gallons', 'setup'],
       ],
       stem,
-      expl: `Miles per gallon means miles divided by gallons: $${miles}\\div${gal}=${ans}$ miles per gallon.`,
+      expl: `Miles per gallon means miles divided by gallons: $${miles}\\div${gal}=${ans}$ miles per gallon. The order of the division comes from the units in the rate's name.`,
       desmos: `${miles}/${gal}`,
       note: 'Read the units off the rate name: "miles per gallon" fixes the division order.',
       check: `multiplied back: $${ans}\\times${gal}=${miles}$ miles`,
@@ -603,7 +660,7 @@ function gUnitRate(r, L) {
       [perHour * 60, 'multiplied by $60$ minutes with no conversion needed', 'unit'],
     ],
     stem,
-    expl: `Multiply the hourly rate by the number of hours: $${perHour}\\times${hours}=${ans}$ widgets.`,
+    expl: `Multiply the hourly rate by the number of hours: $${perHour}\\times${hours}=${ans}$ widgets. The rate is already per hour, so no unit conversion is needed.`,
     desmos: `${perHour}*${hours}`,
     note: 'The rate is already per hour, so the only step is multiplying by hours.',
     check: `divided back: $${ans}\\div${hours}=${perHour}$`,
@@ -624,11 +681,11 @@ function gPercentOf(r, L) {
       spr: num(ans),
       alts: [
         [Math.round(p * n * 1e6) / 1e6, 'multiplied the percent by the number and never divided by $100$', 'concept'],
-        [Math.round(((n / p) * 100) * 1e6) / 1e6, 'solved for the whole instead of the part', 'setup'],
-        [Math.round(((p * n) / 1000) * 1e6) / 1e6, 'divided by $1000$ instead of $100$', 'arithmetic'],
+        [Math.round(((p * n) / 10) * 1e6) / 1e6, 'divided by $10$ instead of $100$', 'arithmetic'],
+        [Math.round((n - ans) * 1e6) / 1e6, 'found the part of the number that is not in the percent', 'misread'],
       ],
       stem,
-      expl: `Convert the percent to a decimal and multiply: $${num(p / 100)}\\times${n}=${num(ans)}$.`,
+      expl: `Convert the percent to a decimal and multiply: $${num(p / 100)}\\times${n}=${num(ans)}$. The remaining $${num(n - ans)}$ is the part of ${n} that the percent does not count.`,
       desmos: `${p}/100*${n}`,
       note: 'Percent means per hundred, so the decimal is the percent divided by $100$.',
       check: `divided back: $${num(ans)}\\div${n}\\times100=${num(Math.round((ans / n) * 100 * 1e6) / 1e6)}$ percent`,
@@ -648,7 +705,7 @@ function gPercentOf(r, L) {
       [Math.round(((base - part) / base) * 100 * 1e6) / 1e6, 'computed the percent not taken', 'misread'],
     ],
     stem,
-    expl: `Divide the part by the whole and multiply by $100$: $${num(part)}\\div${base}\\times100=${p}$ percent.`,
+    expl: `Divide the part by the whole and multiply by $100$: $${num(part)}\\div${base}\\times100=${p}$ percent. Multiplying back, $${base}\\times${num(p / 100)}=${num(part)}$ confirms the percent.`,
     desmos: `${num(part)}/${base}*100`,
     note: '"What percent of" always means part divided by whole.',
     check: `multiplied back: $${base}\\times${num(p / 100)}=${num(part)}$`,
@@ -674,7 +731,7 @@ function gPercentChange(r, L) {
         [old + p, 'added the percent number itself to the quantity', 'concept'],
       ],
       stem,
-      expl: `A ${p} percent ${up ? 'increase multiplies by' : 'decrease multiplies by'} $1${up ? '+' : '-'}${num(p / 100)}=${num(up ? 1 + p / 100 : 1 - p / 100)}$, so the new value is $${old}\\times${num(up ? 1 + p / 100 : 1 - p / 100)}=${num(ans)}$.`,
+      expl: `A ${p} percent ${up ? 'increase multiplies by' : 'decrease multiplies by'} $1${up ? '+' : '-'}${num(p / 100)}=${num(up ? 1 + p / 100 : 1 - p / 100)}$, so the new value is $${old}\\times${num(up ? 1 + p / 100 : 1 - p / 100)}=${num(ans)}$. The change itself is $${num(Math.abs(ans - old))}$, which is ${p} percent of the original ${old}.`,
       desmos: `${old}*${up ? 1 + p / 100 : 1 - p / 100}`,
       note: 'Multiply by the growth factor rather than adding a percent to a number.',
       check: `divided back: $${num(ans)}\\div${old}=${num(Math.round((ans / old) * 1e6) / 1e6)}$`,
@@ -713,7 +770,7 @@ function gPercentChain(r, L) {
   const upFirst = r.chance(0.7);
   const f1 = upFirst ? 1 + p / 100 : 1 - p / 100;
   const f2 = 1 - q / 100;
-  const ans = Math.round(base * f1 * f2 * 1e6) / 1e6;
+  const ans = Math.round(base * f1 * f2 * 100) / 100;
   const stem = `A stock price starts at ${moneyTex(base)}. It ${upFirst ? 'rises' : 'falls'} by ${pctTex(p)} during the first month, then falls by ${pctTex(q)} during the second month. What is the price after the second month?`;
   return {
     num: ans,
@@ -750,7 +807,7 @@ function gPercentOriginal(r, L) {
       [Math.round(((neu * p) / 100) * 1e6) / 1e6, 'computed the amount of the change instead of the original value', 'quantity'],
     ],
     stem,
-    expl: `If the original value is $x$, then $x\\left(${num(up ? 1 + p / 100 : 1 - p / 100)}\\right)=${num(neu)}$, so $x=${num(neu)}\\div${num(up ? 1 + p / 100 : 1 - p / 100)}=${orig}$.`,
+    expl: `If the original value is $x$, then $x\\left(${num(up ? 1 + p / 100 : 1 - p / 100)}\\right)=${num(neu)}$, so $x=${num(neu)}\\div${num(up ? 1 + p / 100 : 1 - p / 100)}=${orig}$. Dividing by the growth factor undoes the percent change in a single step.`,
     desmos: `${num(neu)}/${num(up ? 1 + p / 100 : 1 - p / 100)}`,
     note: 'Undo a percent change by dividing by the growth factor, not by subtracting the percent.',
     check: `multiplied back: $${orig}\\times${num(up ? 1 + p / 100 : 1 - p / 100)}=${num(neu)}$`,
@@ -828,7 +885,7 @@ function gMarkupDiscount(r, L) {
   const cost = r.pick([20, 24, 30, 40, 45, 50, 60, 80, 120, 150, 200]);
   const m = r.pick([10, 20, 25, 30, 40, 50, 60]);
   const d = r.pick([10, 15, 20, 25, 30, 40, 50]);
-  const final = Math.round(cost * (1 + m / 100) * (1 - d / 100) * 1e6) / 1e6;
+  const final = Math.round(cost * (1 + m / 100) * (1 - d / 100) * 100) / 100;
   const stem = `A store buys a jacket for ${moneyTex(cost)}. The store marks the price up by ${pctTex(m)}, then later sells the jacket at ${pctTex(d)} off the marked price. What is the selling price?`;
   return {
     num: final,
@@ -876,7 +933,7 @@ function gMeanMedianMode(r, L) {
       [Math.round((sum / (n + 1)) * 1e6) / 1e6, 'divided the sum by one too many values', 'arithmetic'],
       [range, 'gave the range instead of the mean', 'misread'],
     ];
-    expl = `The mean is the sum divided by the count: $(${vals.join('+')})\\div${n}=${sum}\\div${n}=${text}$.`;
+    expl = `The mean is the sum divided by the count: $(${vals.join('+')})\\div${n}=${sum}\\div${n}=${text}$. Every value contributes to the mean, which is why it can sit between two of the listed values.`;
     note = 'Mean and median are different measures; the mean uses every value.';
   } else if (ask === 'median') {
     ans = median;
@@ -886,7 +943,7 @@ function gMeanMedianMode(r, L) {
       [sorted[(n - 1) / 2 + 1] != null ? sorted[(n - 1) / 2 + 1] : median + 1, 'picked the next value after the middle one', 'misread'],
       [Math.round(((sorted[0] + sorted[n - 1]) / 2) * 1e6) / 1e6, 'averaged the smallest and largest values', 'setup'],
     ];
-    expl = `Sorted, the values are $${sorted.join(', ')}$. With ${n} values the median is the middle one, ${median}.`;
+    expl = `Sorted, the values are $${sorted.join(', ')}$. With ${n} values the median is the middle one, ${median}. Position determines the median, so extreme values cannot pull it.`;
     note = 'Sort first — the median is positional, not an average of all values.';
   } else if (ask === 'mode') {
     ans = modeVal;
@@ -896,7 +953,7 @@ function gMeanMedianMode(r, L) {
       [median, 'gave the median instead of the most frequent value', 'concept'],
       [sorted[n - 1], 'gave the largest value', 'misread'],
     ];
-    expl = `The value ${modeVal} appears more often than any other, so the mode is ${modeVal}.`;
+    expl = `The value ${modeVal} appears more often than any other, so the mode is ${modeVal}. Mode counts frequency, while the mean and median measure the size of the values.`;
     note = 'The mode is about frequency, not position or size.';
   } else {
     ans = range;
@@ -906,7 +963,7 @@ function gMeanMedianMode(r, L) {
       [Math.round(mean * 1e6) / 1e6, 'gave the mean instead of the spread', 'concept'],
       [sorted[n - 1], 'gave the maximum value only', 'misread'],
     ];
-    expl = `The range is the largest value minus the smallest: $${sorted[n - 1]}-${sorted[0]}=${range}$.`;
+    expl = `The range is the largest value minus the smallest: $${sorted[n - 1]}-${sorted[0]}=${range}$. The range uses only the two extreme values, so a single outlier can change it dramatically.`;
     note = 'Range measures spread between the extremes, not an average.';
   }
 
@@ -979,7 +1036,7 @@ function gCompareSD(r, L) {
   const sdB = sd(B);
   const widerIsB = sdB > sdA;
   return {
-    num: widerIsB ? 2 : 1,
+    num: null,
     text: widerIsB ? 'Data set B' : 'Data set A',
     alts: [
       [widerIsB ? 1 : 2, widerIsB ? 'Data set A' : 'Data set B', 'chose the more tightly clustered set', 'concept'],
@@ -1074,7 +1131,7 @@ function gTwoWayConditional(r, L) {
       [(den - numr) / den, 'found the probability of the complement', 'misread'],
     ],
     stem,
-    expl: `The condition restricts the group to the ${den} ${c.unit}s described, and ${numr} of them match the outcome asked about, so the probability is $\\frac{${numr}}{${den}}=${frac(numr, den)}$.`,
+    expl: `The condition restricts the group to the ${den} ${c.unit}s described, and ${numr} of them match the outcome asked about, so the probability is $${gcd(numr, den) === 1 ? frac(numr, den) : `\\frac{${numr}}{${den}}=${frac(numr, den)}`}$. Dividing by the group named in the condition, rather than the grand total, is what makes it conditional.`,
     desmos: `${numr}/${den}`,
     note: 'Conditional probability divides by the row or column total named after "given", not by the grand total.',
     check: `table sums to ${T}; denominator taken from the ${checkDen} group and numerator from the matching cell`,
@@ -1115,7 +1172,7 @@ function gTwoWayPartial(r, L) {
       [hide + 1, 'arithmetic slip of one in the subtraction', 'arithmetic'],
     ],
     stem,
-    expl: `The ${rowLabel} row must total ${which < 2 ? a + b : cc + d} and the ${colLabel} column must total ${which % 2 === 0 ? a + cc : b + d}. Solving either gives ${ans}.`,
+    expl: `The ${rowLabel} row must total ${which < 2 ? a + b : cc + d} and the ${colLabel} column must total ${which % 2 === 0 ? a + cc : b + d}. Solving either gives ${ans}, and both totals agree, which confirms the table is consistent.`,
     desmos: `${which < 2 ? a + b : cc + d}-${which < 2 ? (which === 0 ? b : a) : which === 2 ? d : cc}`,
     note: 'Either the row total or the column total determines a missing cell — both must agree.',
     check: `rebuilt the full table: rows ${a}+${b}=${a + b}, ${cc}+${d}=${cc + d}; columns ${a}+${cc}=${a + cc}, ${b}+${d}=${b + d}; grand total ${T}`,
@@ -1142,7 +1199,7 @@ function gSimpleProb(r, L) {
         [(T - red) / T, 'found the probability of not drawing red', 'misread'],
       ],
       stem,
-      expl: `There are ${T} marbles in total and ${red} are red, so the probability is $\\frac{${red}}{${T}}=${frac(red, T)}$.`,
+      expl: `There are ${T} marbles in total and ${red} are red, so the probability is $\\frac{${red}}{${T}}=${frac(red, T)}$. Each marble is equally likely, so the denominator is always the total count.`,
       desmos: `${red}/${T}`,
       note: 'Probability is favorable outcomes over total outcomes.',
       check: `checked ${red}+${blue}+${green}=${T}`,
@@ -1190,26 +1247,27 @@ reg({ fn: gSimpleProb, domain: DATA_DOMAIN, skill: 'Simple probability', count: 
 /* ---- random sample validity ---- */
 function gRandomSample(r, L) {
   const ctxs = [
-    { who: 'students at a high school', about: 'whether the cafeteria should open later', pop: 'all students at the school', n: r.int(40, 120) },
-    { who: 'members of a gym', about: 'which new classes to offer', pop: 'the gym\'s full membership list', n: r.int(50, 200) },
-    { who: 'residents of a town', about: 'whether to add a new bus route', pop: 'all registered voters in the town', n: r.int(100, 400) },
-    { who: 'customers of an online store', about: 'how satisfied they are with delivery times', pop: 'all customers who ordered in the last year', n: r.int(80, 300) },
-    { who: 'employees at a company', about: 'whether to switch to a four-day week', pop: 'all employees at the company', n: r.int(30, 150) },
-    { who: 'students in a district', about: 'how much homework they do each night', pop: 'all students in the district', n: r.int(60, 250) },
+    { intro: 'A school wants to know how students feel about moving the start of the school day.', pop: 'all students at the school', unit: 'students' },
+    { intro: 'A gym wants to know which new classes its members would attend.', pop: 'the gym\'s full membership list', unit: 'members' },
+    { intro: 'A town council wants to know whether residents support a new bus route.', pop: 'all registered voters in the town', unit: 'residents' },
+    { intro: 'An online store wants to know how satisfied its customers are with delivery times.', pop: 'all customers who ordered in the last year', unit: 'customers' },
+    { intro: 'A company wants to know whether employees support a four-day work week.', pop: 'all employees at the company', unit: 'employees' },
+    { intro: 'A district wants to know how much homework students do each night.', pop: 'all students in the district', unit: 'students' },
   ];
   const c = r.pick(ctxs);
-  const correct = `Select ${c.n} ${c.who} at random from ${c.pop}.`;
-  const stem = `A researcher wants to estimate the proportion of ${c.who} who support a proposal about ${c.about}. Which sampling method would produce the most representative sample?`;
+  const n = r.int(40, 240);
+  const correct = `Select ${n} ${c.unit} at random from a list of ${c.pop}.`;
+  const stem = `${c.intro} Which sampling method would produce the most representative sample?`;
   return {
     num: null,
     text: correct,
     alts: [
-      [null, `Survey the first ${c.n} ${c.who} who volunteer to respond.`, 'volunteers differ systematically from the population', 'concept'],
-      [null, `Survey ${c.n} ${c.who} chosen because they are easy to reach, such as friends of the researcher.`, 'a convenience sample over-represents one kind of person', 'setup'],
-      [null, `Survey every ${c.who} who has already complained about the current arrangement.`, 'a sample built from complainers is biased toward one opinion', 'concept'],
+      [null, `Survey the first ${n} ${c.unit} who volunteer to respond.`, 'volunteers differ systematically from the population', 'concept'],
+      [null, `Survey ${n} ${c.unit} who are easy to reach, such as friends of the researcher.`, 'a convenience sample over-represents one kind of person', 'setup'],
+      [null, `Survey only the ${c.unit} who have already complained about the current arrangement.`, 'a sample built from complainers is biased toward one opinion', 'concept'],
     ],
     stem,
-    expl: `A representative sample must give every member of the population a chance to be selected, so random selection from ${c.pop} is the only unbiased method listed. The other methods all over-represent one subgroup.`,
+    expl: `A representative sample must give every member of the population a chance to be selected, so random selection from a list of ${c.pop} is the only unbiased method listed. The other three methods all over-represent one subgroup, so they cannot support a conclusion about the whole population.`,
     desmos: '',
     note: 'Random selection from the whole population is the only design that supports an inference to that population.',
     check: 'checked that exactly one option draws from the entire population at random; the rest are convenience or volunteer samples',
@@ -1256,7 +1314,7 @@ function gMarginOfError(r, L) {
         [Math.round((m) * 1e6) / 1e6, 'gave the margin of error itself', 'quantity'],
       ],
       stem,
-      expl: `The lower end of the interval is $${p}-${num(m)}=${num(ans)}$ percent.`,
+      expl: `The lower end of the interval is $${p}-${num(m)}=${num(ans)}$ percent. Any percent outside the interval $[${p - m},${p + m}]$ is not supported by this poll.`,
       desmos: `${p}-${num(m)}`,
       note: 'The interval runs from estimate minus margin to estimate plus margin.',
       check: `checked $${p}-${num(m)}=${num(ans)}$ and that the estimate lies inside the interval`,
@@ -1322,7 +1380,7 @@ function gInferenceSample(r, L) {
       [Math.round((N / mean) * 1e6) / 1e6, 'divided the number of boxes by the mean weight', 'concept'],
     ],
     stem,
-    expl: `Multiply the sample mean by the number of boxes in the warehouse: $${mean}\\times${N}=${num(ans)}$ pounds.`,
+    expl: `Multiply the sample mean by the number of boxes in the warehouse: $${mean}\\times${N}=${num(ans)}$ pounds. The sample was random, so its mean is the best available estimate of the population mean.`,
     desmos: `${mean}*${N}`,
     note: 'A sample mean estimates the population mean; the total is that mean times the population size.',
     check: `divided back: $${num(ans)}\\div${N}=${mean}$ pounds per box`,
@@ -1332,11 +1390,11 @@ reg({ fn: gInferenceSample, domain: DATA_DOMAIN, skill: 'Inference from samples'
 
 /* ---- scatterplot: slope in context ---- */
 const SCATTER_CTX = [
-  { x: 'hours studied', y: 'score', yUnit: 'points', xUnit: 'hour', a: 62, b: 4.5 },
-  { x: 'years of experience', y: 'hourly wage', yUnit: 'dollars', xUnit: 'year', a: 14, b: 1.25 },
-  { x: 'ounces of fertilizer', y: 'plant height', yUnit: 'centimeters', xUnit: 'ounce', a: 8, b: 2.4 },
-  { x: 'weeks of training', y: 'sprint time', yUnit: 'seconds', xUnit: 'week', a: 14.2, b: -0.3 },
-  { x: 'advertising spend, in thousands', y: 'sales, in thousands', yUnit: 'thousand dollars', xUnit: 'thousand dollars', a: 30, b: 2.5 },
+  { xLabel: 'hours studied', yLabel: 'test score', yUnit: 'points', xUnit: 'hour', xUnits: 'hours', xPhrase: 'the number of hours studied', a: 62, b: 4.5 },
+  { xLabel: 'years of experience', yLabel: 'hourly wage', yUnit: 'dollars', xUnit: 'year', xUnits: 'years', xPhrase: 'the number of years of experience', a: 14, b: 1.25 },
+  { xLabel: 'ounces of fertilizer', yLabel: 'plant height', yUnit: 'centimeters', xUnit: 'ounce', xUnits: 'ounces', xPhrase: 'the amount of fertilizer', a: 8, b: 2.4 },
+  { xLabel: 'weeks of training', yLabel: 'sprint time', yUnit: 'seconds', xUnit: 'week', xUnits: 'weeks', xPhrase: 'the number of weeks of training', a: 14.2, b: -0.3 },
+  { xLabel: 'advertising spend', yLabel: 'weekly sales', yUnit: 'dollars', xUnit: 'thousand dollars', xUnits: 'thousand dollars', xPhrase: 'the advertising spend', a: 30, b: 2.5 },
 ];
 
 function linTex(a, b) {
@@ -1350,7 +1408,7 @@ function gScatterSlope(r, L) {
   const slope = Math.round((c.b + (r.int(-2, 2) * 0.1)) * 100) / 100;
   const k = r.int(2, 3 + L);
   const ans = Math.round(slope * k * 1e6) / 1e6;
-  const stem = `A line of best fit for a scatterplot of ${c.x} and ${c.y} is ${linTex(base, slope)}.\n\nAccording to the model, how much does the predicted ${c.y} change when the ${c.x.replace(/s$/, '')} increases by ${k} ${c.xUnit}s?`;
+  const stem = `A line of best fit for a scatterplot of ${c.xLabel} and ${c.yLabel} is ${linTex(base, slope)}.\n\nAccording to the model, how much does the predicted ${c.yLabel} change when ${c.xPhrase} increases by ${k} ${c.xUnits}?`;
   const dir = slope < 0 ? 'decreases' : 'increases';
   return {
     num: ans,
@@ -1362,7 +1420,7 @@ function gScatterSlope(r, L) {
       [Math.round((base + slope * k) * 1e6) / 1e6, 'gave the predicted value, not the change in it', 'quantity'],
     ],
     stem,
-    expl: `Each additional ${c.xUnit} changes the prediction by ${num(slope)} ${c.yUnit}, so ${k} ${c.xUnit}s change it by $${k}\\times${num(slope)}=${num(ans)}$. The prediction ${dir} by ${num(Math.abs(ans))} ${c.yUnit}.`,
+    expl: `Each additional ${c.xUnit} of ${c.xLabel} changes the prediction by ${num(slope)} ${c.yUnit}, so ${k} ${c.xUnits} change it by $${k}\\times${num(slope)}=${num(ans)}$. The prediction ${dir} by ${num(Math.abs(ans))} ${c.yUnit}.`,
     desmos: `y=${num(base)}${slope < 0 ? '-' : '+'}${num(Math.abs(slope))}x`,
     note: 'The slope is the change per one unit; multiply it by the number of units asked about.',
     check: `evaluated the model at $x=${k}$ and at $x=0$: difference $=${num(ans)}$`,
@@ -1379,7 +1437,7 @@ function gScatterIntercept(r, L) {
   const x2 = x1 + r.int(2, 4);
   const y2 = Math.round((c.a + slope * x2) * 100) / 100;
   const ans = Math.round((y1 - slope * x1) * 100) / 100;
-  const stem = `A line of best fit models ${c.y} as a linear function of ${c.x}. The model predicts ${num(y1)} ${c.yUnit} when the ${c.x.replace(/s$/, '')} is ${x1} ${c.xUnit}s, and ${num(y2)} ${c.yUnit} when the ${c.x.replace(/s$/, '')} is ${x2} ${c.xUnit}s. What is the predicted ${c.y} when the ${c.x.replace(/s$/, '')} is $0$ ${c.xUnit}s?`;
+  const stem = `A line of best fit models ${c.yLabel} as a linear function of ${c.xLabel}. The model predicts ${num(y1)} ${c.yUnit} when ${c.xPhrase} is ${x1} ${c.xUnits}, and ${num(y2)} ${c.yUnit} when ${c.xPhrase} is ${x2} ${c.xUnits}. What is the predicted ${c.yLabel} when ${c.xPhrase} is $0$ ${c.xUnits}?`;
   return {
     num: ans,
     text: num(ans),
@@ -1390,7 +1448,7 @@ function gScatterIntercept(r, L) {
       [Math.round((y2 - y1) * 1e6) / 1e6, 'gave the change between the two predictions', 'quantity'],
     ],
     stem,
-    expl: `The slope is $\\frac{${num(y2)}-${num(y1)}}{${x2}-${x1}}=${num(slope)}$. Using the first point, $${num(y1)}=a+${num(slope)}\\times${x1}$, so $a=${num(ans)}$.`,
+    expl: `The slope is $\\frac{${num(y2)}-${num(y1)}}{${x2}-${x1}}=${num(slope)}$. Using the first point, $${num(y1)}=a+${num(slope)}\\times${x1}$, so $a=${num(ans)}$. The intercept is the model's prediction when the explanatory variable is zero.`,
     desmos: `${num(y1)}-${num(slope)}*${x1}`,
     note: 'The intercept is the prediction at $x=0$, found by backing the slope out of a known point.',
     check: `reconstructed $${num(slope)}\\times${x1}+${num(ans)}=${num(y1)}$ and $${num(slope)}\\times${x2}+${num(ans)}=${num(y2)}$`,
@@ -1405,7 +1463,7 @@ function gScatterPredict(r, L) {
   const base = c.a;
   const x = r.int(3, 8 + 2 * L);
   const ans = Math.round((base + slope * x) * 100) / 100;
-  const stem = `A line of best fit for a scatterplot of ${c.x} and ${c.y} is ${linTex(base, slope)}.\n\nWhat ${c.y} does the model predict when the ${c.x.replace(/s$/, '')} is ${x} ${c.xUnit}s?`;
+  const stem = `A line of best fit for a scatterplot of ${c.xLabel} and ${c.yLabel} is ${linTex(base, slope)}.\n\nWhat ${c.yLabel} does the model predict when ${c.xPhrase} is ${x} ${c.xUnits}?`;
   return {
     num: ans,
     text: num(ans),
@@ -1416,7 +1474,7 @@ function gScatterPredict(r, L) {
       [base, 'gave the intercept, ignoring $x$', 'concept'],
     ],
     stem,
-    expl: `Substitute $x=${x}$: $y=${num(base)}${slope < 0 ? '-' : '+'}${num(Math.abs(slope))}\\times${x}=${num(ans)}$.`,
+    expl: `Substitute $x=${x}$: $y=${num(base)}${slope < 0 ? '-' : '+'}${num(Math.abs(slope))}\\times${x}=${num(ans)}$. A line of best fit predicts by substituting into the equation, not by reading a data point.`,
     desmos: `y=${num(base)}${slope < 0 ? '-' : '+'}${num(Math.abs(slope))}x`,
     note: 'A predicted value always comes from substituting into the model.',
     check: `evaluated in two steps: $${num(slope)}\\times${x}=${num(Math.round(slope * x * 1e6) / 1e6)}$ then added ${num(base)}`,
@@ -1442,7 +1500,7 @@ function gDensity(r, L) {
         [Math.round((d / v) * 1e6) / 1e6, 'divided density by volume', 'concept'],
       ],
       stem,
-      expl: `Density is mass per unit volume, so mass is density times volume: $${num(d)}\\times${v}=${num(m)}$ grams.`,
+      expl: `Density is mass per unit volume, so mass is density times volume: $${num(d)}\\times${v}=${num(m)}$ grams. The units confirm the operation, since grams per cubic centimeter times cubic centimeters leaves grams.`,
       desmos: `${num(d)}*${v}`,
       note: 'g/cm$^3$ times cm$^3$ leaves grams — the units confirm the multiplication.',
       check: `divided back: $${num(m)}\\div${v}=${num(d)}$ g/cm$^3$`,
@@ -1484,7 +1542,7 @@ function gRateWork(r, L) {
       [Math.round((a * b) / Math.abs(b - a) * 1e6) / 1e6, 'used the difference of the times instead of the sum of the rates', 'setup'],
     ],
     stem,
-    expl: `The rates are $\\frac{1}{${a}}$ and $\\frac{1}{${b}}$ of the road per day. Together they pave $\\frac{1}{${a}}+\\frac{1}{${b}}=\\frac{${a + b}}{${a * b}}$ of the road per day, so the job takes $\\frac{${a * b}}{${a + b}}=${num(t)}$ days.`,
+    expl: `The rates are $\\frac{1}{${a}}$ and $\\frac{1}{${b}}$ of the road per day. Together they pave $\\frac{1}{${a}}+\\frac{1}{${b}}=${frac(a + b, a * b)}$ of the road per day, so the job takes $${frac(a * b, a + b)}$ days. Working together is always faster than either crew alone.`,
     desmos: `1/(1/${a}+1/${b})`,
     note: 'Rates add; times do not. Averaging the two times always overstates the combined time.',
     check: `checked combined rate $\\frac{${a + b}}{${a * b}}$ times $${num(t)}$ equals $1$ job`,
@@ -1495,8 +1553,8 @@ reg({ fn: gRateWork, domain: DATA_DOMAIN, skill: 'Rate and work problems', count
 /* ---- distance-rate-time with two travellers ---- */
 function gDrtTwo(r, L) {
   const toward = r.chance(0.6);
-  const r1 = r.int(30, 60);
-  const r2 = r.int(35, 70);
+  const r1 = r.int(30, 55);
+  const r2 = toward ? r.int(35, 70) : r1 + r.int(8, 25);
   const t = r.int(2, 5 + L);
   if (toward) {
     const d = (r1 + r2) * t;
@@ -1658,7 +1716,7 @@ function gTriangleSum(r, L) {
         [Math.abs(A - B), 'subtracted the angles instead of adding them', 'sign'],
       ],
       stem,
-      expl: `The three angles sum to $180^\\circ$, so the third angle is $180-${A}-${B}=${C}$ degrees.`,
+      expl: `The three angles sum to $180^\\circ$, so the third angle is $180-${A}-${B}=${C}$ degrees. Every triangle has this same angle sum, whatever its shape.`,
       desmos: `180-${A}-${B}`,
       note: 'Triangle angle sum is $180^\\circ$, not $360^\\circ$.',
       check: `checked $${A}+${B}+${C}=180$`,
@@ -1729,7 +1787,7 @@ function gIsosceles(r, L) {
         [Math.round((2 * base) * 1e6) / 1e6, 'gave the sum of the two base angles', 'misread'],
       ],
       stem,
-      expl: `The two base angles total $${2 * base}^\\circ$, so the vertex angle is $180-${2 * base}=${v}$ degrees.`,
+      expl: `The two base angles total $${2 * base}^\\circ$, so the vertex angle is $180-${2 * base}=${v}$ degrees. The base angles are equal because the sides opposite them are equal.`,
       desmos: `180-2*${base}`,
       note: 'Both base angles are equal, so subtract twice the base angle from $180$.',
       check: `checked $${v}+${base}+${base}=180$`,
@@ -1776,7 +1834,7 @@ function gExteriorAngle(r, L) {
         [180 - r1, 'used $180$ minus one remote angle', 'concept'],
       ],
       stem,
-      expl: `An exterior angle equals the sum of the two remote interior angles: $${r1}+${r2}=${ext}$ degrees.`,
+      expl: `An exterior angle equals the sum of the two remote interior angles: $${r1}+${r2}=${ext}$ degrees. Equivalently, it is $180^\\circ$ minus the adjacent interior angle.`,
       desmos: `${r1}+${r2}`,
       note: 'The exterior angle equals the sum of the two angles it is not adjacent to.',
       check: `checked the interior angle at $C$ is $${180 - ext}$, and $${r1}+${r2}+${180 - ext}=180$`,
@@ -1820,7 +1878,7 @@ function gSimilarSides(r, L) {
       [sides[0], 'gave the corresponding side $DE$ instead of $EF$', 'misread'],
     ],
     stem,
-    expl: `The scale factor from $ABC$ to $DEF$ is $\\frac{${num(sides[0])}}{${tri[0]}}=${num(Math.round((sides[0] / tri[0]) * 1e6) / 1e6)}$, so $EF=${tri[1]}\\times${num(Math.round((sides[0] / tri[0]) * 1e6) / 1e6)}=${num(sides[1])}$.`,
+    expl: `The scale factor from $ABC$ to $DEF$ is $\\frac{${num(sides[0])}}{${tri[0]}}=${num(Math.round((sides[0] / tri[0]) * 1e6) / 1e6)}$, so $EF=${tri[1]}\\times${num(Math.round((sides[0] / tri[0]) * 1e6) / 1e6)}=${num(sides[1])}$. Corresponding sides of similar triangles are all in that same ratio.`,
     desmos: `${tri[1]}*${num(sides[0])}/${tri[0]}`,
     note: 'Similar figures scale every corresponding side by the same factor — they do not add a constant.',
     check: `checked all three sides scale by the same factor: $${tri[0]}\\to${num(sides[0])}$, $${tri[1]}\\to${num(sides[1])}$, $${tri[2]}\\to${num(sides[2])}$`,
@@ -1915,10 +1973,10 @@ function gPythagoras(r, L) {
       alts: [
         [a + b, 'added the legs instead of using the Pythagorean theorem', 'concept'],
         [a * a + b * b, 'gave $a^2+b^2$ and forgot the square root', 'algebra'],
-        [Math.round(Math.sqrt(Math.abs(a * a - b * b)) * 1e6) / 1e6, 'subtracted the squares instead of adding them', 'sign'],
+        [Math.sqrt(Math.abs(a * a - b * b)), `${sqrtTex(Math.abs(a * a - b * b))}`, 'subtracted the squares instead of adding them', 'sign'],
       ],
       stem,
-      expl: `By the Pythagorean theorem $c^2=${a}^2+${b}^2=${a * a}+${b * b}=${c * c}$, so $c=${c}$.`,
+      expl: `By the Pythagorean theorem $c^2=${a}^2+${b}^2=${a * a}+${b * b}=${c * c}$, so $c=${c}$. The hypotenuse is the longest side, which is why the two leg squares are added.`,
       desmos: `sqrt(${a}^2+${b}^2)`,
       note: 'The hypotenuse is the longest side; $a^2+b^2$ must be summed before the square root.',
       check: `checked $${a}^2+${b}^2=${a * a}+${b * b}=${c * c}=${c}^2$`,
@@ -1935,7 +1993,7 @@ function gPythagoras(r, L) {
       [Math.round((c * c - a * a) * 1e6) / 1e6, 'gave $c^2-a^2$ and forgot the square root', 'algebra'],
     ],
     stem,
-    expl: `The missing leg satisfies $b^2=${c}^2-${a}^2=${c * c}-${a * a}=${b * b}$, so $b=${b}$.`,
+    expl: `The missing leg satisfies $b^2=${c}^2-${a}^2=${c * c}-${a * a}=${b * b}$, so $b=${b}$. Because the hypotenuse is known, the known leg's square is subtracted rather than added.`,
     desmos: `sqrt(${c}^2-${a}^2)`,
     note: 'When the hypotenuse is known, subtract the known square; the answer must be shorter than the hypotenuse.',
     check: `checked $${a}^2+${b}^2=${c * c}$ and $${b}<${c}$`,
@@ -1955,8 +2013,8 @@ function gTri45(r, L) {
       text: num(k),
       spr: num(k),
       alts: [
-        [Math.round((k * Math.SQRT2) * 1e6) / 1e6, 'multiplied by $\\sqrt{2}$ instead of dividing', 'concept'],
-        [2 * k, 'used the $30$-$60$-$90$ hypotenuse ratio', 'setup'],
+        [k * Math.SQRT2, `${k}\\sqrt{2}`, 'multiplied by $\\sqrt{2}$ instead of dividing', 'concept'],
+        [2 * k, String(2 * k), 'used the $30$-$60$-$90$ hypotenuse ratio', 'setup'],
         [Math.round((k / 2) * 1e6) / 1e6, 'halved the hypotenuse', 'arithmetic'],
       ],
       stem,
@@ -2036,7 +2094,7 @@ function gTri3060(r, L) {
       [Math.round((s / Math.sqrt(3)) * 1e6) / 1e6, 'divided by $\\sqrt{3}$ instead of multiplying', 'setup'],
     ],
     stem,
-    expl: `The longer leg is $\\sqrt{3}$ times the shortest side, so it is $${s}\\sqrt{3}$.`,
+    expl: `The longer leg is $\\sqrt{3}$ times the shortest side, so it is $${s}\\sqrt{3}$. The sides of a $30^\\circ$-$60^\\circ$-$90^\\circ$ triangle are in the ratio $1:\\sqrt{3}:2$.`,
     desmos: `${s}*sqrt(3)`,
     note: 'The sides of a $30$-$60$-$90$ triangle are in the ratio $1:\\sqrt{3}:2$.',
     check: `checked $${s}^2+(${s}\\sqrt{3})^2=${s * s}+${3 * s * s}=${4 * s * s}=(${2 * s})^2$`,
@@ -2075,7 +2133,7 @@ function gTrigRatios(r, L) {
     spr: fracPlain(numr, den),
     alts,
     stem,
-    expl: `For angle $${angle}$, the opposite side is ${opp}, the adjacent side is ${adj}, and the hypotenuse is ${c}. So $\\${fn} ${angle}=\\frac{${numr}}{${den}}=${frac(numr, den)}$.`,
+    expl: `For angle $${angle}$, the opposite side is ${opp}, the adjacent side is ${adj}, and the hypotenuse is ${c}. So $\\${fn} ${angle}=${gcd(numr, den) === 1 ? `\\frac{${numr}}{${den}}` : `\\frac{${numr}}{${den}}=${frac(numr, den)}`}$, keeping opposite, adjacent, and hypotenuse in their SOH-CAH-TOA positions.`,
     desmos: `${numr}/${den}`,
     note: 'SOH-CAH-TOA: sine is opposite over hypotenuse, cosine adjacent over hypotenuse, tangent opposite over adjacent.',
     check: `checked $${opp}^2+${adj}^2=${c}^2$ and the ratio $${numr}/${den}$`,
@@ -2131,7 +2189,7 @@ function gRadians(r, L) {
         [k * 12, 'used the denominator as a multiplier', 'arithmetic'],
       ],
       stem,
-      expl: `Multiply by $\\frac{180^\\circ}{\\pi}$: $${radTex}\\times\\frac{180}{\\pi}=${deg}^\\circ$.`,
+      expl: `Multiply by $\\frac{180^\\circ}{\\pi}$: $${radTex}\\times\\frac{180}{\\pi}=${deg}^\\circ$. The $\\pi$ cancels, leaving $180$ divided by the fraction's denominator.`,
       desmos: `${k}*180/12`,
       note: 'Radians to degrees multiplies by $180/\\pi$.',
       check: `converted back: $${deg}\\times\\frac{\\pi}{180}=${radTex}$`,
@@ -2147,7 +2205,7 @@ function gRadians(r, L) {
       [piFrac(k * 2, 12), 'doubled the radian measure', 'arithmetic'],
     ],
     stem,
-    expl: `Multiply by $\\frac{\\pi}{180}$: $${deg}\\times\\frac{\\pi}{180}=${radTex}$ radians.`,
+    expl: `Multiply by $\\frac{\\pi}{180}$: $${deg}\\times\\frac{\\pi}{180}=${radTex}$ radians. Since $180^\\circ=\\pi$ radians, every degree is $\\frac{\\pi}{180}$ radians.`,
     desmos: `${deg}*pi/180`,
     note: 'Degrees to radians multiplies by $\\pi/180$ and simplifies the fraction.',
     check: `converted back: $${radTex}\\times\\frac{180}{\\pi}=${deg}^\\circ$`,
@@ -2227,7 +2285,7 @@ function gCircleEq(r, L) {
         [Math.round((rad / 2) * 1e6) / 1e6, 'halved the radius', 'arithmetic'],
       ],
       stem: `A circle in the $xy$-plane is defined by the equation ${eq}. What is the radius of the circle?`,
-      expl: `The equation is already in standard form $(x-h)^2+(y-k)^2=r^2$ with $r^2=${rad * rad}$, so $r=${rad}$.`,
+      expl: `The equation is already in standard form $(x-h)^2+(y-k)^2=r^2$ with $r^2=${rad * rad}$, so $r=${rad}$. The right-hand side is $r^2$, and the centre's coordinates have the opposite signs to the numbers inside the parentheses.`,
       desmos: eq.replace(/\^2/g, '^2'),
       note: 'The constant on the right is $r^2$; the radius is its square root.',
       check: `checked $${rad}^2=${rad * rad}$ and that the centre $(${h},${k})$ matches the signs inside the parentheses`,
@@ -2272,7 +2330,7 @@ function gCircleComplete(r, L) {
         [2 * rad, 'gave the diameter', 'misread'],
       ],
       stem: `The equation ${eq.replace(/^/, '$') + '$'} defines a circle in the $xy$-plane. What is the radius of the circle?`,
-      expl: `Complete the square: $(x-${h})^2+(y-${k})^2=${h * h}+${k * k}${F >= 0 ? '+' : '-'}${Math.abs(F)}=${rad * rad}$, so $r=${rad}$.`,
+      expl: `Complete the square: $(x-${h})^2+(y-${k})^2=${h * h}+${k * k}${F >= 0 ? '-' : '+'}${Math.abs(F)}=${rad * rad}$, so $r=${rad}$. Completing the square on both variables is what turns the expanded equation back into standard form.`,
       desmos: eq,
       note: 'Completing the square on both variables produces $r^2$ on the right, not the original constant.',
       check: `expanded back: $(x-${h})^2+(y-${k})^2=${rad * rad}$ gives $x^2+y^2${term(D, 'x')}${term(E, 'y')}${term(F, '')}=0$`,
@@ -2329,7 +2387,7 @@ function gTangentRadius(r, L) {
       [Math.round(Math.sqrt(dist * dist + tan * tan) * 1e6) / 1e6, 'added the squares instead of subtracting', 'sign'],
     ],
     stem: `A circle has centre $O$. A point $P$ is ${dist} units from $O$, and $PA$ is tangent to the circle at $A$ with $PA=${tan}$. What is the radius of the circle?`,
-    expl: `The radius is perpendicular to the tangent, so $OA^2=${dist}^2-${tan}^2=${dist * dist}-${tan * tan}=${rad * rad}$ and $OA=${rad}$.`,
+    expl: `The radius is perpendicular to the tangent, so $OA^2=${dist}^2-${tan}^2=${dist * dist}-${tan * tan}=${rad * rad}$ and $OA=${rad}$. The right angle at the point of tangency is what allows the Pythagorean theorem to be used.`,
     desmos: `sqrt(${dist}^2-${tan}^2)`,
     note: 'In the right triangle, the segment from the centre to the external point is the hypotenuse.',
     check: `checked $${rad}^2+${tan}^2=${dist * dist}$ and $${rad}<${dist}$`,
@@ -2441,7 +2499,7 @@ function gVolumePrism(r, L) {
       [piFrac(2 * rad * rad * h, 1), 'doubled the volume', 'arithmetic'],
     ],
     stem: `A cylindrical can has radius ${rad} inches and height ${h} inches. What is the volume of the can, in cubic inches?`,
-    expl: `Volume of a cylinder is $\\pi r^2h=\\pi(${rad})^2(${h})=${ansTex}$ cubic inches.`,
+    expl: `Volume of a cylinder is $\\pi r^2h=\\pi(${rad})^2(${h})=${ansTex}$ cubic inches. The base area $\\pi r^2$ is multiplied by the height, so the answer carries $\\pi$ and cubic units.`,
     desmos: `pi*${rad}^2*${h}`,
     note: 'A cylinder\'s volume is the base area $\\pi r^2$ times the height.',
     check: `checked base area $\\pi\\times${rad * rad}$ times height ${h} gives coefficient $${rad * rad * h}$`,
@@ -2503,10 +2561,10 @@ function gVolumeSphere(r, L) {
     alts: [
       [piFrac(4 * rad * rad, 1), 'used the surface area formula', 'concept'],
       [piFrac(4 * rad * rad * rad, 1), 'forgot to divide by $3$', 'algebra'],
-      [piFrac(rad * rad * rad, 3), 'used $\\frac{1}{3}\\pi r^3$', 'setup'],
+      [piFrac(2 * rad * rad * rad, 3), 'used $\\frac{2}{3}\\pi r^3$', 'setup'],
     ],
     stem,
-    expl: `The volume of a sphere is $\\frac{4}{3}\\pi r^3=\\frac{4}{3}\\pi(${rad})^3=${ansTex}$ cubic inches.`,
+    expl: `The volume of a sphere is $\\frac{4}{3}\\pi r^3=\\frac{4}{3}\\pi(${rad})^3=${ansTex}$ cubic inches. The cube and the $\\frac{4}{3}$ both come from the three-dimensional shape, and the result is in cubic units.`,
     desmos: `4/3*pi*${rad}^3`,
     note: 'Volume of a sphere is $\\frac{4}{3}\\pi r^3$; surface area is $4\\pi r^2$.',
     check: `checked $\\frac{4}{3}\\times${rad * rad * rad}=${(4 * rad * rad * rad) / 3}$ so the coefficient is $\\frac{${4 * rad * rad * rad}}{3}$`,
@@ -2528,7 +2586,7 @@ function gSurfaceArea(r, L) {
         [piFrac(4 * rad, 1), 'used $r$ instead of $r^2$', 'algebra'],
       ],
       stem: `A spherical ball has a radius of ${rad} centimeters. What is the surface area of the ball, in square centimeters?`,
-      expl: `Surface area of a sphere is $4\\pi r^2=4\\pi(${rad})^2=${ansTex}$ square centimeters.`,
+      expl: `Surface area of a sphere is $4\\pi r^2=4\\pi(${rad})^2=${ansTex}$ square centimeters. The radius is squared because surface area is measured in square units.`,
       desmos: `4*pi*${rad}^2`,
       note: 'Surface area of a sphere is $4\\pi r^2$ — squared, not cubed.',
       check: `checked $4\\times${rad * rad}=${4 * rad * rad}$ so the coefficient is $${4 * rad * rad}$`,
@@ -2546,7 +2604,7 @@ function gSurfaceArea(r, L) {
       [piFrac(2 * rad * rad * h, 1), 'computed a volume-like product', 'misread'],
     ],
     stem: `A closed cylindrical tank has radius ${rad} feet and height ${h} feet. What is the total surface area of the tank, in square feet?`,
-    expl: `Total surface area is $2\\pi r^2+2\\pi rh=2\\pi(${rad})^2+2\\pi(${rad})(${h})=${ansTex}$ square feet.`,
+    expl: `Total surface area is $2\\pi r^2+2\\pi rh=2\\pi(${rad})^2+2\\pi(${rad})(${h})=${ansTex}$ square feet. There are two circular bases plus the lateral surface, which is why both terms carry a factor of $2$.`,
     desmos: `2*pi*${rad}^2+2*pi*${rad}*${h}`,
     note: 'A closed cylinder has two circular bases plus the lateral rectangle.',
     check: `checked $2\\times${rad}\\times(${rad}+${h})=${2 * rad * (rad + h)}$ so the coefficient is $${2 * rad * (rad + h)}$`,
@@ -2618,7 +2676,7 @@ function gCoordGeom(r, L) {
         [y1 + y2, 'averaged neither and used the $y$-coordinates', 'misread'],
       ],
       stem: `Points $A(${x1},${y1})$ and $B(${x2},${y2})$ are plotted in the $xy$-plane. What is the $x$-coordinate of the midpoint of segment $AB$?`,
-      expl: `The midpoint's $x$-coordinate is the average $\\frac{${x1}+${x2}}{2}=${num(mx)}$.`,
+      expl: `The midpoint's $x$-coordinate is the average $\\frac{${x1}+(${x2})}{2}=${num(mx)}$. A midpoint averages the endpoints, so it always lies exactly halfway along the segment.`,
       desmos: `(${x1}+${x2})/2`,
       note: 'A midpoint averages the coordinates; it does not subtract them.',
       check: `checked $${num(mx)}-${x1}=${num(x2 - mx)}$ so ${num(mx)} is equidistant from ${x1} and ${x2}`,
@@ -2635,7 +2693,7 @@ function gCoordGeom(r, L) {
       [y2 - y1, 'gave the vertical change only', 'quantity'],
     ],
     stem: `Points $A(${x1},${y1})$ and $B(${x2},${y2})$ lie in the $xy$-plane. What is the slope of line $AB$?`,
-    expl: `Slope is change in $y$ over change in $x$: $\\frac{${y2}-${y1}}{${x2}-${x1}}=\\frac{${y2 - y1}}{${x2 - x1}}=${frac(y2 - y1, x2 - x1)}$.`,
+    expl: `Slope is change in $y$ over change in $x$: $\\frac{${y2}-(${y1})}{${x2}-(${x1})}=\\frac{${y2 - y1}}{${x2 - x1}}=${frac(y2 - y1, x2 - x1)}$. The rise carries the sign of the vertical change and the run the sign of the horizontal change.`,
     desmos: `(${y2}-${y1})/(${x2}-${x1})`,
     note: 'Slope is the vertical change divided by the horizontal change, with signs kept.',
     check: `checked rise $${y2 - y1}$ over run $${x2 - x1}$ reduces to $${frac(y2 - y1, x2 - x1)}$`,
@@ -2665,7 +2723,7 @@ function gPerpParallel(r, L) {
         [q / p, frac(q, p), 'took the reciprocal without negating', 'sign'],
       ],
       stem: `Line $k$ has equation ${lineEq}. What is the slope of a line perpendicular to line $k$?`,
-      expl: `The slope of line $k$ is $${mText}$, so a perpendicular line has slope $-\\frac{1}{${mText}}=${perpText}$.`,
+      expl: `The slope of line $k$ is $${mText}$. Perpendicular slopes multiply to $-1$, so the required slope is the negative reciprocal, $${perpText}$.`,
       desmos: `-1/(${p}/${q})`,
       note: 'Perpendicular means negative reciprocal: flip the sign and invert the fraction.',
       check: `checked the product: $${mText}\\times${perpText}=-1$`,
@@ -2769,7 +2827,7 @@ function gDilationScale(r, L) {
       [A, 'assumed the scale factor equals the original area', 'misread'],
     ],
     stem: `A figure with area ${A} square units is dilated, and the image has area ${newA} square units. What is the scale factor of the dilation?`,
-    expl: `Areas scale by $k^2$, so $k^2=\\frac{${newA}}{${A}}=${k * k}$ and $k=${k}$.`,
+    expl: `Areas scale by $k^2$, so $k^2=\\frac{${newA}}{${A}}=${k * k}$ and $k=${k}$. The area ratio is not the scale factor itself; its square root is.`,
     desmos: `sqrt(${newA}/${A})`,
     note: 'Recover a scale factor from areas by taking the square root of the area ratio.',
     check: `checked $${A}\\times${k}^2=${newA}$`,
@@ -2778,5 +2836,212 @@ function gDilationScale(r, L) {
 reg({ fn: gDilationScale, domain: GEO_DOMAIN, skill: 'Dilations: area and volume scaling', count: 8, spr: true });
 
 /* ================================================================== *
- * Placeholder marker for the geometry block
+ * 8. Plan: counts, tiers, item types
  * ================================================================== */
+
+const TIERS = ['easy', 'medium', 'hard', 'very_hard', 'extreme'];
+const TIER_WEIGHTS = [0.25, 0.3, 0.25, 0.15, 0.05];
+
+function tierTargets(n) {
+  const raw = TIER_WEIGHTS.map((w) => w * n);
+  const base = raw.map((v) => Math.floor(v));
+  const left = n - base.reduce((a, b) => a + b, 0);
+  const order = raw.map((v, i) => [v - Math.floor(v), i]).sort((a, b) => b[0] - a[0] || a[1] - b[1]);
+  for (let k = 0; k < left; k++) base[order[k % 5][1]]++;
+  return base;
+}
+
+function buildPlan() {
+  const gens = REG.map((g) => ({ ...g, n: g.count }));
+  const pad = (domain, target) => {
+    const pool = gens.filter((g) => g.domain === domain);
+    let total = pool.reduce((a, g) => a + g.n, 0);
+    let k = 0;
+    while (total < target) {
+      pool[k % pool.length].n++;
+      k++;
+      total++;
+    }
+    return total;
+  };
+  const dataTotal = pad(DATA_DOMAIN, 250);
+  const geoTotal = pad(GEO_DOMAIN, 220);
+  const N = gens.reduce((a, g) => a + g.n, 0);
+  const targets = tierTargets(N);
+  const remaining = targets.slice();
+  const blocks = [];
+  for (const g of gens) {
+    const per = [0, 0, 0, 0, 0];
+    for (let k = 0; k < g.n; k++) {
+      let best = -1;
+      let bestScore = -1;
+      for (let t = 0; t < 5; t++) {
+        if (remaining[t] <= 0 || targets[t] === 0) continue;
+        const score = remaining[t] / targets[t];
+        if (score > bestScore) {
+          bestScore = score;
+          best = t;
+        }
+      }
+      if (best < 0) throw new Error('tier allocation exhausted');
+      per[best]++;
+      remaining[best]--;
+    }
+    for (let t = 0; t < 5; t++) if (per[t] > 0) blocks.push({ g, tier: t, n: per[t] });
+  }
+  return { blocks, N, dataTotal, geoTotal, targets };
+}
+
+/* ================================================================== *
+ * 9. Generation + independent verification
+ * ================================================================== */
+
+function sigOf(item) {
+  return item.stem.replace(/\s+/g, ' ') + '|' + item.answer;
+}
+
+export function generate(seed = SEED) {
+  const plan = buildPlan();
+  const r = new RNG(seed);
+  const items = [];
+  const metas = [];
+  const sigs = new Set();
+  const failures = [];
+
+  const sprCapable = plan.blocks.filter((b) => b.g.spr).reduce((a, b) => a + b.n, 0);
+  const sprTarget = Math.min(Math.round(0.3 * plan.N), sprCapable);
+  let sprSeen = 0;
+  let sprAssigned = 0;
+
+  for (const block of plan.blocks) {
+    for (let k = 0; k < block.n; k++) {
+      let wantSpr = false;
+      if (block.g.spr) {
+        sprSeen++;
+        const before = Math.floor(((sprSeen - 1) * sprTarget) / sprCapable);
+        const after = Math.floor((sprSeen * sprTarget) / sprCapable);
+        if (after > before) wantSpr = true;
+      }
+
+      let item = null;
+      let meta = null;
+      for (let attempt = 0; attempt < 50 && !item; attempt++) {
+        const body = block.g.fn(r, block.tier);
+        if (!body) continue;
+        const built = assemble(r, block.g, block.tier, body, wantSpr);
+        if (!built) {
+          if (wantSpr) wantSpr = false; // answer not grid-able -> fall back to MCQ
+          continue;
+        }
+        if (sigs.has(sigOf(built))) continue;
+        sigs.add(sigOf(built));
+        item = built;
+        meta = { num: body.num, text: body.text };
+      }
+      if (!item) {
+        failures.push(`${block.g.skill} / ${TIERS[block.tier]}`);
+        continue;
+      }
+      if (item.type === 'spr') sprAssigned++;
+      items.push({ id: 'DGGX-' + String(items.length + 1).padStart(4, '0'), ...item });
+      metas.push(meta);
+    }
+  }
+
+  const problems = verifyItems(items, metas);
+  return { items, metas, plan, problems, failures, sprAssigned, sprTarget };
+}
+
+function close(a, b) {
+  const tol = 1e-6 + 1e-6 * Math.max(Math.abs(a), Math.abs(b));
+  return Math.abs(a - b) <= tol;
+}
+
+export function verifyItems(items, metas) {
+  const problems = [];
+  items.forEach((it, idx) => {
+    const meta = metas[idx] || {};
+    const where = `${it.id} (${it.skill})`;
+    const dollars = (it.stem.replace(/\\\$/g, '').match(/\$/g) || []).length;
+    if (dollars % 2 !== 0) problems.push(`${where}: unbalanced $ delimiters in stem`);
+    if (/\bNaN\b|\bundefined\b|\bInfinity\b/.test(JSON.stringify(it))) problems.push(`${where}: NaN/undefined/Infinity in item`);
+    if (!it.stem || !it.explanation || !it.skill_note) problems.push(`${where}: missing prose field`);
+    if (!Array.isArray(it.choices)) {
+      if (it.type !== 'spr') problems.push(`${where}: spr item without type spr`);
+      if (typeof it.answer !== 'string' || !it.answer.length) problems.push(`${where}: missing spr answer`);
+      if (!Array.isArray(it.accepted_spr) || it.accepted_spr.length < 1) problems.push(`${where}: missing accepted_spr`);
+      const v = parseVal(it.answer);
+      if (Number.isNaN(v)) problems.push(`${where}: spr answer "${it.answer}" is not numeric`);
+      else if (typeof meta.num === 'number' && !close(v, meta.num)) problems.push(`${where}: spr answer ${v} != computed ${meta.num}`);
+      for (const alt of it.accepted_spr || []) {
+        const av = parseVal(alt);
+        if (Number.isNaN(av)) problems.push(`${where}: accepted_spr "${alt}" unreadable`);
+        else if (typeof meta.num === 'number' && !close(av, meta.num)) problems.push(`${where}: accepted_spr "${alt}" != computed ${meta.num}`);
+      }
+      return;
+    }
+    if (it.type !== 'mcq') problems.push(`${where}: has choices but type is ${it.type}`);
+    if (it.choices.length !== 4) problems.push(`${where}: ${it.choices.length} choices`);
+    if (new Set(it.choices).size !== it.choices.length) problems.push(`${where}: duplicate choice text`);
+    if (!('ABCD'.includes(it.answer)) || it.answer.length !== 1) problems.push(`${where}: bad answer letter`);
+    if (!it.choice_notes || it.choice_notes.length !== 4) problems.push(`${where}: choice_notes length`);
+    if (!it.error_tags || it.error_tags.length !== 4) problems.push(`${where}: error_tags length`);
+    if (it.choice_notes && it.choice_notes.filter((n) => n === 'correct').length !== 1) problems.push(`${where}: choice_notes must mark one correct`);
+    if (it.error_tags && it.error_tags.filter((t) => t === 'none').length !== 1) problems.push(`${where}: exactly one 'none' tag required`);
+    const allowed = ['misread', 'sign', 'algebra', 'concept', 'setup', 'unit', 'quantity', 'arithmetic', 'none'];
+    for (const t of it.error_tags || []) if (!allowed.includes(t)) problems.push(`${where}: bad error tag ${t}`);
+
+    const keyIdx = 'ABCD'.indexOf(it.answer);
+    const keyed = it.choices[keyIdx];
+    if (keyed !== meta.text) problems.push(`${where}: keyed choice "${keyed}" != computed text "${meta.text}"`);
+
+    if (typeof meta.num === 'number') {
+      const keyVal = parseVal(keyed);
+      if (Number.isNaN(keyVal)) problems.push(`${where}: keyed choice "${keyed}" not parseable`);
+      else if (!close(keyVal, meta.num)) problems.push(`${where}: keyed value ${keyVal} != computed ${meta.num}`);
+      it.choices.forEach((c, i) => {
+        if (i === keyIdx) return;
+        const v = parseVal(c);
+        if (!Number.isNaN(v) && close(v, meta.num)) problems.push(`${where}: distractor "${c}" also equals the answer`);
+      });
+    }
+  });
+  return problems;
+}
+
+/* ================================================================== *
+ * 10. CLI
+ * ================================================================== */
+
+export function summary(result) {
+  const items = result.items;
+  const by = (fn) => {
+    const m = {};
+    for (const it of items) m[fn(it)] = (m[fn(it)] || 0) + 1;
+    return m;
+  };
+  return {
+    total: items.length,
+    domains: by((i) => i.domain),
+    difficulties: by((i) => i.difficulty),
+    types: by((i) => i.type),
+  };
+}
+
+const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+
+if (isMain) {
+  const out = join(dirname(fileURLToPath(import.meta.url)), '..', 'generated', 'math-data-geo.json');
+  const result = generate(SEED);
+  mkdirSync(dirname(out), { recursive: true });
+  writeFileSync(out, JSON.stringify({ items: result.items }, null, 1) + '\n');
+  const s = summary(result);
+  console.log(`wrote ${out}`);
+  console.log(`total ${s.total} | data ${s.domains[DATA_DOMAIN]} | geo ${s.domains[GEO_DOMAIN]}`);
+  console.log('difficulty', JSON.stringify(s.difficulties));
+  console.log('type', JSON.stringify(s.types));
+  console.log(`failures ${result.failures.length}`);
+  if (result.failures.length) console.log(result.failures.slice(0, 10).join('\n'));
+  console.log(`verification problems: ${result.problems.length}`);
+  if (result.problems.length) console.log(result.problems.slice(0, 25).join('\n'));
+}

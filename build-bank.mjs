@@ -32,6 +32,7 @@ const warn = (m) => problems.push(m);
 function tidy(s) {
   if (typeof s !== 'string') return s;
   return s
+    .split('\\\\$').join('\\$')   // collapse a doubled backslash before a money sign
     .replace(/\+-/g, '-')
     .replace(/-\+/g, '-')
     .replace(/(?<![\d.])1([a-z])\b/g, '$1');
@@ -50,6 +51,8 @@ function usable(q) {
   if (q.type === 'mcq') {
     if (!Array.isArray(q.choices) || q.choices.length !== 4) return false;
     if (q.choices.some((c) => c == null || String(c).trim() === '')) return false;
+    const norm = q.choices.map((c) => String(c).replace(/\s+/g, '').toLowerCase());
+    if (new Set(norm).size !== 4) return false;
     return 'ABCD'.includes(q.answer) && q.answer.length === 1;
   }
   return q.answer != null && String(q.answer).trim() !== '';
@@ -147,6 +150,10 @@ async function ingest(file, dir, defaultSection) {
     }
     validate(q, file);
     delete q.check;
+    if (!mathDelimsBalanced(q.stem) || !mathDelimsBalanced(q.explanation || '')) {
+      problems.push(`${q.id}: DROPPED — unbalanced $ delimiters`);
+      continue;
+    }
     if (!usable(q)) {
       problems.push(`${q.id}: DROPPED — unusable (${q.type}, answer=${JSON.stringify(q.answer)})`);
       continue;

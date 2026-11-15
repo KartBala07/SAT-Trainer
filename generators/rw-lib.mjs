@@ -129,6 +129,27 @@ export function finalize(drafts, opts = {}) {
 const TAG_SET = new Set(['misread', 'concept', 'setup', 'quantity', 'none']);
 const DOMAINS = new Set(['Craft and Structure', 'Expression of Ideas', 'Information and Ideas']);
 
+// Relationship classes for transition items. Two options from the same class
+// would both fit the blank, so a set may contain at most one member of each.
+// Simultaneity and succession are split because a dated passage can rule
+// "meanwhile" out while admitting "later".
+const TRANS_CLASS = {
+  cause: ['therefore', 'thus', 'consequently', 'hence', 'as a result', 'as a consequence', 'accordingly'],
+  contrast: ['however', 'nevertheless', 'yet', 'by contrast', 'conversely', 'that said', 'even so', 'still'],
+  addition: ['moreover', 'furthermore', 'additionally', 'in addition'],
+  example: ['for example', 'for instance', 'specifically'],
+  similarity: ['similarly', 'likewise', 'by comparison'],
+  simultaneous: ['meanwhile', 'simultaneously'],
+  successive: ['later', 'subsequently', 'then', 'next', 'afterward'],
+  summary: ['in short', 'in sum', 'in other words'],
+  emphasis: ['in fact', 'indeed'],
+};
+const TRANS_CLASS_OF = new Map();
+for (const [cls, list] of Object.entries(TRANS_CLASS)) {
+  for (const w of list) TRANS_CLASS_OF.set(w, cls);
+}
+
+
 // ---- table helpers -------------------------------------------------------
 // Table items are built from structured data so the numbers in the prose and
 // the numbers in the table can never drift apart.
@@ -202,6 +223,55 @@ export function validate(items, opts = {}) {
 
     if (!it.explanation || it.explanation.length < 40) errors.push(`${where}: explanation too thin`);
     if (!it.skill_note || it.skill_note.length < 10) errors.push(`${where}: skill_note too thin`);
+
+    // Words in context: exactly one bracketed target, and the stem must quote it verbatim.
+    if (it.skill === 'Words in context') {
+      const marks = [...it.passage.matchAll(/\[([^\]]+)\]/g)].map((m) => m[1]);
+      if (marks.length !== 1) errors.push(`${where}: ${marks.length} bracketed words`);
+      const quoted = it.stem.match(/word "([^"]+)"/);
+      if (!quoted) errors.push(`${where}: stem does not quote the word`);
+      else if (marks.length === 1 && quoted[1] !== marks[0]) {
+        errors.push(`${where}: stem quotes "${quoted[1]}" but passage marks "${marks[0]}"`);
+      }
+    }
+
+    // Transitions: blank present, and no two options from one relationship class.
+    if (it.skill === 'Transitions') {
+      if (!it.passage.includes('______')) errors.push(`${where}: no blank`);
+      const classes = it.choices.map((c) => TRANS_CLASS_OF.get(c.trim().toLowerCase()) ?? `?${c}`);
+      if (new Set(classes).size !== 4) errors.push(`${where}: two choices share a relationship class (${classes.join(', ')})`);
+      for (const c of it.choices) {
+        if (!TRANS_CLASS_OF.has(c.trim().toLowerCase())) warnings.push(`${where}: transition "${c}" not in class table`);
+      }
+    }
+
+    // Command of evidence: a table item's keyed numbers must exist in the table,
+    // and a row label in the keyed choice must be followed by that row's value.
+    if (it.skill === 'Command of Evidence' && it.stem.includes('\n')) {
+      const t = parseTable(it.stem);
+      if (t) {
+        const vals = t.rows.map((r) => Number(r[1]));
+        const allowed = new Set();
+        for (const v of vals) { allowed.add(String(v)); allowed.add(v.toFixed(1)); }
+        allowed.add(String(+(Math.abs(vals[1] - vals[0]).toFixed(2))));
+        allowed.add(Math.abs(vals[1] - vals[0]).toFixed(1));
+        const keyed = it.choices[LETTERS.indexOf(it.answer)];
+        for (const dec of keyed.match(/\d+\.\d+/g) ?? []) {
+          if (!allowed.has(dec)) errors.push(`${where}: keyed choice cites ${dec}, absent from the table`);
+        }
+        for (const [label, raw] of t.rows) {
+          const at = keyed.indexOf(label);
+          if (at < 0) continue;
+          const anchor = at + label.length / 2;
+          const near = [...keyed.matchAll(/\d+(?:\.\d+)?/g)]
+            .map((m) => ({ v: m[0], i: m.index }))
+            .filter((n) => Math.abs(n.i - anchor) < 45);
+          if (near.length && !near.some((n) => n.v === String(Number(raw)))) {
+            errors.push(`${where}: "${label}" is not paired with its table value ${raw}`);
+          }
+        }
+      }
+    }
 
     const sig = it.passage.replace(/\s+/g, ' ').trim() + '||' + it.choices.join('|');
     if (sigs.has(sig)) errors.push(`${where}: duplicate signature`);

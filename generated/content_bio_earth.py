@@ -542,7 +542,7 @@ PASSAGES = [
   "skill_note": "Inference often requires combining a dependency stated earlier with a lifespan stated later."},
 ]},
 {
-"passage": """A varve is a pair of layers laid down in a lake in a single year: a pale band of coarse sediment washed in during spring melt, and a dark band of fine organic matter that settles in winter when the lake freezes. Count the pairs and you have a calendar. Because the layers are annual and undisturbed in deep, still water, a core from a lake bottom can extend tens of thousands of years into the past, and the thickness of each band records how much sediment that year's melt delivered. Varves are not a perfect archive, since a landslide or a drought can add or erase a layer, but where they can be cross-checked against other records, they have tightened the timing of the last deglaciation to within a few decades.""",
+"passage": """A varve is a pair of layers laid down in a lake in a single year: a pale band of coarse sediment washed in during spring melt, and a dark band of fine organic matter that settles in winter when the lake freezes. Counting the pairs gives a calendar. Because the layers are annual and undisturbed in still water, a lake-bottom core can extend tens of thousands of years into the past, and each band's thickness records how much sediment that year's melt delivered. Varves are not a perfect archive, since a landslide or a drought can add or erase a layer, but where they can be cross-checked against other records, they have tightened the timing of the last deglaciation to within a few decades.""",
 "questions": [
  {"skill": "Central ideas and details", "difficulty": "medium",
   "stem": "Which choice best states the main idea of the passage?",

@@ -96,6 +96,13 @@ function pn(n) {
   return n < 0 ? `(${fmt(n)})` : fmt(n);
 }
 
+// signed variable term: "+ 3y", "- y"
+function yterm(k, v = 'y') {
+  if (k === 1) return `+ ${v}`;
+  if (k === -1) return `- ${v}`;
+  return k > 0 ? `+ ${fmt(k)}${v}` : `- ${fmt(Math.abs(k))}${v}`;
+}
+
 const E = (v, note, tag) => ({ v, note, tag });
 const C = (text, note, tag) => ({ text, note, tag });
 
@@ -110,21 +117,25 @@ const MODEL_CTX = [
     s: (x1, y1, x2, y2) => `A water tank is being drained at a constant rate. After $${x1}$ minutes it holds $${y1}$ gallons, and after $${x2}$ minutes it holds $${y2}$ gallons.`,
     q: (x3) => `How many gallons remain after $${x3}$ minutes?`,
     unit: 'gallons',
+    per: 'minute',
   },
   {
     s: (x1, y1, x2, y2) => `A candle burns at a constant rate. It is $${y1}$ centimeters tall $${x1}$ hours after being lit and $${y2}$ centimeters tall $${x2}$ hours after being lit.`,
     q: (x3) => `How many centimeters tall is the candle $${x3}$ hours after being lit?`,
     unit: 'centimeters',
+    per: 'hour',
   },
   {
     s: (x1, y1, x2, y2) => `A print shop charges a fixed setup fee plus a constant price per page. Printing $${x1}$ pages costs $${y1}$ dollars, and printing $${x2}$ pages costs $${y2}$ dollars.`,
     q: (x3) => `What is the charge, in dollars, for printing $${x3}$ pages?`,
     unit: 'dollars',
+    per: 'page',
   },
   {
     s: (x1, y1, x2, y2) => `A hiker is walking toward a lookout point at a steady pace. She is $${y1}$ kilometers from the lookout after $${x1}$ hours and $${y2}$ kilometers from it after $${x2}$ hours.`,
     q: (x3) => `How many kilometers from the lookout is she after $${x3}$ hours?`,
     unit: 'kilometers',
+    per: 'hour',
   },
 ];
 
@@ -135,6 +146,8 @@ const PLAN_CTX = [
   { s: (m, b) => `A community pool charges a membership fee of $${b}$ dollars plus $${m}$ dollars for each visit.`, unit: 'visit', fixed: 'membership fee' },
   { s: (m, b) => `A streaming service charges a base subscription of $${b}$ dollars plus $${m}$ dollars for each premium channel added.`, unit: 'premium channel', fixed: 'base subscription' },
   { s: (m, b) => `A catering company charges a delivery fee of $${b}$ dollars plus $${m}$ dollars for each guest served.`, unit: 'guest', fixed: 'delivery fee' },
+  { s: (m, b) => `A taxi company charges a base fare of $${b}$ dollars plus $${m}$ dollars for each mile traveled.`, unit: 'mile', fixed: 'base fare' },
+  { s: (m, b) => `A shipping company charges a flat handling fee of $${b}$ dollars plus $${m}$ dollars for each box shipped.`, unit: 'box', fixed: 'handling fee' },
 ];
 
 /* ------------------------------------------------------------------ *
@@ -198,7 +211,7 @@ function gLinearOne(rng, diff, type) {
     if (b === 0) b = 3;
     const d = a * (x0 + b) - c * x0;
     return {
-      stem: `If $${a}(${lin(1, b)}) = ${c}x ${sgn(d)}$, what is the value of $x$?`,
+      stem: `If $${a}(${lin(1, b)}) = ${lin(c, 0)} ${sgn(d)}$, what is the value of $x$?`,
       answer: x0,
       distractors: [
         E((d - b) / (a - c), `distributed $${a}$ to $x$ but not to $${fmt(b)}$`, 'algebra'),
@@ -206,7 +219,7 @@ function gLinearOne(rng, diff, type) {
         E((d - b) / (a + c), `added the $x$-coefficients instead of subtracting them`, 'algebra'),
         E((d - a * b) / (a - c), `subtracted $${fmt(a * b)}$ instead of adding it when distributing`, 'sign'),
       ],
-      explanation: `Distribute: $${a}x ${sgn(a * b)} = ${c}x ${sgn(d)}$. Collect $x$ on one side: $${a - c}x = ${d - a * b}$, so $x = ${x0}$.`,
+      explanation: `Distribute: $${a}x ${sgn(a * b)} = ${lin(c, 0)} ${sgn(d)}$. Collect $x$ on one side: $${lin(a - c, 0)} = ${d - a * b}$, so $x = ${x0}$.`,
       desmos: `${a}(${lin(1, b)}) = ${c}x ${sgn(d)}`,
       skill_note: 'Distribution must hit both terms; the classic error is leaving the constant undistributed.',
       check: `Left side at $x = ${x0}$ is $${a}(${x0 + b}) = ${a * (x0 + b)}$; right side is $${c}(${x0}) ${sgn(d)} = ${c * x0 + d}$.`,
@@ -276,7 +289,7 @@ function gDistribute(rng, diff, type) {
         E((f - a * c + dd * e) / (a * b + dd), `added $${a * b}$ and $${dd}$ instead of subtracting`, 'algebra'),
         E((f + a * c + dd * e) / A, `moved both constants without changing their signs`, 'sign'),
       ],
-      explanation: `Distribute: $${a * b}x ${sgn(a * c)} - ${dd}x - ${fmt(dd * e)} = ${f}$. Combine like terms: $${A}x ${sgn(a * c - dd * e)} = ${f}$, so $x = ${x0}$.`,
+      explanation: `Distribute: $${a * b}x ${sgn(a * c)} ${yterm(-dd, 'x')} ${sgn(-dd * e)} = ${f}$. Combine like terms: $${lin(A, 0)} ${sgn(a * c - dd * e)} = ${f}$, so $x = ${x0}$.`,
       desmos: `${a}(${lin(b, c)}) - ${dd}(${lin(1, e)}) = ${f}`,
       skill_note: 'The minus sign in front of the second parenthesis flips every sign inside it.',
       check: `Substituted $x = ${x0}$: $${a}(${b * x0 + c}) - ${dd}(${x0 + e}) = ${a * (b * x0 + c)} - ${dd * (x0 + e)} = ${f}$.`,
@@ -404,11 +417,6 @@ function gFractions(rng, diff, type) {
  * 4. Linear inequalities (sign flip)
  * ------------------------------------------------------------------ */
 
-function gValues(rng, octx) {
-  // helper not used
-  return null;
-}
-
 function gInequality(rng, diff, type) {
   if (diff === 'easy' || diff === 'medium') {
     let a = rng.int(2, 9);
@@ -464,7 +472,7 @@ function gInequality(rng, diff, type) {
     const rhs = c * ans + d;
     if (!(lhs < rhs)) return null;
     return {
-      stem: `What is the smallest integer value of $x$ that satisfies $${-a}x ${sgn(b)} < ${c}x ${sgn(d)}$?`,
+      stem: `What is the smallest integer value of $x$ that satisfies $${lin(-a, 0)} ${sgn(b)} < ${lin(c, 0)} ${sgn(d)}$?`,
       answer: ans,
       explanation: `Collect $x$ on the left: $${-(a + c)}x < ${d - b}$, so $x > ${kk}$ after dividing by a negative. The smallest integer greater than $${kk}$ is $${ans}$.`,
       desmos: `${-a}x ${sgn(b)} < ${c}x ${sgn(d)}`,
@@ -479,9 +487,9 @@ function gInequality(rng, diff, type) {
     C(`$x < ${-kk}$`, `changed the sign of the boundary instead of the direction`, 'sign'),
   ];
   return {
-    stem: `Which of the following describes all values of $x$ that satisfy $${-a}x ${sgn(b)} < ${c}x ${sgn(d)}$?`,
+    stem: `Which of the following describes all values of $x$ that satisfy $${lin(-a, 0)} ${sgn(b)} < ${lin(c, 0)} ${sgn(d)}$?`,
     choices: cands,
-    explanation: `Subtract $${c}x$ from both sides: $${-(a + c)}x ${sgn(b)} < ${d}$. Then $${-(a + c)}x < ${d - b}$, and dividing by $${-(a + c)}$ reverses the symbol: $x > ${kk}$.`,
+    explanation: `Subtract $${lin(c, 0)}$ from both sides: $${lin(-(a + c), 0)} ${sgn(b)} < ${d}$. Then $${lin(-(a + c), 0)} < ${d - b}$, and dividing by $${-(a + c)}$ reverses the symbol: $x > ${kk}$.`,
     desmos: `${-a}x ${sgn(b)} < ${c}x ${sgn(d)}`,
     skill_note: 'When both sides hold $x$, combine first; the flip happens exactly once, at the final division by a negative.',
     check: `At $x = ${kk + 1}$: $${-a * (kk + 1) + b} < ${c * (kk + 1) + d}$ holds; at $x = ${kk - 1}$ it fails.`,
@@ -510,7 +518,7 @@ function gCompound(rng, diff, type) {
     return {
       stem: `How many integer values of $x$ satisfy $${A} < ${b}x ${sgn(c)} < ${D}$?`,
       answer: count,
-      explanation: `Subtract $${fmt(c)}$ throughout: $${A - c} < ${b}x < ${D - c}$. Divide by $${b}$: $${L} < x < ${R}$. The integers strictly between $${L}$ and $${R}$ are $${L + 1}$ through $${R - 1}$, which is $${count}$ values.`,
+      explanation: `${c > 0 ? 'Subtract' : 'Add'} $${fmt(Math.abs(c))}$ ${c > 0 ? 'from' : 'to'} all three parts: $${A - c} < ${b}x < ${D - c}$. Divide by $${b}$: $${L} < x < ${R}$. The integers strictly between $${L}$ and $${R}$ are $${L + 1}$ through $${R - 1}$, which is $${count}$ values.`,
       desmos: `${A} < ${b}x ${sgn(c)} < ${D}`,
       skill_note: 'Apply the same operation to all three parts; count integers strictly between the endpoints.',
       check: `Enumerated every integer from $${L - 1}$ to $${R + 1}$ and exactly $${count}$ satisfy the compound inequality.`,
@@ -525,7 +533,7 @@ function gCompound(rng, diff, type) {
   return {
     stem: `Which of the following describes all values of $x$ that satisfy $${A} < ${b}x ${sgn(c)} < ${D}$?`,
     choices: cands,
-    explanation: `Subtract $${fmt(c)}$ from all three parts: $${A - c} < ${b}x < ${D - c}$. Divide by $${b}$: $${L} < x < ${R}$.`,
+    explanation: `${c > 0 ? 'Subtract' : 'Add'} $${fmt(Math.abs(c))}$ ${c > 0 ? 'from' : 'to'} all three parts: $${A - c} < ${b}x < ${D - c}$. Divide by $${b}$: $${L} < x < ${R}$.`,
     desmos: `${A} < ${b}x ${sgn(c)} < ${D}`,
     skill_note: 'A compound inequality stays compound; the trap is turning the interval inside-out into two rays.',
     check: `Tested $x = ${L + 1}$ (inside, true) and $x = ${R + 1}$ (outside, false) in the original inequality.`,
@@ -567,9 +575,9 @@ function gAbsEq(rng, diff, type) {
             E(r1, `gave the lesser solution`, 'concept'),
             E(-r2, `negated the solution after solving`, 'sign'),
             E(r1 + r2, `gave the sum of the solutions`, 'concept'),
-            E(-a * r2 + b, `divided by $${a}$ before clearing the absolute value`, 'algebra'),
+            E(r2 - r1, `subtracted the two solutions instead of taking the greater one`, 'concept'),
           ],
-      explanation: `Split into two cases: $${a}x ${sgn(b)} = ${c}$ gives $x = ${r2}$, and $${a}x ${sgn(b)} = ${-c}$ gives $x = ${r1}$. ${askSum ? `Their sum is $${r1} + ${r2} = ${r1 + r2}$.` : `The greater of the two is $${r2}$.`}`,
+      explanation: `Split into two cases: $${a}x ${sgn(b)} = ${c}$ gives $x = ${r2}$, and $${a}x ${sgn(b)} = ${-c}$ gives $x = ${r1}$. ${askSum ? `Their sum is $${pn(r1)} + ${pn(r2)} = ${r1 + r2}$.` : `The greater of the two is $${r2}$.`}`,
       desmos: `|${a}x ${sgn(b)}| = ${c}`,
       skill_note: 'An absolute value equation produces two cases; forgetting the negative case loses a solution.',
       check: `Checked both roots: $|${a}(${r1}) ${sgn(b)}| = ${Math.abs(a * r1 + b)}$ and $|${a}(${r2}) ${sgn(b)}| = ${Math.abs(a * r2 + b)}$, both equal $${c}$.`,
@@ -737,10 +745,10 @@ function gModelTwoPoints(rng, diff, type) {
         E(y2 + (x3 - x2), `added the extra time directly to the amount instead of multiplying by the rate`, 'concept'),
         E(y1 - m * (x3 - x1), `moved in the wrong direction from the first data point`, 'sign'),
       ],
-      explanation: `The rate is $\\frac{${y2} - ${y1}}{${x2} - ${x1}} = ${m}$ ${ctx.unit} per unit time. From the first point, the value at time $t$ is $${y1} ${sgn(m)} (t - ${x1})$. At $t = ${x3}$ this is $${y1} ${sgn(m * (x3 - x1))} = ${y3}$.`,
+      explanation: `The rate is $\\frac{${y2} - ${pn(y1)}}{${x2} - ${x1}} = ${m}$ ${ctx.unit} per ${ctx.per}. From the first data point, the value at input $x$ is $${y1} ${sgn(m)} (x - ${x1})$. At $x = ${x3}$ this is $${y1} ${sgn(m * (x3 - x1))} = ${y3}$.`,
       desmos: `(${x1}, ${y1}), (${x2}, ${y2})`,
       skill_note: 'Extend the pattern by multiplying the rate by the change in the input, not by adding the input difference.',
-      check: `Recomputed from the second data point: $${y2} ${sgn(m * (x3 - x2))} = ${y3}$, matching the value from the first point.`,
+      check: `Recomputed from the second data point: $${y2} + ${pn(m)}(${x3 - x2}) = ${y3}$, matching the value from the first point.`,
       tagline: 'setup',
     };
   }
@@ -772,7 +780,7 @@ function gLineEq(rng, diff, type) {
           E(y1 - m * (x3 - x1), `moved in the opposite direction from the first point`, 'sign'),
           E(m * x3, `assumed the line passes through the origin`, 'setup'),
         ],
-        explanation: `The slope is $\\frac{${y2} - ${y1}}{${x2} - ${x1}} = ${fmt(m)}$. Using point-slope from $(${x1}, ${y1})$: $y = ${y1} ${sgn(m)} (x - ${x1})$. At $x = ${x3}$, $y = ${y1} ${sgn(m * (x3 - x1))} = ${y3}$.`,
+        explanation: `The slope is $\\frac{${y2} - ${pn(y1)}}{${x2} - ${pn(x1)}} = ${fmt(m)}$. Using point-slope from $(${x1}, ${y1})$: $y = ${y1} ${sgn(m)} (x - ${pn(x1)})$. At $x = ${x3}$, $y = ${y1} ${sgn(m * (x3 - x1))} = ${y3}$.`,
         desmos: `y = ${fmt(m)}(x - ${x1}) + ${y1}`,
         skill_note: 'Point-slope keeps the starting point attached; substituting the new $x$ must not disturb the slope.',
         check: `Both points satisfy the model: at $x = ${x2}$, $y = ${y2}$; at $x = ${x3}$, $y = ${y3}$.`,
@@ -801,7 +809,7 @@ function gLineEq(rng, diff, type) {
           E(y1 + m * x1, `added $m x_1$ instead of subtracting it`, 'sign'),
           E(y2, `used the second $y$-value as the intercept`, 'concept'),
         ],
-        explanation: `The slope is $\\frac{${y2} - ${y1}}{${x2} - ${x1}} = ${fmt(m)}$. Substituting $(${x1}, ${y1})$ into $y = mx + b$ gives $${fmt(m)}(${pn(x1)}) + b = ${y1}$, so $b = ${k}$.`,
+        explanation: `The slope is $\\frac{${y2} - ${pn(y1)}}{${x2} - ${pn(x1)}} = ${fmt(m)}$. Substituting $(${x1}, ${y1})$ into $y = mx + b$ gives $${fmt(m)}(${x1}) + b = ${y1}$, so $b = ${k}$.`,
         desmos: `y = ${fmt(m)}(x - ${pn(x1)}) + ${y1}`,
         skill_note: 'The intercept is not one of the data values unless $x = 0$ appears in the data.',
         check: `Checked that $(${x1}, ${y1})$ satisfies $y = ${fmt(m)}x ${sgn(k)}$: $${fmt(m * x1 + k)} = ${y1}$.`,
@@ -819,7 +827,7 @@ function gLineEq(rng, diff, type) {
     return {
       stem: `Which equation represents the line that passes through $(${x1}, ${y1})$ and $(${x2}, ${y2})$?`,
       choices: opts,
-      explanation: `Slope $= \\frac{${y2} - ${y1}}{${x2} - ${x1}} = ${fmt(m)}$. Then $${fmt(m)}(${x1}) ${sgn(k)} = ${y1}$, so the intercept is $${fmt(k)}$ and $y = ${fmt(m)}x ${sgn(k)}$.`,
+      explanation: `Slope $= \\frac{${y2} - ${pn(y1)}}{${x2} - ${pn(x1)}} = ${fmt(m)}$. Substituting $(${x1}, ${y1})$ gives $${fmt(m)}(${x1}) + b = ${y1}$, so the intercept is $${fmt(k)}$ and $y = ${fmt(m)}x ${sgn(k)}$.`,
       desmos: `y = ${fmt(m)}x ${sgn(k)}`,
       skill_note: 'Finding the slope is only half the job; the intercept must be recomputed, not copied from a data point.',
       check: `Evaluated the chosen equation at both points: $x = ${x1}$ gives $${y1}$ and $x = ${x2}$ gives $${y2}$.`,
@@ -836,7 +844,7 @@ function gLineEq(rng, diff, type) {
 function gParallelPerp(rng, diff, type) {
   for (let t = 0; t < 300; t++) {
     const a = rng.int(2, 6);
-    const b = a * rng.int(1, 4);
+    const b = a * rng.int(2, 4);
     const c = rng.int(3, 24);
     const mGiven = -a / b;
     const perp = b / a;
@@ -872,7 +880,7 @@ function gParallelPerp(rng, diff, type) {
         E(py, `assumed a parallel line must have the same intercept`, 'setup'),
         E(c / b, `used the intercept of the original line`, 'setup'),
       ],
-      explanation: `The given line has slope $${fmt(mGiven)}$. A parallel line shares that slope, so $${fmt(mGiven)}(${px}) ${sgn(k)} = ${py}$, giving $b = ${fmt(k)}$.`,
+      explanation: `The given line has slope $${fmt(mGiven)}$. A parallel line shares that slope, so substituting the point gives $${fmt(mGiven)}(${px}) + b = ${py}$, which means $b = ${fmt(k)}$.`,
       desmos: `y = ${fmt(mGiven)}(x - ${px}) + ${py}`,
       skill_note: 'Parallel lines share a slope but not an intercept; substitute the point to find the new intercept.',
       check: `Checked that $(${px}, ${py})$ satisfies $y = ${fmt(mGiven)}x ${sgn(k)}$: $${fmt(mGiven * px + k)} = ${py}$.`,
@@ -904,7 +912,7 @@ function gSystem(rng, diff, type) {
     const ans = ask === 'x' ? x0 : ask === 'y' ? y0 : x0 + y0;
     const label = ask === 'sum' ? 'x + y' : ask;
     return {
-      stem: `If $${a}x ${sgn(b)}y = ${e}$ and $${c}x ${sgn(d)}y = ${f}$, what is the value of $${label}$?`,
+      stem: `If $${lin(a, 0)} ${yterm(b)} = ${e}$ and $${lin(c, 0)} ${yterm(d)} = ${f}$, what is the value of $${label}$?`,
       answer: ans,
       distractors: [
         E((e * d + b * f) / det, `added the products instead of subtracting in the numerator`, 'sign'),
@@ -912,7 +920,7 @@ function gSystem(rng, diff, type) {
         E(ask === 'x' ? y0 : x0, `solved for the other variable`, 'concept'),
         E(ask === 'sum' ? x0 - y0 : -(ask === 'x' ? x0 : y0), `made a sign error during elimination`, 'sign'),
       ],
-      explanation: `Elimination: multiply the first equation by $${c}$ and the second by $${a}$, then subtract to eliminate $x$. This gives $y = ${y0}$ and back-substitution gives $x = ${x0}$. ${ask === 'sum' ? `So $x + y = ${x0 + y0}$.` : ''}`,
+      explanation: `Elimination: multiply the first equation by $${c}$ and the second by $${a}$, then subtract to eliminate $x$. This gives $y = ${y0}$ and back-substitution gives $x = ${x0}$.${ask === 'sum' ? ` So $x + y = ${x0 + y0}$.` : ''}`,
       desmos: `${a}x ${sgn(b)}y = ${e}, ${c}x ${sgn(d)}y = ${f}`,
       skill_note: 'Elimination must scale both sides of an equation; back-substitute to recover the other variable.',
       check: `Substituted $(${x0}, ${y0})$ into both equations: $${a * x0 + b * y0} = ${e}$ and $${c * x0 + d * y0} = ${f}$.`,
@@ -972,11 +980,11 @@ function gSystemWord(rng, diff, type) {
         answer: v1,
         distractors: [
           E(v2, `used the same volume for both solutions`, 'setup'),
-          E(v2 * (p2 - conc) / (conc - p1), `set up the ratio of concentration differences upside down`, 'setup'),
+          E((v2 * (p2 - conc)) / (conc - p1), `set up the ratio of concentration differences upside down`, 'setup'),
           E((p2 * v2) / p1, `divided the acid amounts instead of comparing to the target concentration`, 'algebra'),
-          E(conc - p2 + v2, `added the concentration difference directly to the volume`, 'quantity'),
+          E(v1 + v2, `gave the total volume of the mixture instead of the volume added`, 'quantity'),
         ],
-        explanation: `Acid in = acid out: $${p1}v + ${p2}(${v2}) = ${conc}(v + ${v2})$. This gives $${p1 - conc}v = ${p2 - conc}(${v2})$, so $v = ${v1}$.`,
+        explanation: `Acid in = acid out: $${p1}v + ${p2}(${v2}) = ${conc}(v + ${v2})$. Collecting the volumes gives $${p1 - conc}v = ${conc - p2}(${v2})$, so $v = ${v1}$.`,
         desmos: `${p1}v + ${p2}(${v2}) = ${conc}(v + ${v2})`,
         skill_note: 'Track the amount of pure acid, not just the volume; the concentration equation closes the system.',
         check: `Left side has $${p1}(${v1}) + ${p2}(${v2}) = ${p1 * v1 + p2 * v2}$ units of acid, and $${conc}(${v1 + v2}) = ${conc * (v1 + v2)}$, so the concentrations match.`,
@@ -1004,7 +1012,7 @@ function gSystemWord(rng, diff, type) {
         E(hours / 2, `split the hours evenly between the two rates`, 'setup'),
         E(hours - h1 + 1, `made an off-by-one error after eliminating`, 'arithmetic'),
       ],
-      explanation: `Let $h$ be the hours at $${r1}$ dollars per hour. Then $${r1}h + ${r2}(${hours} - h) = ${pay}$, so $${r1 - r2}h = ${pay - r2 * hours}$ and $h = ${h1}$.`,
+      explanation: `Let $h$ be the hours at $${r1}$ dollars per hour. Then $${r1}h + ${r2}(${hours} - h) = ${pay}$, so $${lin(r1 - r2, 0, 'h')} = ${pay - r2 * hours}$ and $h = ${h1}$.`,
       desmos: `${r1}h + ${r2}(${hours} - h) = ${pay}`,
       skill_note: 'The two hourly rates weight the two unknown hour totals; substituting one into the other is fastest.',
       check: `Checked: $${r1}(${h1}) + ${r2}(${h2}) = ${pay}$ and $${h1} + ${h2} = ${hours}$.`,
@@ -1064,7 +1072,7 @@ function gInfinite(rng, diff, type) {
     if (a1 * b2 !== b1 * k) continue;
     if (c1 * b2 !== c2 * b1) continue;
     return {
-      stem: `In the system of equations $${a1}x ${sgn(b1)}y = ${c1}$ and $${k}x ${sgn(b2)}y = ${c2}$, $k$ is a constant. If the system has infinitely many solutions, what is the value of $k$?`,
+      stem: `In the system of equations $${a1}x ${sgn(b1)}y = ${c1}$ and $kx ${sgn(b2)}y = ${c2}$, $k$ is a constant. If the system has infinitely many solutions, what is the value of $k$?`,
       answer: k,
       distractors: [
         E((a1 * b1) / b2, `used the product of the coefficients instead of their ratio`, 'concept'),
@@ -1127,7 +1135,7 @@ function gConstraint(rng, diff, type) {
   if (used > W) return null;
   if (used + c <= W) return null;
   return {
-    stem: `A hiking group can carry at most $${W}$ pounds of gear. Each tent weighs $${t}$ pounds and each food crate weighs $${c}$ pounds. If the group brings $${tents}$ tents, what is the greatest number of food crates they can carry?`,
+    stem: `${rng.pick(['A hiking group', 'A trail crew', 'A field research team'])} can carry at most $${W}$ pounds of gear. Each tent weighs $${t}$ pounds and each food crate weighs $${c}$ pounds. If the group brings $${tents}$ ${tents === 1 ? 'tent' : 'tents'}, what is the greatest number of food crates they can carry?`,
     answer: maxCrates,
     distractors: [
       E(maxCrates + 1, `rounded up instead of down`, 'concept'),
@@ -1239,7 +1247,7 @@ function gTable(rng, diff, type) {
           E(y1 - m * (x1 + 1), `subtracted one extra step when moving backward`, 'algebra'),
           E(m, `gave the rate of change instead of the value at $0$`, 'concept'),
         ],
-        explanation: `The rate of change is $\\frac{${y2} - ${y1}}{${x2} - ${x1}} = ${fmt(m)}$. Working backward from $f(${x1}) = ${y1}$, $f(0) = ${y1} - ${fmt(m)}(${x1}) = ${b}$.`,
+        explanation: `The rate of change is $\\frac{${y2} - ${pn(y1)}}{${x2} - ${x1}} = ${fmt(m)}$. Working backward from $f(${x1}) = ${y1}$, $f(0) = ${y1} - ${pn(m)}(${x1}) = ${b}$.`,
         desmos: `(${x1}, ${y1}), (${x2}, ${y2})`,
         skill_note: 'Extending a table backward requires subtracting the rate once per step, not just reading the first entry.',
         check: `Checked the model $f(x) = ${fmt(m)}x ${sgn(b)}$ at all three table inputs: it returns $${y1}$, $${y2}$, and $${y3}$.`,
@@ -1284,7 +1292,7 @@ function gTable(rng, diff, type) {
     }
     const opts = [
       C(`$f(x) = ${fmt(m)}x ${sgn(b)}$`, 'correct', 'none'),
-      C(`$f(x) = ${fmt(m)}x ${sgn(-b)}$`, `used $f(${x1})$ as the intercept without adjusting for the slope`, 'setup'),
+      C(`$f(x) = ${fmt(m)}x ${sgn(y1)}$`, `used $f(${x1})$ as the intercept without adjusting for the slope`, 'setup'),
       C(`$f(x) = ${fmt(-m)}x ${sgn(b)}$`, `computed the rate of change with the inputs reversed`, 'sign'),
       C(`$f(x) = ${fmt(b)}x ${sgn(m)}$`, `swapped the rate and the intercept`, 'concept'),
     ];
@@ -1292,7 +1300,7 @@ function gTable(rng, diff, type) {
     return {
       stem: `The table shows values of a linear function $f$: $f(${x1}) = ${y1}$, $f(${x2}) = ${y2}$, and $f(${x3}) = ${y3}$. Which equation defines $f$?`,
       choices: opts,
-      explanation: `The rate of change is $\\frac{${y2} - ${y1}}{${x2} - ${x1}} = ${fmt(m)}$. Substituting $(${x1}, ${y1})$ gives $${fmt(m)}(${x1}) + b = ${y1}$, so $b = ${b}$ and $f(x) = ${fmt(m)}x ${sgn(b)}$.`,
+      explanation: `The rate of change is $\\frac{${y2} - ${pn(y1)}}{${x2} - ${x1}} = ${fmt(m)}$. Substituting $(${x1}, ${y1})$ gives $${fmt(m)}(${x1}) + b = ${y1}$, so $b = ${b}$ and $f(x) = ${fmt(m)}x ${sgn(b)}$.`,
       desmos: `(${x1}, ${y1}), (${x2}, ${y2})`,
       skill_note: 'Every table entry must satisfy the rule; the intercept is not simply the first output.',
       check: `Evaluated the chosen rule at all three table inputs and recovered $${y1}$, $${y2}$, $${y3}$.`,
@@ -1376,8 +1384,9 @@ function gRate(rng, diff, type) {
   const D = R + r * t;
   if (!Number.isInteger(D)) return null;
   const ans = t;
+  const vehicle = rng.pick(['A delivery van', 'A freight train', 'A city bus', 'A moving truck']);
   return {
-    stem: `A delivery van is $${D}$ miles from its depot and drives toward the depot at a constant speed of $${r}$ miles per hour. After how many hours will the van be $${R}$ miles from the depot?`,
+    stem: `${vehicle} is $${D}$ miles from its depot and travels toward the depot at a constant speed of $${r}$ miles per hour. After how many hours will it be $${R}$ miles from the depot?`,
     answer: ans,
     distractors: [
       E((D + R) / r, `added the remaining distance instead of subtracting it`, 'sign'),
@@ -1385,7 +1394,7 @@ function gRate(rng, diff, type) {
       E(R / r, `used only the remaining distance`, 'setup'),
       E(t + 1, `made an off-by-one error after dividing`, 'arithmetic'),
     ],
-    explanation: `The van must cover $${D} - ${R} = ${D - R}$ miles. At $${r}$ miles per hour, the time is $\\frac{${D - R}}{${r}} = ${t}$ hours.`,
+    explanation: `The vehicle must cover $${D} - ${R} = ${D - R}$ miles. At $${r}$ miles per hour, the time is $\\frac{${D - R}}{${r}} = ${t}$ hours.`,
     desmos: `${D} - ${r}t = ${R}`,
     skill_note: 'Distance still to travel is the difference; dividing that by the rate gives the time, not dividing the total.',
     check: `Checked $${D} - ${r}(${t}) = ${R}$ miles remaining.`,
@@ -1430,14 +1439,16 @@ function gBreakEven(rng, diff, type) {
     const q = b / (p - m);
     if (!Number.isInteger(q) || q <= 0 || q > 200) continue;
     if (p * q !== m * q + b) continue;
+    const product = rng.pick(['phone stands', 'cutting boards', 'ceramic mugs', 'desk lamps', 'bike racks']);
+    const unitWord = product.split(' ').pop().replace(/s$/, '');
     return {
-      stem: `A workshop makes phone stands that sell for $${p}$ dollars each. The materials cost $${m}$ dollars per stand, and the workshop also pays $${b}$ dollars in fixed equipment costs. How many stands must the workshop sell to break even?`,
+      stem: `A workshop makes ${product} that sell for $${p}$ dollars each. The materials cost $${m}$ dollars per ${unitWord}, and the workshop also pays $${b}$ dollars in fixed equipment costs. How many ${product} must the workshop sell to break even?`,
       answer: q,
       distractors: [
         E(q + 1, `rounded up instead of solving the equation exactly`, 'arithmetic'),
         E(Math.ceil(b / p), `ignored the per-unit material cost`, 'setup'),
         E(b - p + m, `subtracted costs instead of dividing the fixed cost`, 'setup'),
-        E(p - m, `gave the profit per stand instead of the number of stands`, 'concept'),
+        E(p - m, `gave the profit per unit instead of the number of units`, 'concept'),
       ],
       explanation: `Break-even means revenue equals cost: $${p}x = ${m}x + ${b}$. So $${p - m}x = ${b}$ and $x = ${q}$.`,
       desmos: `y = ${p}x, y = ${m}x + ${b}`,
@@ -1476,7 +1487,7 @@ function gAge(rng, diff, type) {
         E(k * s - s, `gave the difference in their ages`, 'quantity'),
         E(s - n, `subtracted the years instead of adding them`, 'sign'),
       ],
-      explanation: `Let $s$ be the son's age. Then $${k}s + ${n} = ${m}(s + ${n})$, so $${k - m}s = ${m * n - n}$ and $s = ${s}$.`,
+      explanation: `Let $s$ be the son's age. Then $${k}s + ${n} = ${m}(s + ${n})$, so $${lin(k - m, 0, 's')} = ${m * n - n}$ and $s = ${s}$.`,
       desmos: `${k}s + ${n} = ${m}(s + ${n})`,
       skill_note: 'Both people age by the same amount; the multiplier applies to the future ages, not the current ones.',
       check: `Checked now: mother $${k * s}$, son $${s}$. In $${n}$ years: $${k * s + n}$ and $${s + n}$, and $${m}(${s + n}) = ${k * s + n}$.`,
@@ -1542,7 +1553,7 @@ function gProportion(rng, diff, type) {
       explanation: `Cross multiply: $${a}x = ${b}(${c}) = ${b * c}$, so $x = ${x}$. Equivalently, the ratio scaled by $${t}$, so $x = ${b}(${t}) = ${x}$.`,
       desmos: `${a}/${b} = ${c}/x`,
       skill_note: 'Cross multiplication pairs each numerator with the opposite denominator; scaling gives a quick check.',
-      check: `Checked both ratios: $\\frac{${a}}{${b}} = ${fmt(a / b)}$ and $\\frac{${c}}{${x}} = ${fmt(c / x)}$.`,
+      check: `Checked by cross multiplying: $${a}(${x}) = ${a * x}$ and $${b}(${c}) = ${b * c}$, which match.`,
       tagline: 'algebra',
     };
   }
@@ -1646,8 +1657,10 @@ function assembleNumeric(raw, rng) {
   if (!isNice(raw.answer)) return null;
   const seen = new Set([fmt(raw.answer)]);
   const pool = [];
+  const spread = 20 * Math.abs(raw.answer) + 50;
   for (const c of raw.distractors || []) {
     if (!c || !Number.isFinite(c.v) || !isNice(c.v)) continue;
+    if (Math.abs(c.v) > spread) continue; // implausible outlier, not a useful trap
     const key = fmt(c.v);
     if (seen.has(key)) continue;
     seen.add(key);
@@ -1756,7 +1769,7 @@ export function generate(opts = {}) {
       if (!textOk(raw.stem) || !textOk(raw.explanation) || !textOk(raw.check)) continue;
       if (stems.has(raw.stem)) continue;
       const sc = sentenceCount(raw.explanation);
-      if (sc < 2 || sc > 5) continue;
+      if (sc < 2 || sc > 4) continue;
 
       let built;
       if (type === 'mcq') {
@@ -1835,7 +1848,7 @@ export function validate(items) {
       }
     }
     const sc = sentenceCount(it.explanation || '');
-    if (sc < 2 || sc > 5) errors.push(`${at}: explanation has ${sc} sentences`);
+    if (sc < 2 || sc > 4) errors.push(`${at}: explanation has ${sc} sentences`);
 
     if (it.type === 'mcq') {
       if (!Array.isArray(it.choices) || it.choices.length !== 4) errors.push(`${at}: needs 4 choices`);

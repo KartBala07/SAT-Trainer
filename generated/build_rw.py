@@ -18,6 +18,7 @@ import content_bio_earth
 import content_tech_hist
 import content_social_arts
 import content_cross
+import calibration
 
 INFO_SKILLS = {"Central ideas and details", "Inference", "Command of evidence"}
 CRAFT_SKILLS = {"Words in context", "Text structure and purpose", "Cross-text connections"}
@@ -148,6 +149,8 @@ def validate(items):
             errors.append("%s bad difficulty %r" % (iid, it["difficulty"]))
         if it["section"] != "rw" or it["type"] != "mcq":
             errors.append("%s bad section/type" % iid)
+        if re.search(r"(?<![A-Za-z])[A-D](?![A-Za-z])", it["explanation"]):
+            errors.append("%s explanation references a choice letter" % iid)
         for fld in ("explanation", "skill_note"):
             if not it[fld].strip():
                 errors.append("%s empty %s" % (iid, fld))
@@ -171,8 +174,34 @@ def validate(items):
     return errors, warnings, sigs, passages
 
 
+def apply_calibration(items):
+    """Apply the 12 question rewrites, then the final difficulty pass."""
+    used = set()
+    for it in items:
+        rev = calibration.REVISIONS.get(it["id"])
+        if rev is None:
+            continue
+        for k, v in rev.items():
+            it[k] = v
+        it["domain"] = domain_for(it["skill"])
+        # dropped passages keep their text; a revision never changes it
+        used.add(it["id"])
+    missing = set(calibration.REVISIONS) - used
+    if missing:
+        raise SystemExit("unmatched revisions: %s" % sorted(missing))
+
+    calibration.vary_stems(items)
+    calibration.apply_explanations(items)
+    calibration.balance_keys(items)
+
+    dmap = calibration.difficulty_map([it["id"] for it in items])
+    for it in items:
+        it["difficulty"] = dmap[it["id"]]
+    return items
+
+
 def main():
-    items = build()
+    items = apply_calibration(build())
     errors, warnings, sigs, passages = validate(items)
 
     with open(OUT, "w", encoding="utf-8") as f:
@@ -194,6 +223,9 @@ def main():
     print("  cross-text        : %d  (%d pairs x 2)" % (n_cross, len(content_cross.PAIRS)))
     print("distinct passages   : %d" % len(passages))
     print("distinct signatures : %d" % len(sigs))
+    print("distinct stems      : %d  (max reuse %d)"
+          % (len({it["stem"] for it in items}),
+             max(Counter(it["stem"] for it in items).values())))
     print()
     print("domain counts")
     for k in ("Information and Ideas", "Craft and Structure"):
@@ -203,9 +235,21 @@ def main():
     for k in ("easy", "medium", "hard", "very_hard", "extreme"):
         print("  %-24s %3d  (%4.1f%%)" % (k, diff[k], 100.0 * diff[k] / len(items)))
     print()
+    print("answer key spread")
+    for k in LETTERS:
+        print("  %s %3d" % (k, sum(1 for it in items if it["answer"] == k)))
+    print()
     print("skill counts")
     for k, v in sorted(skill.items(), key=lambda kv: -kv[1]):
         print("  %-28s %3d" % (k, v))
+    print()
+
+    print("difficulty by item type")
+    for label, sel in (("single", [x for x in items if "passage2" not in x]),
+                       ("cross ", [x for x in items if "passage2" in x])):
+        c = Counter(x["difficulty"] for x in sel)
+        print("  %s  easy %2d  medium %2d  hard %2d  very_hard %2d  extreme %2d"
+              % (label, c["easy"], c["medium"], c["hard"], c["very_hard"], c["extreme"]))
     print()
 
     lens = [words(it["passage"]) for it in items if "passage2" not in it]

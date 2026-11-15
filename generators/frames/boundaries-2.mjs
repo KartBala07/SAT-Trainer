@@ -37,9 +37,9 @@ const sing = [
     id: 'SIN-1',
     diff: 'easy',
     pres: [
-      'Copper sheathing was standard practice at every yard by 1800.',
-      'The yard kept detailed records of every refit it carried out.',
-      'Salt water destroys unprotected iron fittings within a single season.',
+      'Copper sheathing was standard practice at every yard by 1800, especially on naval vessels.',
+      'The yard kept detailed records of every refit it carried out, down to the last bolt.',
+      'Salt water destroys unprotected iron fittings within a single season, even in a sheltered harbor.',
     ],
     items: [
       ['ship', 'hull was reinforced with copper plates'],
@@ -52,9 +52,9 @@ const sing = [
     id: 'SIN-2',
     diff: 'medium',
     pres: [
-      'The board met for three hours on Monday morning.',
-      'Staff were told to expect a short announcement before lunch.',
-      'The decision had been expected for several weeks.',
+      'The board met for three hours on Monday morning and issued no statement afterward.',
+      'Staff were told to expect a short announcement before lunch, then heard nothing all day.',
+      'The decision had been expected for several weeks and surprised almost nobody in the building.',
     ],
     items: [
       ['director', 'decision was announced to the staff'],
@@ -94,9 +94,9 @@ const plur = [
     id: 'PLU-1',
     diff: 'easy',
     pres: [
-      'The colony has been surveyed every spring since 1994.',
-      'Volunteers walk the beach at dawn throughout the nesting season.',
-      'The count is reported to the state every June.',
+      'The colony has been surveyed every spring since 1994 by a team of trained volunteers.',
+      'Volunteers walk the beach at dawn throughout the nesting season, counting shells and tracks.',
+      'The count is reported to the state every June and published in a short annual bulletin.',
     ],
     items: [
       ['bird', 'nests were counted along the dunes'],
@@ -109,9 +109,9 @@ const plur = [
     id: 'PLU-2',
     diff: 'medium',
     pres: [
-      'The school closed early because of the approaching storm.',
-      'Parents waited under the portico for the buses to arrive.',
-      'The storm had been forecast since the weekend.',
+      'The school closed early because of the approaching storm and sent everyone home by noon.',
+      'Parents waited under the portico for the buses to arrive, watching the sky to the west.',
+      'The storm had been forecast since the weekend, but the county expected only rain.',
     ],
     items: [
       ['child', 'coats were hung in the cloakroom'],
@@ -152,9 +152,9 @@ const names = [
     id: 'NAM-1',
     diff: 'medium',
     pres: [
-      'The author had worked as a clerk for twenty years.',
-      'Critics ignored the book when it first appeared.',
-      'The novel is now taught in three hundred schools.',
+      'The author had worked as a clerk in a shipping office for twenty years before he published anything.',
+      'Critics ignored the book when it first appeared and reviewed it again only after his death.',
+      'The novel is now taught in three hundred schools and has never gone out of print.',
     ],
     items: [
       ['Collins', 'first novel appeared in 1953'],
@@ -167,9 +167,9 @@ const names = [
     id: 'NAM-2',
     diff: 'hard',
     pres: [
-      'The survey was completed in the summer of 1911.',
-      'The results filled a single bound volume.',
-      'The foundation has supported fieldwork in the region ever since.',
+      'The survey was completed in the summer of 1911 after two seasons of unusually good weather.',
+      'The results filled a single bound volume that the society printed at its own expense.',
+      'The foundation has supported fieldwork in the region ever since, though on a smaller scale.',
     ],
     items: [
       ['Hawkins', 'estate paid for the expedition'],
@@ -209,9 +209,9 @@ const contr = [
     id: 'CON-1',
     diff: 'easy',
     pres: [
-      'The survey was scheduled to end in March.',
-      'Two of the four sites were still being mapped.',
-      'The final report is due in the fall.',
+      'The survey was scheduled to end in March but ran three weeks past its deadline.',
+      'Two of the four sites were still being mapped when the first snow came.',
+      'The final report is due in the fall and will be posted on the county website.',
     ],
     items: [
       ['The researchers ______ finished the survey', "haven't", ['havent', "have'nt", "hasn't"]],
@@ -224,9 +224,9 @@ const contr = [
     id: 'CON-2',
     diff: 'medium',
     pres: [
-      'The inspection is scheduled for the first week of May.',
-      'The coastal road carries about nine thousand cars a day.',
-      'Engineers will examine the bearings while the span is closed.',
+      'The inspection is scheduled for the first week of May, assuming the weather holds and the parts arrive.',
+      'The coastal road carries about nine thousand cars a day during the summer season.',
+      'Engineers will examine the bearings while the span is closed and report back in June.',
     ],
     items: [
       ['The bridge ______ be closed for more than a week', "won't", ['wont', "wo'nt", "willn't"]],
@@ -266,9 +266,9 @@ const its = [
     id: 'ITS-1',
     diff: 'easy',
     pres: [
-      'The laboratory published its findings in April.',
-      'The study had taken nearly three years to complete.',
-      'Two journals had asked to see the data first.',
+      'The laboratory published its findings in April after two rounds of internal review.',
+      'The study had taken nearly three years to complete and involved four separate field sites.',
+      'Two journals had asked to see the data first, and both declined to publish it.',
     ],
     items: [
       'The laboratory published ______ findings in April',
@@ -281,9 +281,9 @@ const its = [
     id: 'ITS-2',
     diff: 'medium',
     pres: [
-      'The tide has been running higher since the storm.',
-      'The gauge at the pier has been repaired twice.',
-      'Nobody expects the water to fall before Friday.',
+      'The tide has been running higher since the storm and the gauge has been replaced twice.',
+      'The gauge at the pier has been repaired twice since it was installed in 1998.',
+      'Nobody expects the water to fall before Friday, when the next tide cycle begins.',
     ],
     items: ['______ clear that the tide has turned', '______ been three years since the last survey', '______ unlikely that the ferry will run tonight'],
     note: 'The blank needs a subject and a verb, so the contraction is required; "its" cannot start a clause.',
@@ -322,9 +322,9 @@ const whose = [
     id: 'WHO-1',
     diff: 'medium',
     pres: [
-      'The pavilion was completed in 1998.',
-      'The commission reviewed nine entries that year.',
-      'The building now houses a small gallery.',
+      'The pavilion was completed in 1998 and has since become the most photographed building in town.',
+      'The commission reviewed nine entries that year and took four months to reach a decision.',
+      'The building now houses a small gallery on the ground floor and a room of drawings above.',
     ],
     items: [
       'The architect ______ design won the competition retired in 2004',
@@ -337,9 +337,9 @@ const whose = [
     id: 'WHO-2',
     diff: 'hard',
     pres: [
-      'The retrofit will take about eighteen months.',
-      'The bridge carries two lanes in each direction.',
-      'Work begins after Labor Day.',
+      'The retrofit will take about eighteen months and will close one lane at a time.',
+      'The bridge carries two lanes in each direction and about nine thousand cars a day.',
+      'Work begins after Labor Day and is scheduled to finish before the spring thaw.',
     ],
     items: [
       "The engineer ______ overseeing the retrofit will speak on Monday",
@@ -382,9 +382,9 @@ const quote = [
     id: 'QUO-1',
     diff: 'medium',
     pres: [
-      'The engineers spent two years on the study.',
-      'The county has debated the issue since 1998.',
-      'The report runs to three hundred pages.',
+      'The engineers spent two years on the study and interviewed every keeper still living.',
+      'The county has debated the issue since 1998 without ever reaching a conclusion.',
+      'The report runs to three hundred pages and includes forty pages of charts.',
     ],
     items: [
       ['The report concluded', 'the harbor needs deeper dredging'],
@@ -397,9 +397,9 @@ const quote = [
     id: 'QUO-2',
     diff: 'hard',
     pres: [
-      'The log entries were written in pencil.',
-      'The keeper rarely wrote more than two lines a night.',
-      'The volume is kept in a case by the window.',
+      'The log entries were written in pencil and have faded badly along the margins.',
+      'The keeper rarely wrote more than two lines a night, even during the worst storms.',
+      'The volume is kept in a case by the window and is handled only with gloves.',
     ],
     items: [
       ['the keeper wrote in his log', 'The light held through the night'],
@@ -461,9 +461,9 @@ const hyph = [
     id: 'HYP-1',
     diff: 'easy',
     pres: [
-      'The case for the link has been argued for decades.',
-      'Two independent teams reviewed the evidence last year.',
-      'The county has not yet committed any money to the work.',
+      'The case for the link has been argued for decades without convincing the county.',
+      'Two independent teams reviewed the evidence last year and reached the same conclusion.',
+      'The county has not yet committed any money to the work or set a start date.',
     ],
     items: [
       ['well-documented', 'The report cites a ______ study of the crossing'],
@@ -476,9 +476,9 @@ const hyph = [
     id: 'HYP-2',
     diff: 'medium',
     pres: [
-      'Construction began in 1902 and ended two years later.',
-      'The span carried its first train in the spring of 1904.',
-      'Freight traffic ended in 1971.',
+      'Construction began in 1902 and ended two years later, ahead of schedule and under budget.',
+      'The span carried its first train in the spring of 1904, three months after the official opening.',
+      'Freight traffic ended in 1971, and the line was abandoned the following year.',
     ],
     items: [
       ['ten-year', 'The ______ project ran over budget twice'],
@@ -491,9 +491,9 @@ const hyph = [
     id: 'HYP-3',
     diff: 'very_hard',
     pres: [
-      'The committee reviewed the proposal twice.',
-      'The final version ran to nine pages.',
-      'The board approved it without any discussion.',
+      'The committee reviewed the proposal twice before sending it back to the author.',
+      'The final version ran to nine pages, down from thirty-one in the first draft.',
+      'The board approved it without any discussion and moved to the next item.',
     ],
     items: [
       ['carefully worded', 'The ______ report avoided every technical term'],

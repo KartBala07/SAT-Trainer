@@ -22,17 +22,23 @@ const WIC_NOTE = [
 const WIC_TAG = ['misread', 'misread', 'concept'];
 
 function wicDrafts(rows) {
-  return rows.map(([w, passage, key, otherSenses, explanation, lvl]) => ({
-    skill: 'Words in context',
-    domain: 'Craft and Structure',
-    passage,
-    stem: `As used in the text, what does the word "${w}" most nearly mean?`,
-    correct: key,
-    wrongs: otherSenses.map((t, i) => ({ text: t, note: WIC_NOTE[i], tag: WIC_TAG[i] })),
-    explanation,
-    skill_note: `The trap is "${otherSenses[0]}": a real sense of "${w}", but nothing in this passage supports it.`,
-    lvl,
-  }));
+  return rows.map(([w, passage, key, otherSenses, explanation, lvl]) => {
+    // The stem must name the word exactly as the passage prints it ("credited",
+    // not "credit"), so the bracketed form wins over the dictionary lemma.
+    const m = passage.match(/\[([^\]]+)\]/);
+    const surface = m ? m[1] : w;
+    return {
+      skill: 'Words in context',
+      domain: 'Craft and Structure',
+      passage,
+      stem: `As used in the text, what does the word "${surface}" most nearly mean?`,
+      correct: key,
+      wrongs: otherSenses.map((t, i) => ({ text: t, note: WIC_NOTE[i], tag: WIC_TAG[i] })),
+      explanation,
+      skill_note: `The trap is "${otherSenses[0]}": a real sense of "${w}", but nothing in this passage supports it.`,
+      lvl,
+    };
+  });
 }
 
 // ---- transitions ---------------------------------------------------------

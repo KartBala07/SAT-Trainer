@@ -230,7 +230,7 @@ PASSAGES = [
                    "interference is not discussed"],
   "error_tags": ["misread", "none", "concept", "misread"],
   "explanation": "The passage gives exactly two reasons: spatial memory is durable, and locations impose an order.",
-  "skill_note": "When a passage says \"depends on A and on B,\" the detail answer pairs A and B."},
+  "skill_note": "When a passage says an effect depends on two things, the detail answer names both."},
  {"skill": "Inference", "difficulty": "hard",
   "stem": "It can most reasonably be inferred that the method would be least effective for",
   "choices": [
@@ -444,7 +444,7 @@ PASSAGES = [
   "skill_note": "A negated opening (\"is not a matter of\") usually sets up a replacement account."},
 ]},
 {
-"passage": """The claim that recording froze jazz is a strange one, given that the music was improvised and that the records are the main reason anyone can hear it now. What the claim gets at is a distinction between a performance and a document. Before recording, a solo existed only in the room where it was played and in the memory of those who heard it; a musician could play the same piece differently every night, and often did. Recording made one of those nights into a text. Later musicians learned solos from records, note for note, and the practice of transcription gave the music a repertoire of fixed statements that it had not previously had. Whether that is a loss depends on whether you think a tradition is best carried in memory or in notation.""",
+"passage": """The claim that recording froze jazz is a strange one, given that the music was improvised and that records are the main way anyone hears it now. What the claim gets at is a distinction between a performance and a document. Before recording, a solo existed only in the room where it was played and in the memory of its hearers; a musician could play the same piece differently every night, and often did. Recording made one of those nights into a text. Later musicians learned solos from records, note for note, and transcription gave the music a repertoire of fixed statements it had not previously had. Whether that is a loss depends on whether you think a tradition is best carried in memory or in notation.""",
 "questions": [
  {"skill": "Central ideas and details", "difficulty": "very_hard",
   "stem": "Which choice best states the main idea of the passage?",

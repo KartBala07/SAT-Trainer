@@ -63,7 +63,7 @@ frame(
   'SVA-2',
   SK.SVA,
   'medium',
-  'Public meetings on the proposal drew unusually large crowds.',
+  'Public meetings on the proposal have drawn unusually large crowds since March.',
   '"As well as" and "together with" do not turn a singular subject into a plural one.',
   [
     'treats the phrase introduced by "as well as" as part of a compound subject',
@@ -185,7 +185,7 @@ frame(
   'INV-1',
   SK.INV,
   'easy',
-  'The county has delayed the decision twice.',
+  'The county has delayed its decision on the new ferry terminal twice since March.',
   'The noun that follows "there" is the real subject, so read past the blank before choosing.',
   [
     'uses a singular verb even though the subject that follows is plural',
@@ -203,7 +203,7 @@ frame(
   'INV-2',
   SK.INV,
   'medium',
-  'The gallery reopened after a two-year renovation.',
+  'The gallery reopened in May after a two-year renovation of the east wing.',
   'A fronted prepositional phrase pushes the subject after the verb; the subject still controls the verb.',
   [
     'agrees with the singular noun inside the fronted phrase instead of with the subject that follows',
@@ -233,7 +233,7 @@ frame(
   'INV-3',
   SK.INV,
   'hard',
-  'The papers were stored in the attic for sixty years.',
+  'The papers were stored in the attic for sixty years before anyone opened them.',
   'Inversion plus a delayed subject is the trap; match the verb to the noun after it.',
   [
     'uses a plural verb when the delayed subject is singular',
@@ -263,7 +263,7 @@ frame(
   'INV-4',
   SK.INV,
   'very_hard',
-  'The exhibit fills the entire west wing.',
+  'The exhibit fills the entire west wing of the building and runs through June.',
   'Two nouns follow the verb; the first one is the subject, and a phrase then modifies it.',
   [
     'agrees with the noun inside the modifying phrase rather than with the subject',
@@ -295,7 +295,7 @@ frame(
   'COL-1',
   SK.COL,
   'easy',
-  'The trial drew attention across the state.',
+  'The trial drew attention from newspapers across the state and lasted nine days.',
   'A collective noun acting as one body takes a singular verb in American English.',
   [
     'treats the collective noun as a plural and uses a plural verb',
@@ -325,7 +325,7 @@ frame(
   'COL-2',
   SK.COL,
   'medium',
-  'The meeting ran long and the vote was postponed.',
+  'The meeting ran long and the vote was postponed until the following Tuesday.',
   'A phrase between the collective noun and its verb does not make the group plural.',
   [
     'agrees with the plural noun in the interrupting phrase instead of with the collective subject',
@@ -355,7 +355,7 @@ frame(
   'COL-3',
   SK.COL,
   'hard',
-  'The station runs on a fixed annual budget.',
+  'The station runs on a fixed annual budget that the county reviews each June.',
   'A comparison phrase sits between the collective noun and its verb; the comparison does not change the number.',
   [
     'lets the plural noun in the comparison control the verb',
@@ -385,7 +385,7 @@ frame(
   'COL-4',
   SK.COL,
   'very_hard',
-  'The county has funded the survey every year since 2009.',
+  'The county has funded the survey every year since 2009 without debate.',
   'A collective noun followed by a plural of-phrase still takes a singular verb when the group acts as one body.',
   [
     'agrees with the plural noun after "of" rather than with the collective subject',
@@ -417,7 +417,7 @@ frame(
   'IND-1',
   SK.IND,
   'easy',
-  'The fire destroyed most of the west wing.',
+  'The fire destroyed most of the west wing and much of the paper collection.',
   'Each, every, either, neither, and one are grammatically singular no matter what follows them.',
   [
     'agrees with the plural noun after "of" instead of with the singular pronoun',
@@ -443,7 +443,7 @@ frame(
   'IND-2',
   SK.IND,
   'medium',
-  'The building reopened after the renovation.',
+  'The building reopened in June after a renovation that lasted almost two years.',
   'The plural noun after "of" is a decoy; the pronoun before it is the subject.',
   [
     'takes the plural noun in the "of" phrase as the subject',
@@ -473,7 +473,7 @@ frame(
   'IND-3',
   SK.IND,
   'hard',
-  'The storm knocked out power along the whole coast.',
+  'The storm knocked out power along the whole coast for the better part of a week.',
   '"None" with a mass noun such as equipment is singular, and "every one" is always singular.',
   [
     'uses a plural verb even though the noun after "of" is a mass noun',
@@ -503,7 +503,7 @@ frame(
   'IND-4',
   SK.IND,
   'extreme',
-  'The ledger has been missing since the 1974 fire.',
+  'The ledger has been missing from the archive since the fire of 1974.',
   'With "neither ... nor", the verb agrees with the subject nearer to it.',
   [
     'agrees with the first subject rather than the nearer one',
@@ -535,7 +535,7 @@ frame(
   'PA-1',
   SK.PA,
   'easy',
-  'The company has grown quickly since 2015.',
+  'The company has grown quickly since 2015 and now employs about four hundred people.',
   'Match the pronoun to the noun it replaces, not to the noun nearest it.',
   [
     'uses a plural pronoun with a singular antecedent',
@@ -565,7 +565,7 @@ frame(
   'PA-2',
   SK.PA,
   'medium',
-  'The museum reopened in May after a long closure.',
+  'The museum reopened in May after a long closure and a change of directors.',
   'An intervening phrase or a compound subject decides which pronoun is right.',
   [
     'uses a plural pronoun with a singular antecedent',
@@ -595,7 +595,7 @@ frame(
   'PA-3',
   SK.PA,
   'hard',
-  'Every object in the collection has been photographed.',
+  'Every object in the collection has been photographed and measured by the staff.',
   'Singular antecedents with "each" or "every" take singular pronouns even when a plural noun follows.',
   [
     'lets the plural noun after "of" control the pronoun',
@@ -625,7 +625,7 @@ frame(
   'PA-4',
   SK.PA,
   'extreme',
-  'The archive holds letters from three generations of keepers.',
+  'The archive holds letters from three generations of keepers and their families.',
   'A collective antecedent acting as a unit takes a singular pronoun, even when the sentence goes on to mention members.',
   [
     'uses a plural pronoun because the sentence later mentions individual members',
@@ -657,7 +657,7 @@ frame(
   'PC-1',
   SK.PC,
   'easy',
-  'The foundation announced its grants in June.',
+  'The foundation announced its grants in June after a long review of the applications.',
   'After a preposition, a pronoun takes the object form even inside a compound.',
   [
     'uses the subject form of the pronoun after a preposition',
@@ -687,7 +687,7 @@ frame(
   'PC-2',
   SK.PC,
   'medium',
-  'The dig has produced more than two thousand objects.',
+  'The dig has produced more than two thousand objects, most of them fragments of pottery.',
   'Who is the subject of its own clause, so it takes the subject form.',
   [
     'uses the object form where the pronoun is the subject of its clause',
@@ -717,7 +717,7 @@ frame(
   'PC-3',
   SK.PC,
   'hard',
-  'The committee interviewed six candidates for the post.',
+  'The committee interviewed six candidates for the post over the course of two weeks.',
   'Whom is the object of the verb in its own clause, even when the clause opens the sentence.',
   [
     'uses the subject form where the pronoun is the object of a verb',
@@ -747,7 +747,7 @@ frame(
   'PC-4',
   SK.PC,
   'very_hard',
-  'The award is given every other year.',
+  'The award is given every other year to a researcher working outside the university system.',
   'An inserted "the committee believed" does not change the pronoun\'s role in the clause that follows.',
   [
     'chooses the object form because a reporting clause sits in the middle',
@@ -777,12 +777,12 @@ frame(
   'PC-5',
   SK.PC,
   'extreme',
-  'The society has honored its volunteers since 1930.',
+  'The society has honored its volunteers since 1930 at a dinner each spring.',
   'A comparative clause can leave out words, but the pronoun keeps the case its missing verb would require.',
   [
-    'uses the subject form where the omitted verb would take an object',
-    'uses the object form where the pronoun is the subject of the omitted verb',
-    'uses a reflexive form that the sentence does not license',
+    'uses the subject form where the verb in the clause takes an object',
+    'uses a pronoun that cannot refer to a person',
+    'uses a possessive form where an object pronoun is required',
   ],
   [
     {
@@ -796,9 +796,9 @@ frame(
       w: ['who', 'which', 'themselves'],
     },
     {
-      p: 'The lecture was attended by more people ______ the organizers had expected.',
-      ok: 'than',
-      w: ['then', 'as', 'that'],
+      p: 'The letters were returned to the family ______ the curator had consulted.',
+      ok: 'whom',
+      w: ['who', 'which', 'whose'],
     },
   ]
 );
@@ -839,7 +839,7 @@ frame(
   'OO-2',
   SK.OO,
   'medium',
-  'The river has flooded twice since 1990.',
+  'The river has flooded the lower valley twice since 1990, most recently in March.',
   'Find what "that" or "who" refers to before you choose the verb.',
   [
     'agrees with "one" rather than with the plural noun the relative pronoun refers to',
@@ -869,7 +869,7 @@ frame(
   'OO-3',
   SK.OO,
   'hard',
-  'The documents were moved to climate-controlled storage.',
+  'The documents were moved to climate-controlled storage after the roof began to leak.',
   'The relative clause attaches to the plural noun, so its verb is plural even when the main clause verb is singular.',
   [
     'makes the relative clause verb agree with "one" instead of with the plural noun',
@@ -899,7 +899,7 @@ frame(
   'OO-4',
   SK.OO,
   'very_hard',
-  'The collection has never been fully catalogued.',
+  'The collection has never been fully catalogued, despite three separate attempts.',
   'A long relative clause can hide the plural noun that controls its verb.',
   [
     'lets "one" control the verb inside the relative clause',
